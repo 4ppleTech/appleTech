@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulador Financeiro</title>
+  </head>
+  <body>
+    <h1>Simulador Financeiro da Estufa Micro-Controlada</h1>
+
+    <strong><p>Insira o preço do KG do tomate da sua estufa em R$:</p></strong>
+
+    <input type="number" step="0.01" id="vlr_Kg" />
+
+    <p>Insira a quantidade de plantas que tem dentro da estufa:</p>
+
+    <input type="number" id="vlr_Plantas" /> <br />
+
+    <button onclick="analisarPlantação()">Analisar Sua Plantação</button>
+
+    <div id="resultado"></div>
+    <div id="quantidadeInvalida"></div>
+
+  </body>
+</html>
+<script>
+  function analisarPlantação() {
+    let precoKg = Number(vlr_Kg.value);
+    let qtdPlantas = Number(vlr_Plantas.value);
+
+    // erro para valores negativos ou zero
+    if (precoKg <= 0) {
+      quantidadeInvalida.innerHTML =
+        `<strong style="color:red;">Por favor, insira um valor válido para o preço do KG.</strong>`;
+      resultado.innerHTML = "";
+    } 
+    else if (qtdPlantas <= 0) {
+      quantidadeInvalida.innerHTML =
+        `<strong style="color:red;">Por favor, insira um valor válido para a quantidade de plantas.</strong>`;
+      resultado.innerHTML = "";
+    } 
+    else {
+
+      // limpa mensagem de erro
+      quantidadeInvalida.innerHTML = "";
+
+      // média de produção
+      let producaoSemControle = qtdPlantas * 4.0;  // média de produção sem controle do microclima
+      let producaoComControle = qtdPlantas * 9.0;  // média de produção com controle do microclima
+
+      let precoDaProducaoComControle = producaoComControle * precoKg; // preço da produção com controle
+      let precoDaProducaoSemControle = producaoSemControle * precoKg; // preço da produção sem controle
+
+      let diferencaKg = producaoComControle - producaoSemControle;
+      let prejuizo = diferencaKg * precoKg;
+
+      // conversão kg para toneladas
+      let conversaoComControle;
+      let conversaoSemControle;
+      let conversaoDiferenca;
+
+      if (producaoComControle >= 1000) {
+        conversaoComControle = (producaoComControle / 1000).toFixed(2) + " toneladas";
+      } else {
+        conversaoComControle = producaoComControle.toFixed(2) + " Kg";
+      }
+
+      if (producaoSemControle >= 1000) {
+        conversaoSemControle = (producaoSemControle / 1000).toFixed(2) + " toneladas";
+      } else {
+        conversaoSemControle = producaoSemControle.toFixed(2) + " Kg";
+      }
+
+      if (diferencaKg >= 1000) {
+        conversaoDiferenca = (diferencaKg / 1000).toFixed(2) + " toneladas";
+      } else {
+        conversaoDiferenca = diferencaKg.toFixed(2) + " Kg";
+      }
+
+      resultado.innerHTML = `
+        Com nosso monitoramento inteligente de microclima, sua estufa pode alcançar uma produção estimada de até
+        <strong style="color:blue;">${conversaoComControle}</strong> 
+        representando um potencial de faturamento bruto de
+        <strong style="color:green;">R$ ${precoDaProducaoComControle.toFixed(2)}</strong>
+        por ciclo. <br>
+
+        Considerando um cenário sem monitoramento de microclima, a produção média estimada seria de até
+        <strong style="color:blue;">${conversaoSemControle}</strong> 
+        com faturamento bruto aproximado de
+        <strong style="color:red;">R$ ${precoDaProducaoSemControle.toFixed(2)}</strong>
+        por ciclo. <br>
+
+        Com a otimização do microclima, sua produção pode aumentar em aproximadamente
+        <strong style="color:green;">${conversaoDiferenca}</strong>
+        por ciclo, ou seja, 
+
+        com o monitoramento inteligente da estufa, você pode aumentar seu faturamento bruto em até: 
+        <strong style="color:green;">R$ ${prejuizo.toFixed(2)}</strong> 
+        por ciclo. <br><br>
+       
+        TODOS esses dados são estimados pela EMBRAPA, considerando á média da produção com controle do microclima podendo chegar a 9,0 kg por planta, <br> e sem controle a média é de 4,0 kg por planta. <br> O preço do kg do tomate pode variar de acordo com a região e a época do ano, mas para fins de análise, utilizamos o valor inserido pelo produtor. 
+      `;
+    }
+  }
+</script>
