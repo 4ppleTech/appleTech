@@ -1,3 +1,4 @@
 # appleTech
 
-okok okok okok
+Commit inicial.
+
