@@ -1,0 +1,1 @@
+esse readme é só para fazer a pasta subir pro github. Pode apagar tranquilo.
