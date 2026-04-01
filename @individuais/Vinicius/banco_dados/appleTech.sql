@@ -1,4 +1,4 @@
-create database appletech;
+create database if not exists appletech;
 
 use appletech;
 
@@ -41,7 +41,7 @@ create table empresa(
 
 create table usuario (
 	id_usuario		int auto_increment,
-	id_empresa		int not null, 
+	empresa_id		int not null, -- ?
     nome			varchar(60) not null,
     email			varchar(64) not null unique,
     telefone		char(11) not null unique,
@@ -51,7 +51,8 @@ create table usuario (
 	data_atualizacao datetime on update current_timestamp,
     
 	primary key (id_usuario),
-	constraint ck_cliente check(situacao in ('Ativo', 'Inativo'))
+	constraint ck_cliente check(situacao in ('Ativo', 'Inativo')),
+    constraint fk_empresa_usuario foreign key (empresa_id) references empresa (id_empresa)
 );
 
 
@@ -59,18 +60,6 @@ create table usuario (
 -- O que significa ?
 -- Um analista pode verificar a empresa x e a y
 -- A empresa x pode ter mais de um analista
-
-create table empresa_usuario (
-    usuario_id 			int not null,
-    empresa_id 			int not null,
-    
-	data_criacao 		datetime default current_timestamp,
-	data_atualizacao 	datetime on update current_timestamp,
-	
-    primary key (usuario_id, empresa_id),
-	constraint fk_empresa foreign key (empresa_id) references empresa (id_empresa),
-    constraint fk_cliente foreign key (usuario_id) references usuario (id_usuario)
-);
 
 create table camara (
 	id_camara 			int auto_increment,
@@ -140,18 +129,11 @@ insert into empresa (endereco_id, id_matriz, razao_social, nome_fantasia, cnpj, 
 
 
 
-insert into usuario (id_empresa, nome, email, telefone, situacao) values
+insert into usuario (empresa_id, nome, email, telefone, situacao) values
 (1, 'João Silva', 'joao@apple.com', '11911111111', 'Ativo'),
 (1, 'Maria Souza', 'maria@apple.com', '11922222222', 'Ativo'),
 (2, 'Carlos Lima', 'carlos@apple.com', '21933333333', 'Ativo'),
 (3, 'Ana Costa', 'ana@apple.com', '31944444444', 'Inativo');
-
-insert into empresa_usuario (usuario_id, empresa_id) values
-(1, 1),
-(1, 2),
-(2, 1),
-(3, 2),
-(4, 3);
 
 insert into camara (empresa_id, local_instalacao, oberservacao, situacao) values
 (1, 'Câmara 1 - Estoque', 'Produtos congelados', 'Ativo'),
@@ -175,5 +157,6 @@ insert into leitor (sensor_id, valor_sensor, data_hora) values
 (4, 0, '2024-05-10 10:07:00'),
 (3, 110, '2024-05-10 10:08:00');
 
-
 -- Fazer joins
+
+SELECT * from leitor;
