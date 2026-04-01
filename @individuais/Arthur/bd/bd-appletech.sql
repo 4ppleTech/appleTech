@@ -51,13 +51,15 @@ CREATE TABLE IF NOT EXISTS Usuario(									-- debater a criação de uma coluna
 
 CREATE TABLE IF NOT EXISTS Camara(
 	id 			INT 	NOT NULL AUTO_INCREMENT,
+    id_empresa 	INT		NOT NULL,
     status 		TINYINT NOT NULL DEFAULT 1,					-- 1 = 'Ativo' | 0 = 'Inativo'
     observacao 	VARCHAR(120),								-- Caso haja alguma observação a ser feita
     
 	createdAt	DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updatedAt	DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    CONSTRAINT fk_camara_empresa FOREIGN KEY (id_empresa) REFERENCES Empresa(id)
 );
 
 CREATE TABLE IF NOT EXISTS Sensor(										-- debater a criação de uma coluna dt_instalacao
