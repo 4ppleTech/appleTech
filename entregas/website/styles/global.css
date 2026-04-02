@@ -60,3 +60,20 @@ h1, h2 {
     font-family: 'Kufam', sans-serif;
     font-weight: 700;
 }
+
+.container {
+    border: 2px dotted black;
+    border-radius: 0.5rem;
+
+    display: flex;
+    padding: 2rem;
+    row-gap: 1rem;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.flex-row {
+    flex-direction: row;
+}
