@@ -1,0 +1,62 @@
+/* === Fontes Customizadas (Kufam, Poppins) === */
+@import url('https://fonts.googleapis.com/css2?family=Kufam:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+/* === Paleta de Cores === 
+- background: #FAF3E8
+- foreground: #061E35
+
+- primary: #B83232
+- secondary: #F0B8B8
+- accent: #7A9B55
+
+- border: #C8A87A
+
+- vermelho-100: #FDF0F0
+- vermelho-200: #F0B8B8
+- vermelho-300: #D94F4F
+- vermelho-400: #B83232 
+- vermelho-500: #8C1F1F
+- vermelho-600: #5E1212
+
+- azul-100: #E8F1FB
+- azul-200: #9FC3E8
+- azul-300: #3A7EC4
+- azul-400: #1A568F
+- azul-500: #0D3D6B
+- azul-600: #061E35
+
+- beje-100: #FAF3E8
+- beje-200: #E8D5B0
+- beje-300: #C8A87A
+- beje-400: #8A7250
+
+- verde-100: #EAF0DC
+- verde-200: #7A9B55
+- verde-300: #3D5C28
+- verde-400: #1E3012
+
+*/
+
+/* === Resetando Estilos === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    width: 100%;
+
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+}
+
+h1, h2 {
+    font-family: 'Kufam', sans-serif;
+    font-weight: 700;
+}
