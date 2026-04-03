@@ -114,42 +114,40 @@ create table leitura (
     constraint fk_sensor_leitor foreign key (sensor_id) references sensor(id_sensor)
 );
 
-
-
 -- Popular tabelas 
 insert into endereco (cep, numero, complemento, logradouro, bairro, cidade, estado, pais) values
-('01001-000', 100, null, 'Praça da Sé', 'Sé', 'São Paulo', 'SP', 'Brasil'),
-('20040-020', 200, 'Sala 101', 'Rua da Assembleia', 'Centro', 'Rio de Janeiro', 'RJ', 'Brasil'),
-('30130-110', 300, null, 'Av. Afonso Pena', 'Centro', 'Belo Horizonte', 'MG', 'Brasil');
+('01001-000', '100', null, 'Praça da Sé', 'Sé', 'São Paulo', 'SP', 'Brasil'),
+('20040-020', '200', 'Sala 101', 'Rua da Assembleia', 'Centro', 'Rio de Janeiro', 'RJ', 'Brasil'),
+('30130-110', '300', null, 'Av. Afonso Pena', 'Centro', 'Belo Horizonte', 'MG', 'Brasil');
 
 SELECT * from endereco;
 
-insert into empresa (endereco_id, id_matriz, razao_social, nome_fantasia, cnpj, contato) values
-(1, null, 'Apple Tech Brasil LTDA', 'AppleTech', '12345678000101', '11999999999'),
-(2, 1, 'Apple Tech RJ LTDA', 'AppleTech RJ', '12345678000102', '21999999999'),
-(3, 1, 'Apple Tech MG LTDA', 'AppleTech MG', '12345678000103', '31999999999');
+insert into empresa (endereco_id, matriz_id, razao_social, nome_fantasia, cnpj, telefone, email) values
+(1, null, 'Apple Tech Brasil LTDA', 'AppleTech', '12345678000101', '11999999999', 'contato@appletech.com'),
+(2, 1, 'Apple Tech RJ LTDA', 'AppleTech RJ', '12345678000102', '21999999999', 'rj@appletech.com'),
+(3, 1, 'Apple Tech MG LTDA', 'AppleTech MG', '12345678000103', '31999999999', 'mg@appletech.com');
 
 
 
-insert into usuario (empresa_id, nome, email, telefone, situacao) values
-(1, 'João Silva', 'joao@apple.com', '11911111111', 'Ativo'),
-(1, 'Maria Souza', 'maria@apple.com', '11922222222', 'Ativo'),
-(2, 'Carlos Lima', 'carlos@apple.com', '21933333333', 'Ativo'),
-(3, 'Ana Costa', 'ana@apple.com', '31944444444', 'Inativo');
+insert into usuario (empresa_id, nome, email, telefone, situacao, papel_usuario) values
+(1, 'João Silva', 'joao@apple.com', '11911111111', 'Ativo', 'administrador'),
+(1, 'Maria Souza', 'maria@apple.com', '11922222222', 'Ativo', 'analista'),
+(2, 'Carlos Lima', 'carlos@apple.com', '21933333333', 'Ativo', 'analista'),
+(3, 'Ana Costa', 'ana@apple.com', '31944444444', 'Inativo', 'analista');
 
-insert into camara (empresa_id, local_instalacao, oberservacao, situacao) values
+insert into camara (empresa_id, local_instalacao, observacao, situacao) values
 (1, 'Câmara 1 - Estoque', 'Produtos congelados', 'Ativo'),
 (1, 'Câmara 2 - Frios', null, 'Ativo'),
 (2, 'Câmara RJ 1', 'Uso geral', 'Ativo'),
 (3, 'Câmara MG 1', null, 'Inativo');
 
-INSERT INTO sensor (camara_id, modelo, num_serie, situacao, data_instalacao) VALUES
-(1, 'MQ-2', 'SN001', 'Ativo', '2024-01-01'),
-(1, 'MQ-2', 'SN002', 'Ativo', '2024-01-02'),
-(2, 'MQ-2', 'SN003', 'Ativo', '2024-01-03'),
-(3, 'MQ-2', 'SN004', 'Inativo', '2024-01-04');
+INSERT INTO sensor (camara_id, modelo, situacao, data_instalacao) VALUES
+(1, 'MQ-2', 'Ativo', '2024-01-01'),
+(1, 'MQ-2', 'Ativo', '2024-01-02'),
+(2, 'MQ-2', 'Ativo', '2024-01-03'),
+(3, 'MQ-2', 'Inativo', '2024-01-04');
 
-insert into leitor (sensor_id, valor_sensor, data_hora) values 
+insert into leitura (sensor_id, valor_sensor, data_hora) values 
 (1, 90, '2024-05-10 10:00:00'),
 (2, 90, '2024-05-10 10:01:00'),
 (4, 0, '2024-05-10 10:02:00'),
@@ -161,4 +159,4 @@ insert into leitor (sensor_id, valor_sensor, data_hora) values
 
 -- Fazer joins
 
-SELECT * from leitor;
+SELECT * from leitura;
