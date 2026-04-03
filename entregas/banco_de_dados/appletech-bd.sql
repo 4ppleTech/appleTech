@@ -6,7 +6,7 @@ create table endereco(
 	id_endereco int auto_increment,
     
 	cep char(9) not null unique,
-	numero int not null,
+	numero varchar(20) not null,
 	complemento varchar(45),
 	logradouro varchar(150) not null, -- Rua, avenida, Estrada, travesa e etc
 	bairro varchar(150) not null,
@@ -23,19 +23,20 @@ create table endereco(
 create table empresa(
 	id_empresa 		int  auto_increment,
     endereco_id 	int, -- enderecoId seria uma foreign key que ligaria a empresa com a tabela endereço
-    id_matriz 		int,
+    matriz_id 		int,
     
 	razao_social 	varchar(150) not null unique,
 	nome_fantasia 	varchar(150) not null,
 	cnpj varchar(14) not null unique,
-	contato 		varchar(16),
+	telefone 		varchar(25),
+    email 			varchar(255),
     
 	data_criacao 	datetime default current_timestamp,
 	data_atualizacao datetime on update current_timestamp,
     
     primary key(id_empresa),
     constraint fk_endereco foreign key (endereco_id) references endereco (id_endereco),
-    constraint fk_matriz foreign key (id_matriz) references empresa (id_empresa)
+    constraint fk_matriz foreign key (matriz_id) references empresa (id_empresa)
 );
 
 
@@ -43,16 +44,18 @@ create table usuario (
 	id_usuario		int auto_increment,
 	empresa_id		int not null, -- ?
     nome			varchar(60) not null,
-    email			varchar(64) not null unique,
-    telefone		char(11) not null unique,
+    email			varchar(255) not null unique,
+    telefone		varchar(25) not null unique,
     situacao		varchar(10) not null default 'Ativo',
+    papel_usuario varchar(40) not null,
     
 	data_criacao 	datetime default current_timestamp,
 	data_atualizacao datetime on update current_timestamp,
     
 	primary key (id_usuario),
 	constraint ck_cliente check(situacao in ('Ativo', 'Inativo')),
-    constraint fk_empresa_usuario foreign key (empresa_id) references empresa (id_empresa)
+    constraint fk_empresa_usuario foreign key (empresa_id) references empresa (id_empresa),
+	constraint ck_papel_usuario check (papel_usuario IN ('administrador', 'analista'))
 );
 
 
@@ -66,7 +69,7 @@ create table camara (
     empresa_id 			int not null,
     
     local_instalacao	varchar(100) not null, -- Camara número 1, camara ala leste
-    oberservacao 		varchar(255),
+    observacao	 		varchar(255),
     situacao			VARCHAR(10) not null default 'Ativo',
     
 	data_criacao 		datetime default current_timestamp,
@@ -82,7 +85,6 @@ create table sensor (
 	camara_id	int not null,
     
 	modelo	varchar(60) not null,
-	num_serie	varchar(60) not null unique,
 	situacao	varchar(10) not null default 'Ativo',
 	data_instalacao		date null,
     
@@ -98,13 +100,13 @@ create table sensor (
 
 -- //////////////////////////////////////////////////////////////
 
-create table leitor (
+create table leitura (
 	id	int primary key auto_increment,
 	sensor_id int not null,
     
-	porcentagem	float,
     valor_sensor float,
 	data_hora datetime default current_timestamp,
+    observacao varchar(255),
     
 	data_criacao datetime default current_timestamp,
 	data_atualizacao datetime on update current_timestamp,
