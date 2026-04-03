@@ -1,0 +1,170 @@
+/* global css */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+   
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    width: 100%;
+
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+}
+
+h1, h2 {
+    font-family: 'Kufam', sans-serif;
+    font-weight: 700;
+}
+
+/* institucional css */
+
+.header {
+    background-color: #B83232;
+    padding-left: 1%;
+    padding-bottom: 2%;
+    padding-top: 2%;
+    width: 100%;
+    border-bottom:  #FAF3E8 solid 2px;
+}
+
+.header .container_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 92%;
+    padding-left: 4%;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+    list-style: none;
+    
+}
+
+.navbar a {
+    color: #FAF3E8;
+    font-size: 28px;
+    font-weight: 400;
+    text-decoration: none;
+    
+}
+
+.btn_enter a {
+    background-color: #61A15B;
+    width: 160%;
+    padding-top: 9%;
+    padding-left: 20%;
+    padding-right: 10%;
+    padding-bottom: 10%;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    gap: 13%;
+}
+
+.section_hero {
+    background-image: url('../public/hero banner.png');
+    background-size: cover;
+    height: 110vh;
+    display: flex;
+    align-items: center;
+    padding-left: 10%;
+    padding-top: 10%;
+}
+
+.text_hero {
+    background-color: #FAF3E8;
+    padding: 2%;
+    padding-right: 9%;
+    border-radius: 30px;
+   
+}
+
+.text_hero p {
+    font-size: 55px;
+    font-weight: 500;
+    color: #1A2B3C;
+}
+
+.text_red{
+    color: #B83232;
+}
+
+
+.section_info {
+    background-color: #FAF3E8; 
+    padding-top: 8%;
+    padding-bottom: 8%;
+    border-radius: 4%; 
+    margin-top: -3%;
+    z-index: 10;
+}
+
+.boxes_info {
+    display: flex;
+    justify-content: center;
+    gap: 8%; 
+}
+
+.box_info {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.box_info img {
+    width: 90%;
+    border-radius: 30px; 
+    margin-bottom: 4%;
+}
+
+.box_info p {
+    font-size: 40px;
+    font-weight: bold;
+    color: #1A2B3C;
+    text-align: center;
+}
+
+.section_journey {
+    background-color: #CBA67D; 
+    padding: 6%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 11%;
+    border-top-left-radius: 4%;
+    border-top-right-radius: 4%; 
+    margin-top: -3%;
+    z-index: 10;
+    margin-bottom: 7%;
+}
+
+.text_journey h1 {
+    font-size: 35px;
+    font-weight: bold;
+    color: #B83232;
+    margin-bottom: 20px;
+}   
+
+.text_journey p {
+    font-size: 29px;
+    color: #2c2c2c;
+    text-align: justify;
+    font-weight: 400;
+}
+
+
+
