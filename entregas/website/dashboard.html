@@ -5,6 +5,7 @@
     <title>AppleTech | Dashboard</title>
     <link rel="stylesheet" href="./styles/global.css">
     <link rel="stylesheet" href="./styles/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container flex-row">
@@ -20,11 +21,20 @@
             <div class="kpi container">
                 <h1>AQUI SERA O CONTEUDO DAS KPI´S PRINCIPAIS</h1>
             </div>
-
+<!-- 
             <div class="chart container flex-row">
                 <div class="chart container">
                     <h1>AQUI SERA OS GRAFICOS DO CHART JS</h1>
+                </div> -->
+
+                <div class="chart container flex-row">
+                    <canvas id="myChart"></canvas>
                 </div>
+
+                <div class="chart container flex-row">
+                    <canvas id="myChart2"></canvas>
+                </div>
+
                 <div class="alerts container flex-col">
                     <h1>AQUI SERÃO OS ALERTS</h1>
                 </div>
@@ -34,3 +44,137 @@
     </div>
 </body>
 </html>
+
+<script>
+     let labels = ['12:00', 
+    '13:00', 
+    '14:00', 
+    '15:00', 
+    '16:00', 
+    '17:00'];
+
+    let Camara1 = {
+        labels: labels,
+        datasets: [{
+            label: 'Etileno Camara 1 (PPM)',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [1.0, 1.5, 0.7, 1.0, 1.4, 1.9,],
+        }]
+    };
+
+    let Camara2 = {
+        labels: labels,
+        datasets: [{
+            label: 'Etileno Camara 2 (PPM)',
+            backgroundColor: 'rgb(54, 162, 235)',
+            borderColor: 'rgb(54, 162, 235)',
+            data: [0.7, 1.0, 1.3, 1.4, 0.5, 1.2,],
+        }]
+    };
+
+    let Camara3 = {
+        labels: labels,
+        datasets: [{
+            label: 'Etileno Camara 3 (PPM)',
+            backgroundColor: 'rgb(255, 206, 86)',
+            borderColor: 'rgb(255, 206, 86)',
+            data: [0.5, 0.3, 0.8, 2.5, 2.2, 2.3,],
+        }]
+    };
+
+    let Camara4 = {
+        labels: labels,
+        datasets: [{
+            label: 'Etileno Camara 4 (PPM)',
+            backgroundColor: 'rgb(75, 192, 192)',
+            borderColor: 'rgb(75, 192, 192)',
+            data: [1.0, 1.5, 0.6, 0.4, 0.9, 1.2,],
+        }]
+    };
+
+    let Camara5 = {
+        labels: labels,
+        datasets: [{
+            label: 'Etileno Camara 5 (PPM)',
+            backgroundColor: 'rgb(153, 102, 255)',
+            borderColor: 'rgb(153, 102, 255)',
+            data: [1.0, 1.3, 0.8, 0.5, 0.9, 1.4,],
+        }]
+    };
+
+    let Camara6 = {
+        labels: labels,
+        datasets: [{
+            label: 'Etileno Camara 6 (PPM)',
+            backgroundColor: 'rgb(255, 159, 64)',
+            borderColor: 'rgb(255, 159, 64)',
+            data: [1.0, 1.8, 0.8, 2.0, 2.3, 1.7,],
+        }]
+    };
+
+     let data = {
+        labels: labels,
+        datasets: [
+            Camara1.datasets[0],
+            Camara2.datasets[0],
+            Camara3.datasets[0],
+            Camara4.datasets[0],
+            Camara5.datasets[0],
+            Camara6.datasets[0]
+        ]
+    };
+
+    let config = {
+        type: 'line',
+        data: data,
+        options: {}
+    };
+</script>
+
+
+<script>
+    let labels2 = ['Camara 1', 
+    'Camara 2', 
+    'Camara 3', 
+    'Camara 4', 
+    'Camara 5', 
+    'Camara 6'];
+
+
+    let mediaEtilenoCamara = {
+        labels: labels2,
+        datasets: [{
+            label: 'Média de Etileno (PPM)',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [1.5, 0.3, 0.8, 1.2, 1.0, 0.5],
+        }]
+    };
+
+        let data2 = {
+            labels: labels2,
+            datasets: [
+                mediaEtilenoCamara.datasets[0]
+            ]
+        };
+
+    let config2 = {
+        type: 'bar',
+        data: data2,
+        options: {}
+    };
+</script>
+
+
+<script>
+    let myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
+
+    let myChart2 = new Chart(
+        document.getElementById('myChart2'),
+        config2
+    );
+</script>
