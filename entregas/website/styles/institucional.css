@@ -48,6 +48,10 @@
     gap: 13%;
 }
 
+.btn_enter i {
+    transform: rotate(-45deg);
+}
+
 .section_hero {
     background-image: url('../public/hero banner.png');
     background-size: cover;
@@ -356,8 +360,9 @@ footer {
     gap: 2rem;
 }
 
-.icons img {
-    width: 100px;
+.icons i {
+    font-size: 6.5rem;
+    color: #FFF;
     cursor: pointer;
 }
 
