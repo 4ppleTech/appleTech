@@ -127,8 +127,6 @@ insert into empresa (endereco_id, matriz_id, razao_social, nome_fantasia, cnpj, 
 (2, 1, 'Apple Tech RJ LTDA', 'AppleTech RJ', '12345678000102', '21999999999', 'rj@appletech.com'),
 (3, 1, 'Apple Tech MG LTDA', 'AppleTech MG', '12345678000103', '31999999999', 'mg@appletech.com');
 
-
-
 insert into usuario (empresa_id, nome, email, telefone, situacao, papel_usuario) values
 (1, 'João Silva', 'joao@apple.com', '11911111111', 'Ativo', 'administrador'),
 (1, 'Maria Souza', 'maria@apple.com', '11922222222', 'Ativo', 'analista'),
@@ -160,3 +158,64 @@ insert into leitura (sensor_id, valor_sensor, data_hora) values
 -- Fazer joins
 
 SELECT * from leitura;
+
+
+-- Verificar a leitura dos sensores ativos da razão social Apple Tech Brasil LTDA, junto com a data da leitura e o local da câmara
+SELECT 
+	e.nome_fantasia 'nome fantasia',
+    e.razao_social 'Razão social',
+    c.local_instalacao 'Local da câmara',
+    s.modelo 'Modelo do sensor',
+    l.valor_sensor 'Valor captado',
+    l.data_hora 'Data da leitura'
+FROM
+	empresa e
+JOIN camara c ON e.id_empresa = c.empresa_id
+JOIN sensor s ON c.id_camara = s.camara_id
+JOIN leitura l ON s.id_sensor = l.sensor_id
+WHERE
+	s.situacao = 'Ativo'
+AND
+	e.razao_social = 'Apple Tech Brasil LTDA'
+ORDER BY l.data_hora;
+    
+    
+-- Verificar empresa matriz
+SELECT
+	e.nome_fantasia filial_nome,
+    e.razao_social filial_razao,
+    IFNULL(m.razao_social, 'Essa é a empresa matriz') matriz_razao
+FROM
+	empresa e
+LEFT JOIN empresa m ON m.id_empresa = e.matriz_id;
+
+
+-- Mostrar endereço das empresas 
+SELECT
+	en.cep,
+    en.numero,
+    en.logradouro,
+    en.bairro,
+    en.cidade,
+    en.estado,
+    en.pais,
+    em.nome_fantasia,
+    em.razao_social,
+    em.cnpj
+FROM
+	endereco en
+JOIN empresa em ON em.endereco_id = en.id_endereco;
+
+
+-- porcentagem da leitura
+SELECT
+	valor_sensor,
+    CASE
+		WHEN ((valor_sensor - 100) / (900)) * 100 > 0 
+			THEN CONCAT(ROUND(((valor_sensor - 100) / (900)) * 100, 2), '%')
+		ELSE
+			0
+	END AS porcentagem
+FROM
+	leitura
+ORDER BY data_hora;
