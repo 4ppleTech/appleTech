@@ -219,3 +219,25 @@ SELECT
 FROM
 	leitura
 ORDER BY data_hora;
+
+
+-- Média etileno
+SELECT 
+	e.nome_fantasia 'nome fantasia',
+    e.razao_social 'Razão social',
+    c.local_instalacao 'Local da câmara',
+    s.modelo 'Modelo do sensor',
+    l.valor_sensor 'Valor captado',
+    l.data_hora 'Data da leitura'
+FROM
+	empresa e
+JOIN camara c ON e.id_empresa = c.empresa_id
+JOIN sensor s ON c.id_camara = s.camara_id
+JOIN leitura l ON s.id_sensor = l.sensor_id
+WHERE
+	s.situacao = 'Ativo'
+AND
+	e.razao_social = 'Apple Tech Brasil LTDA'
+ORDER BY c.local_instalacao;
+
+
