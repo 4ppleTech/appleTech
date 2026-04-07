@@ -77,17 +77,100 @@
         <div class="content">
             <!-- CONTENT HEADER -->
             <div class="header">
-                <h1>Dashboard - Início</h1>
+                <h1>Dashboard - Configurações</h1>
                 <span id="current-date">Seg, 12 abr</span>
             </div>
 
             <!-- CONTENT MAIN -->
-            <main class="main">
-                <h2>Configurations</h2>
-            </main>
+    <main class="main">
+    <div class="page-sub">Personalize sua experiência no sistema</div>
+ 
+    <!-- Aparência -->
+    <div class="section-title">Aparência</div>
+    <div class="card">
+ 
+      <!-- Tema -->
+      <div class="row" style="flex-direction: column; align-items: flex-start; gap: 10px;">
+        <div class="row-label">Tema</div>
+        <div class="theme-grid" style="width:100%">
+          <div class="theme-card selected" id="themeLight" onclick="selectTheme('light')">
+            <div class="theme-preview light"><div class="tp-side"></div><div class="tp-main"></div></div>
+            <div class="theme-name">Claro <span class="badge" id="badgeLight">Ativo</span></div>
+          </div>
+          <div class="theme-card" id="themeDark" onclick="selectTheme('dark')">
+            <div class="theme-preview dark"><div class="tp-side"></div><div class="tp-main"></div></div>
+            <div class="theme-name">Escuro <span class="badge" id="badgeDark" style="display:none">Ativo</span></div>
+          </div>
         </div>
+      </div>
+ 
+      <!-- Tamanho da fonte -->
+      <div class="row">
+        <div class="row-info">
+          <div class="row-label">Tamanho da fonte</div>
+          <div class="row-desc">Ajuste a legibilidade</div>
+        </div>
+        <div class="font-ctrl">
+          <button class="font-btn" onclick="changeFont(-1)">A−</button>
+          <span class="font-val" id="fontVal">14</span>
+          <button class="font-btn" onclick="changeFont(1)">A+</button>
+        </div>
+      </div>
     </div>
-    
-<script src="../scripts/mock-user.js"></script>
+ 
+    <!-- Notificações -->
+    <div class="section-title">Notificações</div>
+    <div class="card">
+      <div class="row">
+        <div class="row-info">
+          <div class="row-label">Alertas críticos de etileno</div>
+          <div class="row-desc">Notificar ao ultrapassar o limite</div>
+        </div>
+        <label class="toggle"><input type="checkbox" checked><div class="track"></div><div class="thumb"></div></label>
+      </div>
+      <div class="row">
+        <div class="row-info">
+          <div class="row-label">Sensor offline</div>
+          <div class="row-desc">Aviso quando um sensor perder conexão</div>
+        </div>
+        <label class="toggle"><input type="checkbox" checked><div class="track"></div><div class="thumb"></div></label>
+      </div>
+      <div class="row">
+        <div class="row-info">
+          <div class="row-label">Relatório diário por e-mail</div>
+          <div class="row-desc">Resumo automático às 8h</div>
+        </div>
+        <label class="toggle"><input type="checkbox"><div class="track"></div><div class="thumb"></div></label>
+      </div>
+      <div class="row">
+        <div class="row-info">
+          <div class="row-label">Canais de notificação</div>
+        </div>
+        <div class="chips">
+          <div class="chip on" onclick="this.classList.toggle('on')"><div class="chip-dot"></div> E-mail</div>
+          <div class="chip" onclick="this.classList.toggle('on')"><div class="chip-dot"></div> SMS</div>
+        </div>
+      </div>
+    </div>
+ 
+    <!-- Dashboard -->
+    <div class="section-title">Dashboard</div>
+    <div class="card">
+      <div class="row">
+        <div class="row-info">
+          <div class="row-label">Exibir linha de limite crítico</div>
+          <div class="row-desc">Linha pontilhada vermelha no gráfico</div>
+        </div>
+        <label class="toggle"><input type="checkbox" checked><div class="track"></div><div class="thumb"></div></label>
+      </div>
+      <div class="row">
+        <div class="row-info">
+          <div class="row-label">Mostrar apenas câmaras ativas</div>
+        </div>
+        <label class="toggle"><input type="checkbox"><div class="track"></div><div class="thumb"></div></label>
+      </div>
+    </div>
+    <script src="../scripts/mock-user.js"></script>
+</main>
 </body>
 </html>
