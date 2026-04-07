@@ -1,10 +1,16 @@
-<html lang="en">
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AppleTech | Dashboard</title>
-    <link rel="stylesheet" href="../styles/global.css">
-    <link rel="stylesheet" href="../styles/dashboard.css">
+    <title>AppleTech | Início</title>
+
+    <!-- ESTILOS DA DASHBOARD -->
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/dashboard/shared.css">
+    <link rel="stylesheet" href="../css/dashboard/home.css">
+    
+    <!-- CDNs Chart.JS e FontAwesome -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
@@ -14,8 +20,9 @@
         <div class="sidebar">
             <!-- SIDEBAR HEADER -->
             <div class="header">
-                <img src="../assets/img/logo-recolored.svg" alt="AppleTech Logo" class="logo">
+                <img src="../assets/imgs/logo-recolored.svg" alt="AppleTech Logo" class="logo">
             </div>
+
             <!-- SIDEBAR NAVLIST -->
             <nav class="navlist">
                 <div class="nav-section">
@@ -49,6 +56,7 @@
                     </a>
                 </div>
             </nav>
+
             <!-- SIDEBAR FOOTER -->
             <div class="footer">
                 <div class="logged-account">
@@ -126,6 +134,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <!-- CONTENT MÉTRICAS -->
                 <div class="metrics">
                     <!-- CONTENT GRÁFICOS -->
@@ -150,197 +159,7 @@
             </main>
         </div>
     </div>
+
+<script src="../scripts/mock-user.js"></script>
 </body>
 </html>
-<script>
-    const DADOS_CONTA_FICTICIA = {
-        pfp: "../assets/img/avatar-pfp.png",
-        username: "John Doe",
-        role: "Administrador"
-    }
-
-    const account_pfp = document.getElementById("account-pfp");
-    const account_username = document.getElementById("account-username");
-    const account_role = document.getElementById("account-role");
-
-    account_pfp.src = DADOS_CONTA_FICTICIA.pfp;
-    account_username.innerText = DADOS_CONTA_FICTICIA.username;
-    account_role.innerText = DADOS_CONTA_FICTICIA.role;
-</script>
-<script>
-     let labels = ['12:00', 
-    '13:00', 
-    '14:00', 
-    '15:00', 
-    '16:00', 
-    '17:00'];
-
-    let Camara1 = {
-        labels: labels,
-        datasets: [{
-            label: 'Etileno Camara 1 (PPM)',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: [1.0, 1.5, 0.7, 1.0, 1.4, 1.9,],
-        }]
-    };
-
-    let Camara2 = {
-        labels: labels,
-        datasets: [{
-            label: 'Etileno Camara 2 (PPM)',
-            backgroundColor: 'rgb(54, 162, 235)',
-            borderColor: 'rgb(54, 162, 235)',
-            data: [0.7, 1.0, 1.3, 1.4, 0.5, 1.2,],
-        }]
-    };
-
-    let Camara3 = {
-        labels: labels,
-        datasets: [{
-            label: 'Etileno Camara 3 (PPM)',
-            backgroundColor: 'rgb(255, 206, 86)',
-            borderColor: 'rgb(255, 206, 86)',
-            data: [0.5, 0.3, 0.8, 2.5, 2.2, 2.3,],
-        }]
-    };
-
-    let Camara4 = {
-        labels: labels,
-        datasets: [{
-            label: 'Etileno Camara 4 (PPM)',
-            backgroundColor: 'rgb(75, 192, 192)',
-            borderColor: 'rgb(75, 192, 192)',
-            data: [1.0, 1.5, 0.6, 0.4, 0.9, 1.2,],
-        }]
-    };
-
-    let Camara5 = {
-        labels: labels,
-        datasets: [{
-            label: 'Etileno Camara 5 (PPM)',
-            backgroundColor: 'rgb(153, 102, 255)',
-            borderColor: 'rgb(153, 102, 255)',
-            data: [1.0, 1.3, 0.8, 0.5, 0.9, 1.4,],
-        }]
-    };
-
-    let Camara6 = {
-        labels: labels,
-        datasets: [{
-            label: 'Etileno Camara 6 (PPM)',
-            backgroundColor: 'rgb(255, 159, 64)',
-            borderColor: 'rgb(255, 159, 64)',
-            data: [1.0, 1.8, 0.8, 2.0, 2.3, 1.7,],
-        }]
-    };
-
-     let data = {
-        labels: labels,
-        datasets: [
-            Camara1.datasets[0],
-            Camara2.datasets[0],
-            Camara3.datasets[0],
-            Camara4.datasets[0],
-            Camara5.datasets[0],
-            Camara6.datasets[0]
-        ]
-    };
-
-    let config = {
-        type: 'line',
-        data: data,
-        options: {}
-    };
-</script>
-
-
-<script>
-    let labels2 = ['Camara 1', 
-    'Camara 2', 
-    'Camara 3', 
-    'Camara 4', 
-    'Camara 5', 
-    'Camara 6'];
-
-
-    let mediaEtilenoCamara = {
-        labels: labels2,
-        datasets: [{
-            label: 'Média de Etileno (PPM)',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: [1.5, 0.3, 0.8, 1.2, 1.0, 0.5],
-        }]
-    };
-
-        let data2 = {
-            labels: labels2,
-            datasets: [
-                mediaEtilenoCamara.datasets[0]
-            ]
-        };
-
-    let config2 = {
-        type: 'bar',
-        data: data2,
-        options: {}
-    };
-</script>
-
-
-<script>
-    let myChart = new Chart(
-        document.getElementById('myChart'),
-        config
-    );
-
-    let myChart2 = new Chart(
-        document.getElementById('myChart2'),
-        config2
-    );
-</script>
-
-<!-- 
-<main class="">
-<nav class="navbar container">
-<h1>Dashboard - Início</h1>
-</nav>
-<div class="content ">
-<div class="kpi container">
-<div class="kpiBox">
-<span class="kpiName">Concentração Atual</span>
-<span class="kpi">2.5ppm</span>
-<span class="kpiDifference">8hrs atrás</span>
-</div>
-<div class="kpiBox">
-<span class="kpiName">Estagio Atual</span>
-<span class="kpi">Sob Controle</span>
-<span class="kpiDifference">8hrs atrás</span>
-</div> 
-<div class="kpiBox">
-<span class="kpiName">Estoque em Risco</span>
-<span class="kpi">13%</span>
-<span class="kpiDifference">equivale a 320 maçãs</span>
-</div> 
-<div class="kpiBox">
-<span class="kpiName">Percentual de Lucro</span>
-<span class="kpi">70-%</span>
-<span class="kpiDifference">8hrs atrás</span>
-</div>        
-</div>
-<div class="chart container flex-row">
-<canvas id="myChart"></canvas>
-</div>
-
-<div class="chart container flex-row">
-<canvas id="myChart2"></canvas>
-</div>
-
-<div class="alerts container flex-col">
-<h1>AQUI SERÃO OS ALERTS</h1>
-</div>
-</div>
-</div>
-</main>
--->

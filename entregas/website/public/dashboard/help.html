@@ -1,11 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AppleTech | Câmaras</title>
-    <link rel="stylesheet" href="../styles/global.css">
-    <link rel="stylesheet" href="../styles/dashboard.css">
+    <title>AppleTech | Central de Ajuda</title>
+
+    <!-- ESTILOS DA DASHBOARD -->
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/dashboard/shared.css">
+    <link rel="stylesheet" href="../css/dashboard/help.css">
+    
+    <!-- CDNs Chart.JS e FontAwesome -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
@@ -15,8 +20,9 @@
         <div class="sidebar">
             <!-- SIDEBAR HEADER -->
             <div class="header">
-                <img src="../assets/img/logo-recolored.svg" alt="AppleTech Logo" class="logo">
+                <img src="../assets/imgs/logo-recolored.svg" alt="AppleTech Logo" class="logo">
             </div>
+
             <!-- SIDEBAR NAVLIST -->
             <nav class="navlist">
                 <div class="nav-section">
@@ -50,6 +56,7 @@
                     </a>
                 </div>
             </nav>
+
             <!-- SIDEBAR FOOTER -->
             <div class="footer">
                 <div class="logged-account">
@@ -65,55 +72,41 @@
                 </button>
             </div>
         </div>
+
         <!-- CONTENT -->
         <div class="content">
+            <!-- CONTENT HEADER -->
             <div class="header">
                 <h1>Central de Ajuda</h1>
             </div>
             
+            <div class="content-left">
+                <h2 class="title-help">Ficou Alguma Dúvida? Entre em Contato:</h2>
+                
+                <div class="field-gap">
+                    <label class="field-label" for="nome">Nome</label>
+                    <input class="field-input" type="text" id="nome" placeholder="John Doe" />
+                </div>
+                
+                <div class="field-gap">
+                    <label class="field-label" for="email">E-mail</label>
+                    <input class="field-input" type="email" id="email" placeholder="john.Doe@gmail.com" />
+                </div>
+                
+                <div class="field-gap">
+                    <label class="field-label" for="assunto">Assunto</label>
+                    <textarea class="field-input tall" type="text" id="assunto"></textarea>
+                </div>
+                
+                <button class="button-send">Enviar E-mail</button>
+            </div>
         
-        <div class="content-left">
-        <h2 class="title-help">Ficou Alguma Dúvida? Entre em Contato:</h2>
- 
-        <div class="field-gap">
-          <label class="field-label" for="nome">Nome</label>
-          <input class="field-input" type="text" id="nome" placeholder="John Doe" />
-        </div>
- 
-        <div class="field-gap">
-          <label class="field-label" for="email">E-mail</label>
-          <input class="field-input" type="email" id="email" placeholder="john.Doe@gmail.com" />
-        </div>
- 
-        <div class="field-gap">
-          <label class="field-label" for="assunto">Assunto</label>
-          <textarea class="field-input tall" type="text" id="assunto"></textarea>
-        </div>
- 
-        <button class="button-send">Enviar E-mail</button>
-        
-        <div class="content-right">
-            <div>
-                <img src="../assets/img/help.png" alt="">
+            <div class="content-right">
+                <img src="../assets/imgs/mailbox.svg" alt="Contate-nos">
             </div>
         </div>
     </div>
-      
 
+<script src="../scripts/mock-user.js"></script>
 </body>
 </html>
-<script>
-    const DADOS_CONTA_FICTICIA = {
-        pfp: "../assets/img/avatar-pfp.png",
-        username: "John Doe",
-        role: "Administrador"
-    }
-
-    const account_pfp = document.getElementById("account-pfp");
-    const account_username = document.getElementById("account-username");
-    const account_role = document.getElementById("account-role");
-
-    account_pfp.src = DADOS_CONTA_FICTICIA.pfp;
-    account_username.innerText = DADOS_CONTA_FICTICIA.username;
-    account_role.innerText = DADOS_CONTA_FICTICIA.role;
-</script>
