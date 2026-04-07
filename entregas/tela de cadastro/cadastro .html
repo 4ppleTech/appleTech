@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <a id="id_inicial" href="pagina inicial .html">←</a>
+
+    <div class="wrapper">
+
+        <div class="img_box">
+            <img src="imagens/maca3.png" alt="Imagem de fundo">
+        </div>
+
+            <div class="cls_container">
+
+                <img id="id_logo" src="imagens/logoreal.png" alt="Logo">
+
+                    <h3>Crie sua conta</h3>
+
+                        <div class="container_input">
+                            <i class="fa-solid fa-coins"></i>
+                            <input type="text" id="ipt_codigo" class="cls_input" placeholder="Código de ativação">
+                        </div>
+
+                        <div class="container_input">
+                            <i class="fa-regular fa-circle-user"></i>
+                            <input type="text" id="ipt_usuario" class="cls_input" placeholder="Usuário">
+                        </div>
+
+                        <div class="container_input">
+                            <i class="fa-regular fa-envelope"></i>
+                            <input type="email" id="ipt_email" class="cls_input" placeholder="Email">
+                        </div>
+
+                        <div class="container_input">
+                            <i class="fa-solid fa-lock"></i>
+                            <input type="password" id="ipt_senha" class="cls_input" placeholder="Senha">
+                        </div>
+
+                        <div class="container_input">
+                            <i class="fa-solid fa-lock"></i>
+                            <input type="password" id="ipt_confirmar" class="cls_input" placeholder="Confirmar senha">
+                        </div>
+
+                    <div id="div_mensagem"></div>
+
+            <button onclick="mostrar()" class="cls_button">Cadastrar<i class="fa-regular fa-circle-up"></i></button>
+
+    <a id="id_cadastro" href="login .html">Já tem uma conta?</a>
+
+</div>
+</div>
+
+<script>
+function mostrar() {
+let codigo = ipt_codigo.value;
+let usuario = ipt_usuario.value;
+let email = ipt_email.value;
+let senha = ipt_senha.value;
+let confirmar = ipt_confirmar.value;
+
+    div_mensagem.innerHTML = "";
+
+if (
+    codigo.length == 0 ||
+    usuario.length == 0 ||
+    email.length == 0 ||
+    senha.length == 0 ||
+    confirmar.length == 0
+) {
+    div_mensagem.innerHTML = "Preencha todos os campos!";
+    return;
+}
+
+if (usuario.length < 1) {
+    div_mensagem.innerHTML += "Usuário inválido<br>";
+    return;
+}
+
+let indice_arroba = email.indexOf("@");
+let indice_ponto = email.indexOf(".");
+
+if (indice_arroba < 1 || indice_ponto < indice_arroba) {
+    div_mensagem.innerHTML += "Email inválido<br>";
+    return;
+}
+
+let temMaiuscula = false;
+let temEspecial = false;
+
+let especiais = "!@#$%^&*()_+-=[]{};:'\",.<>?/\\|";
+
+for (let i = 0; i < senha.length; i++) {
+let letra = senha[i];
+
+if (letra === letra.toUpperCase() && letra !== letra.toLowerCase()) {
+    temMaiuscula = true;
+}
+
+if (especiais.includes(letra)) {
+    temEspecial = true;
+}
+}
+
+if (senha.length < 6 || !temMaiuscula || !temEspecial) {
+    div_mensagem.innerHTML += "A senha precisa ter:<br>";
+    div_mensagem.innerHTML += "- 6 caracteres<br>";
+    div_mensagem.innerHTML += "- 1 letra maiúscula<br>";
+    div_mensagem.innerHTML += "- 1 caractere especial<br>";
+    return;
+}
+
+if (senha !== confirmar) {
+    div_mensagem.innerHTML += "As senhas não coincidem<br>";
+    return;
+}
+
+div_mensagem.innerHTML = "Cadastro realizado com sucesso!";
+}
+</script>
+</body>
+</html>
