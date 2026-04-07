@@ -1,4 +1,4 @@
-
+/* subtitle title */
 .page-sub {
   font-family: 'Kufam', sans-serif;
   font-size: 26px;
@@ -6,6 +6,7 @@
   margin-bottom: 10px;
   font-style: bold;
 }
+/* title topic */
 
 .section-title {
   font-family: 'Kufam', sans-serif;
@@ -19,7 +20,7 @@
   padding-bottom: 6px;
 }
 
-/* Cards & Rows */
+/* cards */
 .card {
   background: #faf8f2;
   border: 1px solid #e4e0d4;
@@ -27,6 +28,8 @@
   padding: 4px 20px;
   margin-bottom: 12px;
 }
+
+/* fields */
 .row {
   display: flex;
   align-items: center;
@@ -54,7 +57,7 @@
   margin-top: 2px;
 }
 
-/* Toggle */
+/* Toggle button(on/off)*/
 .toggle {
   position: relative;
   width: 42px;
@@ -62,7 +65,6 @@
   flex-shrink: 0;
 }
 .toggle input {
-  opacity: 0;
   width: 0;
   height: 0;
   position: absolute;
@@ -75,6 +77,7 @@
   cursor: pointer;
   transition: background 0.2s;
 }
+/* toggle on color*/
 .toggle input:checked + .track {
   background: #c0392b;
 }
@@ -89,6 +92,8 @@
   transition: transform 0.2s;
   pointer-events: none;
 }
+
+/* animmation toggle */
 .toggle input:checked ~ .thumb {
   transform: translateX(18px);
 }
@@ -138,11 +143,13 @@
 .theme-name {
   font-size: 13px;
   font-weight: 500;
-  color: #333;
+  color: #3d3020;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+
+/* active */
 .badge {
   background: #c0392b;
   color: #fff;
@@ -163,7 +170,7 @@
   color: #000000;
 }
 
-/*chip sms, email */
+/*chip sms,email */
 
 .chips {
   display: flex;
@@ -194,6 +201,7 @@
 }
 
 /* Select */
+
 select {
   font-family: 'Kufam', sans-serif;
   border: 1px solid #ddd9ce;

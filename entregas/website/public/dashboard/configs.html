@@ -174,3 +174,39 @@
 </main>
 </body>
 </html>
+
+<script>
+let fontSize = 14;
+
+function changeFont(valor) {
+    fontSize += valor;
+
+    if (fontSize < 10) fontSize = 10;
+    if (fontSize > 40) fontSize = 40;
+
+    document.body.style.fontSize = fontSize + "px";
+
+    document.getElementById("fontVal").innerText = fontSize;
+}
+
+function selectTheme(theme) {
+    let lightCard = document.getElementById("themeLight");
+    let darkCard = document.getElementById("themeDark");
+    let badgeLight = document.getElementById("badgeLight");
+    let badgeDark = document.getElementById("badgeDark");
+
+    if (theme === "light") {
+        document.body.classList.remove("dark-theme");
+        lightCard.classList.add("selected");
+        darkCard.classList.remove("selected");
+        badgeLight.style.display = "inline";
+        badgeDark.style.display = "none";
+    } else {
+        document.body.classList.add("dark-theme");
+        lightCard.classList.remove("selected");
+        darkCard.classList.add("selected");
+        badgeLight.style.display = "none";
+        badgeDark.style.display = "inline";
+    }
+}
+</script>
