@@ -3,10 +3,10 @@
 
 /* === Paleta de Cores === 
 - background: #FAF3E8
-- foreground: #061E35
+- foreground: #3D3020
 - surface: #EDE3D0
 
-- text: #061E35
+- text: #3D3020
 - muted: #7A6A52
 - disabled: #B5A98F
 
@@ -58,6 +58,7 @@ body {
     width: 100%;
 
     background-color: #FAF3E8;
+    color: #3D3020;
 
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
