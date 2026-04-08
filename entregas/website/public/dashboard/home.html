@@ -91,7 +91,7 @@
                             <i class="fa-solid fa-chart-simple"></i>
                         </div>
                         <div class="kpi-content">
-                            <h1>2.5ppm</h1>
+                            <h2>2.5ppm</h2>
                         </div>
                         <div class="kpi-footer">
                             8hrs atrás
@@ -103,7 +103,7 @@
                             <i class="fa-solid fa-chart-simple"></i>
                         </div>
                         <div class="kpi-content">
-                            <h1>Sob Controle</h1>
+                            <h2>Sob Controle</h2>
                         </div>
                         <div class="kpi-footer">
                             8hrs atrás
@@ -115,7 +115,7 @@
                             <i class="fa-solid fa-chart-simple"></i>
                         </div>
                         <div class="kpi-content">
-                            <h1>13%</h1>
+                            <h2>13%</h2>
                         </div>
                         <div class="kpi-footer">
                             equivalente à 320 maçãs
@@ -127,7 +127,7 @@
                             <i class="fa-solid fa-chart-simple"></i>
                         </div>
                         <div class="kpi-content">
-                            <h1>70%</h1>
+                            <h2>70%</h2>
                         </div>
                         <div class="kpi-footer">
                             8hrs atrás
@@ -140,20 +140,60 @@
                     <!-- CONTENT GRÁFICOS -->
                     <div class="charts">
                         <!-- CONTENT GRÁFICO LINHAS -->
-                        <div class="chart-1">
-                            <canvas id="line-chart"></canvas>
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h2 class="chart-title">Variação Média de Etileno <span>(ppm)</span></h2>
+                                <div class="btn-group">
+                                    <button class="active" onclick="atualizarData('24h')">24hrs</button>
+                                    <button onclick="atualizarData('7d')">7 dias</button>
+                                    <button onclick="atualizarData('30d')">30 dias</button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="line-chart"></canvas>
+                            </div>
                         </div>
                         <!-- CONTENT GRÁFICO COLUNAS -->
-                        <div class="chart-1">
-                            <canvas id="line-chart"></canvas>
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h2 class="chart-title">Variação Etileno Por Câmara <span>(ppm)</span></h2>
+                                <div class="btn-group">
+                                    <button class="active"><a href="./chambers.html">Análise Individual</a></button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="column-chart"></canvas>
+                            </div>
                         </div>
                     </div>
                     <!-- CONTENT ASIDE -->
                     <aside class="aside">
                         <!-- CONTENT LISTA DE ALERTAS -->
-                        <div class="alert-list"></div>
+                        <div class="alerts">
+                            <h3>Últimas Notificações</h3>
+                            <div class="alert-list">
+                                <div class="alert" data-alert-type="alert-serious">
+                                    <p class="alert-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt rerum ad libero quia ab <a href="">recusandae</a></p>
+                                    <span class="alert-footer">há 8hrs</span>
+                                </div>
+                                <div class="alert" data-alert-type="alert-caution">
+                                    <p class="alert-content">Lorem ipsum dolor sit. Deserunt rerum ad libero quia ab <a href="">recusandae</a></p>
+                                    <span class="alert-footer">há 1 dia</span>
+                                </div>
+                                <div class="alert" data-alert-type="alert-common">
+                                    <p class="alert-content">.Deserunt rerum ad libero quia ab <a href="">recusandae</a></p>
+                                    <span class="alert-footer">há 2 dias</span>
+                                </div>
+
+                                <a href="./alerts.html" class="view-alerts-btn">Ver Todos</a>
+                            </div>
+                        </div>
                         <!-- CONTENT STATUS SENSORES -->
-                        <div class="sensor-status"></div>
+                        <div class="status">
+                            <h3>Status dos Sensores</h3>
+                            <div class="sensor-on" data-sensor-on="9"><span>90% online</span></div>
+                            <div class="sensor-off" data-sensor-off="1"><span>10% offline</span></div>
+                        </div>
                     </aside>
                 </div>
             </main>
@@ -161,5 +201,6 @@
     </div>
 
 <script src="../scripts/mock-user.js"></script>
+<script src="../scripts/dashboard-charts.js"></script>
 </body>
 </html>
