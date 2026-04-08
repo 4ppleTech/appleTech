@@ -144,9 +144,9 @@
                             <div class="chart-header">
                                 <h2 class="chart-title">Variação Média de Etileno <span>(ppm)</span></h2>
                                 <div class="btn-group">
-                                    <button class="active" onclick="atualizarData('24h')">24hrs</button>
-                                    <button onclick="atualizarData('7d')">7 dias</button>
-                                    <button onclick="atualizarData('30d')">30 dias</button>
+                                    <button data-periodo="24h"onclick="atualizarPeriodo('24h')" class="active">24hrs</button>
+                                    <button data-periodo="7d" onclick="atualizarPeriodo('7d')">7 dias</button>
+                                    <button data-periodo="30d"onclick="atualizarPeriodo('30d')">30 dias</button>
                                 </div>
                             </div>
                             <div class="chart-container">
@@ -158,7 +158,7 @@
                             <div class="chart-header">
                                 <h2 class="chart-title">Variação Etileno Por Câmara <span>(ppm)</span></h2>
                                 <div class="btn-group">
-                                    <button class="active"><a href="./chambers.html">Análise Individual</a></button>
+                                    <a href="./chambers.html">Análise Individual</a>
                                 </div>
                             </div>
                             <div class="chart-container">

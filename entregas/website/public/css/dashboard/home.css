@@ -120,7 +120,7 @@
     padding: 2px;
 }
 
-.btn-group button {
+.btn-group button{
     border: none;
     background: transparent;
     padding: 0.5rem 1rem;
@@ -130,8 +130,15 @@
     font-weight: bold;
 }
 
-.btn-group button.active,
-.btn-group button.active a {
+.btn-group a {
+    padding: 0.5rem 1rem;
+    font-size: small;
+    font-weight: bold;
+    cursor: pointer;
+    color: #B5A98F;
+}
+
+.btn-group .active {
     background: #7A9B55;
     color: #EAF0DC;
 }
