@@ -46,7 +46,7 @@ create table usuario (
 	empresa_id		int not null,
     nome			varchar(60) not null,
     email			varchar(255) not null unique,
-    telefone		varchar(25) not null unique,
+    telefone		varchar(25) unique,
     situacao		varchar(10) not null default 'Ativo',
     papel_usuario varchar(40) not null,
     senha 			varchar(100) not null,
