@@ -1,0 +1,119 @@
+main{
+    background-color: #EDE3D0;
+    border: 1px solid #C8A87A;
+    border-radius: 6px;
+
+    max-width: 100%; 
+    margin: auto;       
+    width: fit-content;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 3rem;
+    padding: 2rem;
+    box-shadow: 0 0.2rem 0.2rem #3D302040;
+}
+
+main h3 {
+    color: #7A6A52;
+}
+
+main .alerts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 0.5rem;
+}
+
+main .alerts .alert-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    row-gap: 1rem;
+}
+
+main .alerts .alert-list .alert {
+    position: relative;
+    overflow: hidden;
+
+    background-color: #FAF3E8;
+    border: 1px solid #C8A87A;
+    border-radius: 6px;
+
+    width: 100%;
+    height: auto;
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+main .alerts .alert-list .alert::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 0.5rem;
+    height: 100%;
+}
+
+main .alerts .alert-list .alert[data-alert-type="alert-serious"]::after {
+    background-color: #B83232;
+}
+main .alerts .alert-list .alert[data-alert-type="alert-caution"]::after {
+    background-color: #FEAC0D;
+}
+main .alerts .alert-list .alert[data-alert-type="alert-common"]::after {
+    background-color: #7A9B55;
+}
+
+main .alert-content,
+main .alert-footer {
+    font-size: 14px;
+    font-weight: 900;
+    color: #7A6A52;
+}
+
+.alert .alert-footer {
+    align-self: end;
+    color: #B5A98F;
+}
+
+main .alert-list .view-alerts-btn {
+    color: #7A6A52;
+    background-color: #FAF3E8;
+    border: 1px solid #C8A87A;
+    border-radius: 6px;
+    
+    text-align: center;
+    padding: 0.5rem;
+}
+
+main .show-all-button{
+    display: flex;
+    font-size: 20px;
+    font-weight: 600;
+    margin: auto;
+    background-color: #FAF3E8;
+    border: 1px solid #C8A87A;
+    cursor: pointer;
+    border-radius: 6px;
+    max-width: 100%;
+    width: fit-content;
+    padding: 0.7rem;
+    transition: background-color 0.2 ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+button:hover {
+  background-color: #7A9B55;
+  color: white;
+}   
+
+
+
