@@ -1,10 +1,11 @@
 .content-left {
   max-width: 900px;
   padding-top: 10rem;
+  width: 70%;
 }
  
 .title-help{
-  font-size: 35px;
+  font-size: 31px;
   font-weight: 600;
   color: #3d3020;
   text-align: center;
@@ -46,7 +47,6 @@
 .field-input.tall {
   resize: none;
   height: 200px;
-  width: 900px;
 }
  
 .button-send{
@@ -64,10 +64,26 @@
   transition: background 0.2s, transform 0.1s;
 }
  
-.btn-enviar:hover {
+.button-send:hover {
   background: #245f27;
 }
  
-.btn-enviar:active {
+.button-send:active {
   transform: scale(0.98);
+}
+
+.help-wrapper {
+    display: flex;
+    flex-direction: row;
+    padding: auto;
+    margin: 0;
+}
+.content-right {
+    width: 500px;
+    flex-shrink: 0;
+}
+.content-right img {
+    padding-top: 250px;
+    width: 700px;
+    height: auto;
 }

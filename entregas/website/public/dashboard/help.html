@@ -80,8 +80,8 @@
             <div class="header">
                 <h1>Central de Ajuda</h1>
             </div>
-            
-            <div class="content-left">
+            <div class="help-wrapper">  
+                <div class="content-left">
                 <h2 class="title-help">Ficou Alguma Dúvida? Entre em Contato:</h2>
                 
                 <div class="field-gap">
@@ -99,7 +99,7 @@
                     <textarea class="field-input tall" type="text" id="assunto"></textarea>
                 </div>
                 
-                <button class="button-send">Enviar E-mail</button>
+                <button class="button-send" onclick="enviarEmail()">Enviar E-mail</button>
             </div>
         
             <div class="content-right">
@@ -107,7 +107,15 @@
             </div>
         </div>
     </div>
+</div>
+           
 
 <script src="../scripts/mock-user.js"></script>
 </body>
 </html>
+
+<script>
+    function enviarEmail(){
+        alert("Email enviado com sucesso!")
+    }
+</script>
