@@ -26,17 +26,17 @@
 .field-input {
   width: 100%;
   padding: 11px 14px;
-  border: 1px solid #ccc;
+  border: 1px solid #C8A87A;
   border-radius: 8px;
   font-size: 14px;
   color: #333;
-  background: #ffffff;
+  background: #EDE3D0;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
  
 .field-input::placeholder {
-  color: #aaa;
+  color: #B5A98F;
 }
  
 .field-input:focus {
