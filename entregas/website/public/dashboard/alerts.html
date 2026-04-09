@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/dashboard/shared.css">
     <link rel="stylesheet" href="../css/dashboard/alerts.css">
+    <link rel="shortcut icon" href="../assets/imgs/favicon.ico" type="image/x-icon">
     
     <!-- CDNs Chart.JS e FontAwesome -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -77,17 +78,53 @@
         <div class="content">
             <!-- CONTENT HEADER -->
             <div class="header">
-                <h1>Dashboard - Início</h1>
+                <h1>Dashboard - Alertas </h1>
                 <span id="current-date">Seg, 12 abr</span>
             </div>
-
+    
             <!-- CONTENT MAIN -->
             <main class="main">
-                <h2>Alerts</h2>
-            </main>
-        </div>
-    </div>
-    
-<script src="../scripts/mock-user.js"></script>
-</body>
-</html>
+                <h2>Alertas</h2>
+                <div class="alerts">
+                    <h3>Últimas Notificações</h3>
+                    <div class="alert-list">
+                        <div class="alert" data-alert-type="alert-serious">
+                            <p class="alert-content">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dicta tenetur facere cum quod excepturi odit ducimus, exercitationem consequatur odio incidunt rerum voluptas earum, a soluta voluptate, voluptatibus rem quam aut. <a href="chambers.html">Câmara (ABC)</a></p>
+                            <span class="alert-footer">há 8hrs</span>
+                        </div>
+                        <div class="alert" data-alert-type="alert-caution">
+                            <p class="alert-content">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dicta tenetur facere cum quod excepturi odit ducimus, exercitationem consequatur odio incidunt rerum voluptas earum, a soluta voluptate, voluptatibus rem quam aut. <a href="chambers.html">Câmara (XPTO)</a></p>
+                            <span class="alert-footer">há 1 dia</span>
+                        </div>
+                        <div class="alert" data-alert-type="alert-common">
+                            <p class="alert-content">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dicta tenetur facere cum quod excepturi odit ducimus, exercitationem consequatur odio incidunt rerum voluptas earum, a soluta voluptate, voluptatibus rem quam aut. <a href="chambers.html">Câmara (123)</a></p>
+                            <span class="alert-footer">há 2 dias</span>
+                         </div>
+                          <div class="alert" data-alert-type="alert-common">
+                            <p class="alert-content">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dicta tenetur facere cum quod excepturi odit ducimus, exercitationem consequatur odio incidunt rerum voluptas earum, a soluta voluptate, voluptatibus rem quam aut. <a href="chambers.html">Câmara (XYZ)</a></p>
+                            <span class="alert-footer">há 2 dias</span>
+                         </div>
+                         <div class="alert" data-alert-type="alert-serious">
+                            <p class="alert-content">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dicta tenetur facere cum quod excepturi odit ducimus, exercitationem consequatur odio incidunt rerum voluptas earum, a soluta voluptate, voluptatibus rem quam aut. <a href="chambers.html">Câmara (789)</a></p>
+                            <span class="alert-footer">há 3 dias</span>
+                         </div>
+                          <div class="alert" data-alert-type="alert-common">
+                            <p class="alert-content">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dicta tenetur facere cum quod excepturi odit ducimus, exercitationem consequatur odio incidunt rerum voluptas earum, a soluta voluptate, voluptatibus rem quam aut. <a href="chambers.html">Câmara (SPTECH)</a></p>
+                            <span class="alert-footer">há 4 dias</span>
+                         </div>
+                            <div>
+                                <button class="show-all-button" onclick="verMaisAlertas()">Ver mais</button>
+                            </div>
+                         </div>
+                    </main>
+                </div>
+            </div>
+      <script src="../scripts/mock-user.js"></script>
+    </body>
+ </html>
+
+ <script>
+    function verMaisAlertas(){
+        /* aqui será o script para exibição de mais alertas */
+    }
+ </script>
