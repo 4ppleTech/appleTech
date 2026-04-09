@@ -78,17 +78,110 @@
         <div class="content">
             <!-- CONTENT HEADER -->
             <div class="header">
-                <h1>Dashboard - Início</h1>
+                <h1>Dashboard - Equipe</h1>
                 <span id="current-date">Seg, 12 abr</span>
             </div>
 
             <!-- CONTENT MAIN -->
             <main class="main">
-                <h2>Team</h2>
+                <!-- COMPANY INFO -->
+                <div class="company-info">
+                    <h3>Informações da Empresa</h3>
+                    <div class="info-header">
+                        <h4 class="nome-fantasia">Carrefour</h4>
+                        <h1 class="razao-social">Comidas & Cia.</h1>
+                        <p class="cnpj">XX.XXX.XXX/XXXX-XX</p>
+                    </div>
+                    
+                    <!-- COMPANY CODE -->
+                    <div class="info-code">
+                        <h3>Código de Ativação</h3>
+                        <div class="code-input">
+                            <input id="inCompanyCode" type="password" disabled value="ABCDE1234">
+                            <button onclick="toggleCompanyCode()"><i class="fa-solid fa-eye"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CURRENT USERS -->
+                <ul class="member-list">
+                    <div class="member-list-results">
+                        <h3>Membros da Equipe</h3>
+                        <span>5</span>
+                    </div>
+                    
+                    <li class="member-card">
+                        <img src="../assets/imgs/av2.png" alt="pfp" class="pfp">
+                        <div class="member-card-content">
+                            <div>
+                                <p class="username">John Doe (você)</p>
+                                <p class="email">john.doe@gmail.com</p>
+                            </div>
+                            <p class="role">Administrador</p>
+                        </div>
+                        <div class="member-card-action">
+                            <select>
+                                <option value="administrador" selected>Administrador</option>
+                                <option value="analista">Analista</option>
+                            </select>
+                            <button>Salvar</button>
+                        </div>
+                    </li>
+                    <li class="member-card">
+                        <img src="../assets/imgs/av1.png" alt="pfp" class="pfp">
+                        <div class="member-card-content">
+                            <div>
+                                <p class="username">João Romão</p>
+                                <p class="email">johnny.romas@gmail.com</p>
+                            </div>
+                            <p class="role">Analista</p>
+                        </div>
+                        <div class="member-card-action">
+                            <select>
+                                <option value="analista" selected>Analista</option>
+                                <option value="administrador">Administrador</option>
+                            </select>
+                            <button>Salvar</button>
+                        </div>
+                    </li>
+                    <li class="member-card">
+                        <img src="../assets/imgs/avatar-pfp.png" alt="pfp" class="pfp">
+                        <div class="member-card-content">
+                            <div>
+                                <p class="username">Ana Clara</p>
+                                <p class="email">clara4na@gmail.com</p>
+                            </div>
+                            <p class="role">Analista</p>
+                        </div>
+                        <div class="member-card-action">
+                            <select>
+                                <option value="analista" selected>Analista</option>
+                                <option value="administrador">Administrador</option>
+                            </select>
+                            <button>Salvar</button>
+                        </div>
+                    </li>
+                </ul>
             </main>
         </div>
     </div>
 
+<script>
+    function toggleCompanyCode() {
+        let companyCodeInput = document.getElementById("inCompanyCode");
+        let icon = document.querySelector(".code-input button i");
+
+        let inputType = companyCodeInput.type;
+
+        if(inputType === "password") {
+            companyCodeInput.type = "text";
+            icon.classList.replace("fa-eye", "fa-eye-slash")
+        } else {
+            companyCodeInput.type = "password";
+            icon.classList.replace("fa-eye-slash", "fa-eye")
+        }
+    }
+</script>
 <script src="../scripts/mock-user.js"></script>
 </body>
 </html>
