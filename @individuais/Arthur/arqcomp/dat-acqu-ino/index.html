@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>AppleTech | Gráficos</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            column-gap: 1rem;
+        }
+
+        .graph-box {
+            width: 100%;
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Appletech | Gráficos</h1>
+    <div class="graph-box">
+        <div style="width: 50%;">
+            <canvas id="percentualEtileno"></canvas>
+        </div>
+        <div style="width: 50%;">
+            <canvas id="ppmEtileno"></canvas>
+        </div>
+    </div>
+
+<script>
+    const canvasEtilenoPercentual = document.getElementById('percentualEtileno').getContext('2d');
+    const canvasPpmEtileno = document.getElementById('ppmEtileno').getContext('2d');
+
+    var graficoPercentualEtileno = new Chart(canvasEtilenoPercentual, {
+        type: 'line',
+        data: {
+            datasets: [{
+                label: 'Etileno Atual (%)',
+                borderColor: '#B83232',
+                backgroundColor: '#F0B8B8'
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    beginAtZero: true
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: '(%)'
+                    },
+                    beginAtZero: true,
+                },
+            },
+        }
+    });
+
+    var graficoPpmEtileno = new Chart(canvasPpmEtileno, {
+        type: 'line',
+        data: {
+            datasets: [{
+                label: 'Etileno Atual (ppm)',
+                borderColor: '#7A9B55',
+                backgroundColor: '#EAF0DC'
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    beginAtZero: true
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: '(ppm)'
+                    },
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    var paginacao = {};
+    var tempo = {};
+
+    function obterDados(grafico, endpoint) {
+        fetch('http://localhost:3300/sensores/' + endpoint)
+            .then(response => response.json())
+            .then(valores => {
+                if (paginacao[endpoint] == null) {
+                    paginacao[endpoint] = 0;
+                }
+                if (tempo[endpoint] == null) {
+                    tempo[endpoint] = 0;
+                }
+
+                var ultimaPaginacao = paginacao[endpoint];
+                paginacao[endpoint] = valores.length;
+                valores = valores.slice(ultimaPaginacao);
+
+                valores.forEach((valor) => {
+                    if (grafico.data.labels.length == 10 && grafico.data.datasets[0].data.length == 10) {
+                        grafico.data.labels.shift();
+                        grafico.data.datasets[0].data.shift();
+                    }
+
+                    grafico.data.labels.push(tempo[endpoint]++);
+                    grafico.data.datasets[0].data.push(parseFloat(valor));
+                    grafico.update();
+                });
+            })
+            .catch(error => console.error('Erro ao obter dados:', error));
+    }
+
+    setInterval(() => {
+        obterDados(graficoPercentualEtileno, 'percentual');
+        obterDados(graficoPpmEtileno, 'ppm');
+    }, 1000);
+
+</script>
+</body>
+
+</html>
