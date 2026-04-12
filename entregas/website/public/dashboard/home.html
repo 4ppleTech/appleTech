@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AppleTech | Início</title>
+    
+    <!-- ESTILOS DA DASHBOARD -->
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/dashboard/shared.css">
+    <link rel="stylesheet" href="../css/dashboard/home.css">
+    <link rel="shortcut icon" href="../assets/imgs/favicon.ico" type="image/x-icon">
+    
+    <!-- CDNs Chart.JS e FontAwesome -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <!-- SIDEBAR HEADER -->
+            <div class="header">
+                <img src="../assets/svgs/logo-recolored.svg" alt="AppleTech Logo" class="logo">
+            </div>
+
+            <!-- SIDEBAR NAVLIST -->
+            <nav class="navlist">
+                <div class="nav-section">
+                    <h4>Menu</h4>
+                    <a href="#" class="navitem">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Início</span>
+                    </a>
+                    <a href="./chambers.html" class="navitem">
+                        <i class="fa-solid fa-warehouse"></i>
+                        <span>Câmaras</span>
+                    </a>
+                    <a href="./alerts.html" class="navitem">
+                        <i class="fa-solid fa-warning"></i>
+                        <span>Alertas</span>
+                    </a>
+                    <a href="./team.html" class="navitem">
+                        <i class="fa-solid fa-user-group"></i>
+                        <span>Equipe</span>
+                    </a>
+                </div>
+                <div class="nav-section">
+                    <h4>Outros</h4>
+                    <a href="./configs.html" class="navitem">
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Configs.</span>
+                    </a>
+                    <a href="./help.html" class="navitem">
+                        <i class="fa-solid fa-ear-listen"></i>
+                        <span>Ajuda</span>
+                    </a>
+                </div>
+            </nav>
+
+            <!-- SIDEBAR FOOTER -->
+            <div class="footer">
+                <div class="logged-account">
+                    <img id="account-pfp" src="" alt="user-account" class="pfp">
+                    <div>
+                        <p id="account-username"></p>
+                        <span id="account-role"></span>
+                    </div>
+                </div>
+                <button id="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket" style="rotate: 180deg"></i>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content">
+            <!-- CONTENT HEADER -->
+            <div class="header">
+                <h1>Dashboard - Início</h1>
+                <span id="current-date">Seg, 12 abr</span>
+            </div>
+
+            <!-- CONTENT MAIN -->
+            <main class="main">
+                <!-- CONTENT KPIs -->
+                <div class="kpi-list">
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <p>Concentração Atual</p>
+                            <i class="fa-solid fa-chart-simple"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h2>2.5ppm</h2>
+                        </div>
+                        <div class="kpi-footer">
+                            8hrs atrás
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <p>Status Geral</p>
+                            <i class="fa-solid fa-chart-simple"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h2>Sob Controle</h2>
+                        </div>
+                        <div class="kpi-footer">
+                            8hrs atrás
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <p>Estoque em Risco</p>
+                            <i class="fa-solid fa-chart-simple"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h2>13%</h2>
+                        </div>
+                        <div class="kpi-footer">
+                            equivalente à 320 maçãs
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <p>Percentual de Lucro</p>
+                            <i class="fa-solid fa-chart-simple"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h2>70%</h2>
+                        </div>
+                        <div class="kpi-footer">
+                            8hrs atrás
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CONTENT MÉTRICAS -->
+                <div class="metrics">
+                    <!-- CONTENT GRÁFICOS -->
+                    <div class="charts">
+                        <!-- CONTENT GRÁFICO LINHAS -->
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h2 class="chart-title">Variação Média de Etileno <span>(ppm)</span></h2>
+                                <div class="btn-group">
+                                    <button data-periodo="24h"onclick="atualizarPeriodo('24h')" class="active">24hrs</button>
+                                    <button data-periodo="7d" onclick="atualizarPeriodo('7d')">7 dias</button>
+                                    <button data-periodo="30d"onclick="atualizarPeriodo('30d')">30 dias</button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="line-chart"></canvas>
+                            </div>
+                        </div>
+                        <!-- CONTENT GRÁFICO COLUNAS -->
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h2 class="chart-title">Variação Etileno Por Câmara <span>(ppm)</span></h2>
+                                <div class="btn-group">
+                                    <a href="./chambers.html">Análise Individual</a>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="column-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- CONTENT ASIDE -->
+                    <aside class="aside">
+                        <!-- CONTENT LISTA DE ALERTAS -->
+                        <div class="alerts">
+                            <h3>Últimas Notificações</h3>
+                            <div class="alert-list">
+                                <div class="alert" data-alert-type="alert-serious">
+                                    <p class="alert-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt rerum ad libero quia ab <a href="">recusandae</a></p>
+                                    <span class="alert-footer">há 8hrs</span>
+                                </div>
+                                <div class="alert" data-alert-type="alert-caution">
+                                    <p class="alert-content">Lorem ipsum dolor sit. Deserunt rerum ad libero quia ab <a href="">recusandae</a></p>
+                                    <span class="alert-footer">há 1 dia</span>
+                                </div>
+                                <div class="alert" data-alert-type="alert-common">
+                                    <p class="alert-content">.Deserunt rerum ad libero quia ab <a href="">recusandae</a></p>
+                                    <span class="alert-footer">há 2 dias</span>
+                                </div>
+
+                                <a href="./alerts.html" class="view-alerts-btn">Ver Todos</a>
+                            </div>
+                        </div>
+                        <!-- CONTENT STATUS SENSORES -->
+                        <div class="status">
+                            <h3>Status dos Sensores</h3>
+                            <div class="sensor-on" data-sensor-on="9"><span>90% online</span></div>
+                            <div class="sensor-off" data-sensor-off="1"><span>10% offline</span></div>
+                        </div>
+                    </aside>
+                </div>
+            </main>
+        </div>
+    </div>
+
+<script src="../scripts/mock-user.js"></script>
+<script src="../scripts/dashboard-charts.js"></script>
+</body>
+</html>

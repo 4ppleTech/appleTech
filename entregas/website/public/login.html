@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AppleTech | Login</title>
+
+    <!-- ESTILOS GLOBAIS E DA PÁGINA -->
+    <link rel="stylesheet" href="./css/global.css">
+    <link rel="stylesheet" href="./css/auth.css">
+    <link rel="shortcut icon" href="./assets/imgs/favicon.ico" type="image/x-icon">
+
+    <!-- CDN FONTAWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+    <!-- Botão voltar para a página inicial -->
+    <a class="btn-home" href="./index.html" title="Voltar ao início">
+        <i class="fa-solid fa-arrow-left"></i>
+    </a>
+
+    <div class="wrapper wrapper--login">
+
+        <!-- Imagem lateral -->
+        <div class="img-box">
+            <img src="./assets/imgs/auth-banner.png" alt="Banner de login">
+        </div>
+
+        <!-- Formulário de login -->
+        <div class="auth-container">
+
+            <img class="auth-logo auth-logo--login" src="./assets/svgs/logo.svg" alt="Logo AppleTech">
+
+            <h3>Entre na sua conta</h3>
+
+            <!-- E-mail -->
+            <div class="input-group">
+                <i class="fa-regular fa-envelope"></i>
+                <input
+                    type="email"
+                    id="ipt-email"
+                    class="auth-input"
+                    placeholder="Email"
+                    autocomplete="email"
+                >
+            </div>
+
+            <div class="input-group input-group--password">
+                <i class="fa-solid fa-lock"></i>
+                <input
+                    type="password"
+                    id="ipt-senha"
+                    class="auth-input"
+                    placeholder="Senha"
+                    autocomplete="current-password"
+                >
+                <button
+                    class="passwd-toggle-btn"
+                    type="button"
+                    aria-label="Mostrar senha"
+                    onclick="alternarVisibilidadeSenha('ipt-senha', this)"
+                >
+                    <i class="fa-regular fa-eye"></i>
+                </button>
+            </div>
+
+            <a class="auth-link auth-link--forgot" href="/">Esqueceu a senha?</a>
+
+            <button class="auth-btn" type="button">
+                Entrar
+                <i class="fa-regular fa-circle-up"></i>
+            </button>
+
+            <a class="auth-link auth-link--register" href="./cadastro.html">Não tem conta? Cadastre-se</a>
+        </div>
+    </div>
+
+<script>
+    function alternarVisibilidadeSenha(inputId, btn) {
+        const input = document.getElementById(inputId);
+        const icon  = btn.querySelector('i');
+        const mostrar = input.type === 'password';
+
+        if(mostrar) {
+            input.type = "text"
+            icon.classList.replace("fa-eye", "fa-eye-slash")
+        } else {
+            input.type = "password"
+            icon.classList.replace("fa-eye-slash", "fa-eye")
+
+        }
+    }
+</script>
+<script src="./scripts/alternar-visibilidade-senha.js"></script>
+</body>
+</html>

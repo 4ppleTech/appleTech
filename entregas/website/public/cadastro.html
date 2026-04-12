@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AppleTech | Cadastro</title>
+
+    <!-- ESTILOS GLOBAIS E DA PÁGINA -->
+    <link rel="stylesheet" href="./css/global.css">
+    <link rel="stylesheet" href="./css/auth.css">
+    <link rel="shortcut icon" href="./assets/imgs/favicon.ico" type="image/x-icon">
+
+    <!-- CDN FONTAWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+    <!-- Botão voltar para a página inicial -->
+    <a class="btn-home" href="./index.html" title="Voltar ao início">
+        <i class="fa-solid fa-arrow-left"></i>
+    </a>
+
+    <div class="wrapper wrapper--cadastro">
+
+        <!-- Imagem lateral -->
+        <div class="img-box">
+            <img src="./assets/imgs/auth-banner.png" alt="Imagem de fundo">
+        </div>
+
+        <!-- Formulário de cadastro -->
+        <div class="auth-container">
+
+            <img class="auth-logo auth-logo--cadastro" src="./assets/svgs/logo.svg" alt="Logo AppleTech">
+
+            <h3>Crie sua conta</h3>
+
+            <!-- Código de ativação -->
+            <div class="input-group">
+                <i class="fa-solid fa-key"></i>
+                <input
+                    type="text"
+                    id="ipt-codigo"
+                    class="auth-input"
+                    placeholder="Código de ativação"
+                    autocomplete="off"
+                >
+            </div>
+
+            <!-- Usuário -->
+            <div class="input-group">
+                <i class="fa-regular fa-circle-user"></i>
+                <input
+                    type="text"
+                    id="ipt-usuario"
+                    class="auth-input"
+                    placeholder="Nome"
+                    autocomplete="username"
+                >
+            </div>
+
+            <!-- E-mail -->
+            <div class="input-group">
+                <i class="fa-regular fa-envelope"></i>
+                <input
+                    type="email"
+                    id="ipt-email"
+                    class="auth-input"
+                    placeholder="Email"
+                    autocomplete="email"
+                >
+            </div>
+
+            <!-- Senha -->
+            <div class="input-group input-group--password">
+                <i class="fa-solid fa-lock"></i>
+                <input
+                    type="password"
+                    id="ipt-senha"
+                    class="auth-input"
+                    placeholder="Senha"
+                    autocomplete="current-password"
+                >
+                <button
+                    class="passwd-toggle-btn"
+                    type="button"
+                    aria-label="Mostrar senha"
+                    onclick="alternarVisibilidadeSenha('ipt-senha', this)"
+                >
+                    <i class="fa-regular fa-eye"></i>
+                </button>
+            </div>
+
+            <!-- Confirmar senha -->
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input
+                    type="password"
+                    id="ipt-confirmar"
+                    class="auth-input"
+                    placeholder="Confirmar senha"
+                    autocomplete="new-password"
+                >
+                <button
+                    class="passwd-toggle-btn"
+                    type="button"
+                    aria-label="Mostrar senha"
+                    onclick="alternarVisibilidadeSenha('ipt-confirmar', this)"
+                >
+                    <i class="fa-regular fa-eye"></i>
+                </button>
+            </div>
+
+            <!-- Mensagem de validação -->
+            <p id="auth-message" class="auth-message" aria-live="polite"></p>
+
+            <button class="auth-btn" type="button" onclick="validarCadastro()">
+                Cadastrar
+                <i class="fa-regular fa-circle-up"></i>
+            </button>
+
+            <a class="auth-link auth-link--login" href="./login.html">Já tem uma conta? Entrar</a>
+
+        </div>
+    </div>
+
+<script>
+    function validarCadastro() {
+        const codigo    = document.getElementById('ipt-codigo').value.trim();
+        const usuario   = document.getElementById('ipt-usuario').value.trim();
+        const email     = document.getElementById('ipt-email').value.trim();
+        const senha     = document.getElementById('ipt-senha').value;
+        const confirmar = document.getElementById('ipt-confirmar').value;
+        const msgEl     = document.getElementById('auth-message');
+
+        // Limpa mensagem anterior
+        msgEl.textContent = '';
+        msgEl.className = 'auth-message';
+
+        // Validação: campos obrigatórios
+        if (!codigo || !usuario || !email || !senha || !confirmar) {
+            exibirErro(msgEl, 'Preencha todos os campos!');
+            return;
+        }
+
+        // Validação: e-mail básico
+        const arroba = email.indexOf('@');
+        const ponto  = email.lastIndexOf('.');
+        if (arroba < 1 || ponto < arroba + 2 || ponto === email.length - 1) {
+            exibirErro(msgEl, 'Email inválido.');
+            return;
+        }
+
+        // Validação: regras de senha
+        const especiais = /[!@#$%^&*()\-_=+[\]{};:'",.<>?/\\|]/;
+        const maiuscula = /[A-Z]/;
+
+        if (senha.length < 6 || !maiuscula.test(senha) || !especiais.test(senha)) {
+            exibirErro(
+                msgEl,
+                'A senha precisa ter no mínimo 6 caracteres, 1 letra maiúscula e 1 caractere especial.'
+            );
+            return;
+        }
+
+        // Validação: senhas iguais
+        if (senha !== confirmar) {
+            exibirErro(msgEl, 'As senhas não coincidem.');
+            return;
+        }
+
+        // Sucesso
+        msgEl.textContent = 'Cadastro realizado com sucesso!';
+        msgEl.classList.add('success');
+    }
+
+    function exibirErro(el, texto) {
+        el.textContent = texto;
+        el.classList.add('error');
+    }
+</script>
+<script>
+    function alternarVisibilidadeSenha(inputId, btn) {
+        const input = document.getElementById(inputId);
+        const icon  = btn.querySelector('i');
+        const mostrar = input.type === 'password';
+
+        if(mostrar) {
+            input.type = "text"
+            icon.classList.replace("fa-eye", "fa-eye-slash")
+        } else {
+            input.type = "password"
+            icon.classList.replace("fa-eye-slash", "fa-eye")
+
+        }
+    }
+</script>
+</body>
+</html>

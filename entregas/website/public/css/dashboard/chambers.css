@@ -1,0 +1,223 @@
+.new-chamber-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 1rem;
+
+    padding: 1rem;
+    border-radius: 6px;
+    border: 3px dotted #C8A87A;
+}
+
+.new-chamber-container img {
+    width: 220px;
+}
+
+.new-chamber-btn {    
+    background-color: #B83232;
+    color: #FAF3E8;
+    font-weight: bold;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    column-gap: 2rem;
+
+    border: none;
+    border-radius: 6px;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+}
+
+.chamber-list-results {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    column-gap: 1rem;
+    margin: 1rem 0;
+}
+
+.chamber-list-results span {
+    font-size: 32px;
+    font-weight: bold;
+    color: #7A9B55;
+}
+
+/* === CHAMBER === */
+
+.chamber-list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
+}
+
+.chamber {
+    position: relative;
+    
+    background-color: #EDE3D0;
+    border: 1px solid #C8A87A;
+    border-radius: 6px;
+    
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    
+    padding: 1rem;
+    padding-left: 2rem;
+    overflow: hidden;
+}
+
+.chamber::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 0.5rem;
+    height: 100%;
+    background-color: #B83232;
+
+}
+
+.chamber .chamber-header {
+    position: relative;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 2rem;
+}
+
+.chamber .chamber-header h3 {
+    letter-spacing: 2px;
+    align-self: flex-start;
+}
+
+.chamber .chamber-header div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 0.2rem;
+}
+
+.chamber .chamber-header div p {
+    font-weight: 500;
+    color: #7A6A52;
+}
+
+.chamber .chamber-header div span {
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.chamber .chamber-header .badge {
+    padding: 0.2rem 1.2rem;
+    border-radius: 6px;
+    border-width: 1px;
+    border-style: solid;
+    align-self: start;
+}
+
+.badge[data-badge-type="serious"] {
+    border-color: #B83232;
+    background-color: #F0B8B8;
+    color: #B83232;
+}
+.badge[data-badge-type="caution"] {
+    border-color: #FEAC0D;
+    background-color: #efe9db;
+    color: #FEAC0D;
+}
+.badge[data-badge-type="common"] {
+    border-color: #7A9B55;
+    background-color: #EAF0DC;
+    color: #7A9B55;
+}
+
+.chamber-toggler {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+
+    border: 1px solid transparent;
+    border-radius: 999px;
+    padding: 0.2rem;
+    background-color: transparent;
+    cursor: pointer;
+
+    transition: all 100ms ease-in-out;
+}
+
+.chamber-toggler:hover {
+    background-color: #F0B8B8;
+    color: #B83232;
+    border-color: #B83232;
+}
+
+.chamber-content {
+    display: flex;
+    flex-direction: row;
+    column-gap: 0.2rem;
+
+    transition: all 150ms ease-in;
+}
+
+.chamber-content .chamber-graph,
+.chamber-content .chamber-extra {
+    max-width: 50%;
+    width: 100%;
+}
+
+.chamber-graph .chamber-graph-title {
+    font-family: 'Kufam', sans-serif;
+}
+
+.chamber-extra {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.chamber-card {
+    background-color: #FAF3E8;
+    border: 1px solid #C8A87A;
+    padding: 0.2rem 1rem;
+    border-radius: 6px;
+}
+
+.chamber-card .chamber-card-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #7A6A52;
+}
+
+.chamber-card .chamber-card-value {
+    color: #3D3020;
+}
+
+.chamber-card .chamber-card-value span {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #B5A98F;
+}
+
+.chamber-card .chamber-card-disclaimer {
+    font-size: small;
+}
+
+.chamber[data-chamber-card="open"] .chamber-content {
+    /* display: flex; */
+    opacity: 1;
+    height: 100%;
+}
+
+.chamber[data-chamber-card="closed"] .chamber-content {
+    /* display: none; */
+    opacity: 0;
+    height: 0px;
+}

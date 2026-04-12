@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AppleTech</title>
+
+    <!-- ESTILOS DA PÁGINA -->
+    <link rel="stylesheet" href="./css/global.css">
+    <link rel="stylesheet" href="./css/institucional.css">
+    <link rel="shortcut icon" href="./assets/imgs/favicon.ico" type="image/x-icon">
+
+    <!-- CDN FONTAWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+<div class="page-wrapper">
+    <!-- PÁGINA HEADER -->
+    <header class="header">
+        <div class="container">
+            <img class="logo" src="./assets/svgs/logo-recolored2.svg" alt="Logo AppleTech">
+            <ul class="navbar">
+                <li>
+                    <a href="#journey">
+                        <i class="fa-solid fa-users"></i> Sobre nós
+                    </a>
+                </li>
+                <li>
+                    <a href="#feedbacks">
+                        <i class="fa-regular fa-newspaper"></i> Feedbacks
+                    </a>
+                </li>
+                <li>
+                    <a href="#calculator">
+                        <i class="fa-solid fa-dollar-sign"></i> Simulador
+                    </a>
+                </li>
+                <li>
+                    <span class="nav-separator">|</span>
+                </li>
+                <li class="btn-enter">
+                    <a href="login.html">
+                        Entrar <i class="fa-regular fa-circle-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- SEÇÃO HERO -->
+    <div class="section-hero">
+        <div class="container">
+            <div class="text-hero">
+                <p>
+                    Solução <span class="text-red">IoT</span> para o <br>
+                    armazenamento <br>
+                    de <span class="text-red">maçãs</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEÇÃO INFO -->
+    <div class="section-info">
+        <div class="container">
+            <div class="boxes-info">
+                <div class="box-info">
+                    <img src="./assets/imgs/banner-macas-frescas.png" alt="Maçãs armazenadas">
+                    <p>
+                        Controle natural que preserva
+                        <span class="text-red">qualidade</span> e o
+                        <span class="text-red">valor</span>
+                    </p>
+                </div>
+                <div class="box-info">
+                    <img src="./assets/imgs/banner-macas-cortadas.png" alt="Maçãs cortadas">
+                    <p>
+                        Tecnologia que <span class="text-red">protege</span>
+                        a sua <span class="text-red">produção</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEÇÃO SOBRE NÓS -->
+    <div class="section-journey" id="journey">
+        <div class="container">
+            <div class="text-journey">
+                <h1>Nossa jornada</h1>
+                <p>
+                    Nossa trajetória começou com a necessidade de entender e controlar
+                    um fator muitas vezes invisível, mas altamente impactante: o etileno.
+                    A partir desse desafio, desenvolvemos soluções tecnológicas capazes
+                    de monitorar e analisar ambientes de armazenamento com precisão.
+                    Nosso foco é transformar dados em decisões estratégicas, reduzindo
+                    perdas e aumentando a qualidade dos produtos. Com inovação e
+                    compromisso, buscamos tornar o processo de conservação mais eficiente,
+                    seguro e previsível. Seguimos evoluindo constantemente para atender
+                    às demandas do setor com excelência.
+                </p>
+            </div>
+            <div class="box-journey">
+                <img src="./assets/imgs/banner-jornada.png" alt="Maçãs em suas fases">
+            </div>
+        </div>
+    </div>
+
+    <!-- SEÇÃO FEEDBACKS -->
+    <div class="section-feedbacks" id="feedbacks">
+        <div class="container">
+            <div class="titles">
+                <h1>Inspirando Mudanças, Construindo Resiliência</h1>
+                <h2>Veja como nossas soluções podem ajudar empresas a reduzir perdas e alcançar melhores resultados.</h2>
+            </div>
+            <div class="feedbacks-row">
+                <div class="feedback-cards">
+                    <div class="feedback-card">
+                        <p>Depois que começamos a monitorar o etileno, conseguimos reduzir significativamente
+                            as perdas no armazenamento. A qualidade das maçãs se manteve por muito mais tempo.</p>
+                        <q>Carlos Mendes, Produtor Rural</q>
+                    </div>
+                    <div class="feedback-card">
+                        <p>A solução trouxe um nível de controle que não tínhamos antes. Hoje conseguimos tomar
+                            decisões com base em dados reais, o que fez toda a diferença.</p>
+                        <q>Carlos Mendes, Produtor Rural</q>
+                    </div>
+                    <div class="feedback-card">
+                        <p>O monitoramento em tempo real facilitou muito nossa operação. A precisão dos dados
+                            ajuda a manter o ambiente sempre nas condições ideais.</p>
+                        <q>Rafael Souza, Técnico Agrícola</q>
+                    </div>
+                </div>
+                <button class="btn-arrow">
+                    <i class="fa-regular fa-circle-right" style="font-size: 48px;"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CALCULADORA FINANCEIRA -->
+    <div class="section-calculator" id="calculator">
+        <div class="container">
+            <div class="titles">
+                <h1>Simule seu prejuízo em segundos</h1>
+                <h2>Descubra o quanto você pode estar perdendo no armazenamento.</h2>
+            </div>
+            <div class="calculator-card">
+
+                <!-- Formulário -->
+                <div class="calculator-ask">
+                    <h2>Calculadora Financeira</h2>
+                    <p>
+                        O cálculo considera armazenamento refrigerado convencional (0–4°C, 90–95% UR,
+                        sem controle de etileno) durante 6 meses. Segundo artigos científicos da Embrapa
+                        e Acta Horticulturae (ISHS), com suporte da MDPI.
+                    </p>
+
+                    <div class="inputs-calculator">
+                        <!-- Quantidade -->
+                        <div class="calc-input-group">
+                            <span>Quantos kg de maçã serão armazenados?</span>
+                            <input
+                                type="number"
+                                placeholder="ex: 20"
+                                class="calc-input"
+                                id="ipt-maca-kg"
+                                min="0"
+                            >
+                        </div>
+                        <!-- Custo e venda -->
+                        <div class="inputs-row">
+                            <div class="calc-input-group calc-input-group--half">
+                                <p>Custo por kg (R$)</p>
+                                <input
+                                    type="number"
+                                    placeholder="ex: 4"
+                                    class="calc-input"
+                                    id="ipt-custo"
+                                    min="0"
+                                >
+                            </div>
+                            <div class="calc-input-group calc-input-group--half">
+                                <p>Preço de venda por kg (R$)</p>
+                                <input
+                                    type="number"
+                                    placeholder="ex: 7"
+                                    class="calc-input"
+                                    id="ipt-venda"
+                                    min="0"
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn-calcular" type="button" onclick="calcular()">Calcular</button>
+                </div>
+
+                <!-- Resultados -->
+                <div class="calculator-results">
+                    <div class="result-panel" id="div-result-better"></div>
+                    <div class="result-panel" id="div-result-wrong"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- PÁGINA FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <h2>Encontre-nos</h2>
+                <ul class="footer-icons">
+                    <li>
+                        <a href="https://github.com/4ppleTech" target="_blank">
+                            <i class="fa-brands fa-github"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <i class="fa-solid fa-phone"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <i class="fa-solid fa-envelope"></i>
+                        </a>
+                    </li>
+                </ul>
+                <p class="footer-copy">Copyright © 2010-2026 APPLETECH — All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</div><!-- /.page-wrapper -->
+
+<script>
+    function calcular() {
+        const qtdInicial  = Number(document.getElementById('ipt-maca-kg').value);
+        const custo       = Number(document.getElementById('ipt-custo').value);
+        const venda       = Number(document.getElementById('ipt-venda').value);
+        const panelBetter = document.getElementById('div-result-better');
+        const panelWrong  = document.getElementById('div-result-wrong');
+
+        if (!qtdInicial || !custo || !venda) {
+            panelBetter.innerHTML = '<p>Preencha todos os campos.</p>';
+            panelWrong.innerHTML  = '';
+            return;
+        }
+
+        const custoTotal     = qtdInicial * custo;
+        const lucroPotencial = (qtdInicial * venda) - custoTotal;
+
+        /* ── Melhor caso ── */
+        const descarteBest       = qtdInicial * 0.08;
+        const prejDescarteBest   = descarteBest * custo;
+        const restanteBest       = qtdInicial - descarteBest;
+        const perdaQualiBest     = restanteBest * 0.10;
+        const prejQualiBest      = perdaQualiBest * (venda * 0.15);
+        const prejTotalBest      = prejDescarteBest + prejQualiBest;
+        const lucroFinalBest     = lucroPotencial - prejTotalBest;
+        const pctReducaoBest     = 100 - ((lucroFinalBest / lucroPotencial) * 100);
+
+        panelBetter.innerHTML = `
+            <p class="result-label-best">No melhor dos casos…</p>
+            <p>Cerca de 8% de descarte, 10% perda qualitativa e 15% desconto médio.</p>
+            <p>Prejuízo pelo descarte: <strong>R$ ${prejDescarteBest.toFixed(2)}</strong></p>
+            <p>Prejuízo pela perda de qualidade: <strong>R$ ${prejQualiBest.toFixed(2)}</strong></p>
+            <p>Prejuízo total: <strong>R$ ${prejTotalBest.toFixed(2)}</strong></p>
+            <p>Redução do lucro: <strong>${pctReducaoBest.toFixed(2)}%</strong></p>`;
+
+        /* ── Pior caso ── */
+        const descarteWorst      = qtdInicial * 0.15;
+        const prejDescarteWorst  = descarteWorst * custo;
+        const restanteWorst      = qtdInicial - descarteWorst;
+        const perdaQualiWorst    = restanteWorst * 0.20;
+        const prejQualiWorst     = perdaQualiWorst * (venda * 0.25);
+        const prejTotalWorst     = prejDescarteWorst + prejQualiWorst;
+        const lucroFinalWorst    = lucroPotencial - prejTotalWorst;
+        const pctReducaoWorst    = 100 - ((lucroFinalWorst / lucroPotencial) * 100);
+
+        panelWrong.innerHTML = `
+            <p class="result-label-worst">No pior dos casos…</p>
+            <p>Cerca de 15% de descarte, 20% perda qualitativa e 25% desconto médio.</p>
+            <p>Prejuízo pelo descarte: <strong>R$ ${prejDescarteWorst.toFixed(2)}</strong></p>
+            <p>Prejuízo pela perda de qualidade: <strong>R$ ${prejQualiWorst.toFixed(2)}</strong></p>
+            <p>Prejuízo total: <strong>R$ ${prejTotalWorst.toFixed(2)}</strong></p>
+            <p>Redução do lucro: <strong>${pctReducaoWorst.toFixed(2)}%</strong></p>`;
+    }
+</script>
+</body>
+</html>

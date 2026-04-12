@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AppleTech | Equipe</title>
+
+    <!-- ESTILOS DA DASHBOARD -->
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/dashboard/shared.css">
+    <link rel="stylesheet" href="../css/dashboard/team.css">
+    <link rel="shortcut icon" href="../assets/imgs/favicon.ico" type="image/x-icon">
+    
+    <!-- CDNs Chart.JS e FontAwesome -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <!-- SIDEBAR HEADER -->
+            <div class="header">
+                <img src="../assets/svgs/logo-recolored.svg" alt="AppleTech Logo" class="logo">
+            </div>
+
+            <!-- SIDEBAR NAVLIST -->
+            <nav class="navlist">
+                <div class="nav-section">
+                    <h4>Menu</h4>
+                    <a href="./home.html" class="navitem">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Início</span>
+                    </a>
+                    <a href="./chambers.html" class="navitem">
+                        <i class="fa-solid fa-warehouse"></i>
+                        <span>Câmaras</span>
+                    </a>
+                    <a href="./alerts.html" class="navitem">
+                        <i class="fa-solid fa-warning"></i>
+                        <span>Alertas</span>
+                    </a>
+                    <a href="#" class="navitem">
+                        <i class="fa-solid fa-user-group"></i>
+                        <span>Equipe</span>
+                    </a>
+                </div>
+                <div class="nav-section">
+                    <h4>Outros</h4>
+                    <a href="./configs.html" class="navitem">
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Configs.</span>
+                    </a>
+                    <a href="./help.html" class="navitem">
+                        <i class="fa-solid fa-ear-listen"></i>
+                        <span>Ajuda</span>
+                    </a>
+                </div>
+            </nav>
+
+            <!-- SIDEBAR FOOTER -->
+            <div class="footer">
+                <div class="logged-account">
+                    <img id="account-pfp" src="" alt="user-account" class="pfp">
+                    <div>
+                        <p id="account-username"></p>
+                        <span id="account-role"></span>
+                    </div>
+                </div>
+                <button id="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket" style="rotate: 180deg"></i>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content">
+            <!-- CONTENT HEADER -->
+            <div class="header">
+                <h1>Dashboard - Equipe</h1>
+                <span id="current-date">Seg, 12 abr</span>
+            </div>
+
+            <!-- CONTENT MAIN -->
+            <main class="main">
+                <!-- COMPANY INFO -->
+                <div class="company-info">
+                    <h3>Informações da Empresa</h3>
+                    <div class="info-header">
+                        <h4 class="nome-fantasia">Carrefour</h4>
+                        <h1 class="razao-social">Comidas & Cia.</h1>
+                        <p class="cnpj">XX.XXX.XXX/XXXX-XX</p>
+                    </div>
+                    
+                    <!-- COMPANY CODE -->
+                    <div class="info-code">
+                        <h3>Código de Ativação</h3>
+                        <div class="code-input">
+                            <input id="inCompanyCode" type="password" disabled value="ABCDE1234">
+                            <button onclick="alternar_codigo_companhia()"><i class="fa-solid fa-eye"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CURRENT USERS -->
+                <ul class="member-list">
+                    <div class="member-list-results">
+                        <h3>Membros da Equipe</h3>
+                        <span>5</span>
+                    </div>
+                    
+                    <li class="member-card">
+                        <img src="../assets/imgs/av2.png" alt="pfp" class="pfp">
+                        <div class="member-card-content">
+                            <div>
+                                <p class="username">John Doe (você)</p>
+                                <p class="email">john.doe@gmail.com</p>
+                            </div>
+                            <p class="role">Administrador</p>
+                        </div>
+                        <div class="member-card-action">
+                            <select>
+                                <option value="administrador" selected>Administrador</option>
+                                <option value="analista">Analista</option>
+                            </select>
+                            <button>Salvar</button>
+                        </div>
+                    </li>
+                    <li class="member-card">
+                        <img src="../assets/imgs/av1.png" alt="pfp" class="pfp">
+                        <div class="member-card-content">
+                            <div>
+                                <p class="username">João Romão</p>
+                                <p class="email">johnny.romas@gmail.com</p>
+                            </div>
+                            <p class="role">Analista</p>
+                        </div>
+                        <div class="member-card-action">
+                            <select>
+                                <option value="analista" selected>Analista</option>
+                                <option value="administrador">Administrador</option>
+                            </select>
+                            <button>Salvar</button>
+                        </div>
+                    </li>
+                    <li class="member-card">
+                        <img src="../assets/imgs/avatar-pfp.png" alt="pfp" class="pfp">
+                        <div class="member-card-content">
+                            <div>
+                                <p class="username">Ana Clara</p>
+                                <p class="email">clara4na@gmail.com</p>
+                            </div>
+                            <p class="role">Analista</p>
+                        </div>
+                        <div class="member-card-action">
+                            <select>
+                                <option value="analista" selected>Analista</option>
+                                <option value="administrador">Administrador</option>
+                            </select>
+                            <button>Salvar</button>
+                        </div>
+                    </li>
+                </ul>
+            </main>
+        </div>
+    </div>
+
+<script>
+    function alternar_codigo_companhia() {
+        let companyCodeInput = document.getElementById("inCompanyCode");
+        let icon = document.querySelector(".code-input button i");
+
+        let inputType = companyCodeInput.type;
+
+        if(inputType === "password") {
+            companyCodeInput.type = "text";
+            icon.classList.replace("fa-eye", "fa-eye-slash")
+        } else {
+            companyCodeInput.type = "password";
+            icon.classList.replace("fa-eye-slash", "fa-eye")
+        }
+    }
+</script>
+<script src="../scripts/mock-user.js"></script>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AppleTech | Câmaras</title>
+
+    <!-- ESTILOS DA DASHBOARD -->
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/dashboard/shared.css">
+    <link rel="stylesheet" href="../css/dashboard/chambers.css">
+    <link rel="shortcut icon" href="../assets/imgs/favicon.ico" type="image/x-icon">
+    
+    <!-- CDNs Chart.JS e FontAwesome -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <!-- SIDEBAR HEADER -->
+            <div class="header">
+                <img src="../assets/svgs/logo-recolored.svg" alt="AppleTech Logo" class="logo">
+            </div>
+
+            <!-- SIDEBAR NAVLIST -->
+            <nav class="navlist">
+                <div class="nav-section">
+                    <h4>Menu</h4>
+                    <a href="./home.html" class="navitem">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Início</span>
+                    </a>
+                    <a href="#" class="navitem">
+                        <i class="fa-solid fa-warehouse"></i>
+                        <span>Câmaras</span>
+                    </a>
+                    <a href="./alerts.html" class="navitem">
+                        <i class="fa-solid fa-warning"></i>
+                        <span>Alertas</span>
+                    </a>
+                    <a href="./team.html" class="navitem">
+                        <i class="fa-solid fa-user-group"></i>
+                        <span>Equipe</span>
+                    </a>
+                </div>
+                <div class="nav-section">
+                    <h4>Outros</h4>
+                    <a href="./configs.html" class="navitem">
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Configs.</span>
+                    </a>
+                    <a href="./help.html" class="navitem">
+                        <i class="fa-solid fa-ear-listen"></i>
+                        <span>Ajuda</span>
+                    </a>
+                </div>
+            </nav>
+
+            <!-- SIDEBAR FOOTER -->
+            <div class="footer">
+                <div class="logged-account">
+                    <img id="account-pfp" src="" alt="user-account" class="pfp">
+                    <div>
+                        <p id="account-username"></p>
+                        <span id="account-role"></span>
+                    </div>
+                </div>
+                <button id="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket" style="rotate: 180deg"></i>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content">
+            <!-- CONTENT HEADER -->
+            <div class="header">
+                <h1>Dashboard - Câmaras</h1>
+                <span id="current-date">Seg, 12 abr</span>
+            </div>
+
+            <!-- CONTENT MAIN -->
+            <main class="main">
+                <div class="new-chamber-container">
+                    <img src="../assets/svgs/team-work.svg" alt="Nova Câmara">
+                    <button class="new-chamber-btn"><span>Nova Câmara</span><i class="fa-solid fa-plus"></i></button>
+                </div>
+
+                <div class="chamber-list-results">
+                    <h1>Total de Câmaras</h1>
+                    <span>3</span>
+                </div>
+
+                <ul class="chamber-list">
+                    <!-- CHAMBER -->
+                    <li class="chamber" data-chamber-id="c-01" data-chamber-card="open">
+                        <!-- CHAMBER HEADER -->
+                        <div class="chamber-header">
+                            <button class="chamber-toggler" onclick="alternarVisibilidadeCamara('c-01')"><i class="fa-solid fa-chevron-down"></i></button>
+                            <div>
+                                <h3>C-01</h3>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, repellat.</p>
+                            </div>
+                            <div>
+                                <p>Status</p>
+                                <span class="badge" data-badge-type="common">● Ativo</span>
+                            </div>
+                            <div>
+                                <p>Situação</p>
+                                <span class="badge" data-badge-type="caution">● Atenção</span>
+                            </div>
+                            <div>
+                                <p>Última Leitura</p>
+                                <span>8hrs atrás</span>
+                            </div>
+                        </div>
+                        <!-- CHAMBER CONTENT -->
+                        <div class="chamber-content">
+                            <!-- CHAMBER GRAPH -->
+                            <div class="chamber-graph">
+                                <h3 class="chamber-graph-title">Variação de Etileno - <span>C-01</span></h3>
+                                <canvas id="c-01"></canvas>
+                            </div>
+
+                            <!-- CHAMBER EXTRA -->
+                            <div class="chamber-extra">
+                                <div class="chamber-card">
+                                    <p class="chamber-card-title">Etileno</p>
+                                    <h3 class="chamber-card-value">2.5 <span>ppm</span></h3>
+                                    <p class="chamber-card-disclaimer">+ 0.3 última hora</p>
+                                </div>
+                                <div class="chamber-card">
+                                    <p class="chamber-card-title">Volume Câmara</p>
+                                    <h3 class="chamber-card-value">48 <span>m³</span></h3>
+                                    <p class="chamber-card-disclaimer"></p>
+                                </div>
+                                <div class="chamber-card">
+                                    <p class="chamber-card-title">Estoque</p>
+                                    <h3 class="chamber-card-value">6.500 <span>≈ 1.5 toneladas</span></h3>
+                                    <p class="chamber-card-disclaimer"></p>
+                                </div>
+                                <div class="chamber-card">
+                                    <p class="chamber-card-title">Situação Financeira</p>
+                                    <h3 class="chamber-card-value">● Lucro <span>R$ 18.200 est.</span></h3>
+                                    <p class="chamber-card-disclaimer"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="chamber"  data-chamber-id="c-02" data-chamber-card="closed">
+                        <!-- CHAMBER HEADER -->
+                        <div class="chamber-header">
+                            <button class="chamber-toggler" onclick="alternarVisibilidadeCamara('c-02')"><i class="fa-solid fa-chevron-down"></i></button>
+                            <div>
+                                <h3>C-02</h3>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, repellat.</p>
+                            </div>
+                            <div>
+                                <p>Status</p>
+                                <span class="badge" data-badge-type="common">● Ativo</span>
+                            </div>
+                            <div>
+                                <p>Situação</p>
+                                <span class="badge" data-badge-type="caution">● Atenção</span>
+                            </div>
+                            <div>
+                                <p>Última Leitura</p>
+                                <span>8hrs atrás</span>
+                            </div>
+                        </div>
+                        <!-- CHAMBER CONTENT -->
+                        <div class="chamber-content">
+                            <!-- CHAMBER GRAPH -->
+                            <div class="chamber-graph">
+                                <h3 class="chamber-graph-title">Variação de Etileno - <span>C-01</span></h3>
+                                <canvas id="c-01"></canvas>
+                            </div>
+
+                            <!-- CHAMBER EXTRA -->
+                            <div class="chamber-extra">
+                                <div class="chamber-card">
+                                    <p class="chamber-card-title">Etileno</p>
+                                    <h3 class="chamber-card-value">2.5 <span>ppm</span></h3>
+                                    <p class="chamber-card-disclaimer">+ 0.3 última hora</p>
+                                </div>
+                                <div class="chamber-card">
+                                    <p class="chamber-card-title">Volume Câmara</p>
+                                    <h3 class="chamber-card-value">48 <span>m³</span></h3>
+                                    <p class="chamber-card-disclaimer"></p>
+                                </div>
+                                <div class="chamber-card">
+                                    <p class="chamber-card-title">Estoque</p>
+                                    <h3 class="chamber-card-value">6.500 <span>≈ 1.5 toneladas</span></h3>
+                                    <p class="chamber-card-disclaimer"></p>
+                                </div>
+                                <div class="chamber-card">
+                                    <p class="chamber-card-title">Situação Financeira</p>
+                                    <h3 class="chamber-card-value">● Lucro <span>R$ 18.200 est.</span></h3>
+                                    <p class="chamber-card-disclaimer"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="chamber"  data-chamber-id="c-03" data-chamber-card="closed">
+                        <!-- CHAMBER HEADER -->
+                        <div class="chamber-header">
+                            <button class="chamber-toggler" onclick="alternarVisibilidadeCamara('c-03')"><i class="fa-solid fa-chevron-down"></i></button>
+                            <div>
+                                <h3>C-03</h3>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, repellat.</p>
+                            </div>
+                            <div>
+                                <p>Status</p>
+                                <span class="badge" data-badge-type="common">● Ativo</span>
+                            </div>
+                            <div>
+                                <p>Situação</p>
+                                <span class="badge" data-badge-type="caution">● Atenção</span>
+                            </div>
+                            <div>
+                                <p>Última Leitura</p>
+                                <span>8hrs atrás</span>
+                            </div>
+                        </div>
+                        <!-- CHAMBER CONTENT -->
+                        <div class="chamber-content">
+                            <!-- CHAMBER GRAPH -->
+                            <div class="chamber-graph">
+                                <h3 class="chamber-graph-title">Variação de Etileno - <span>C-01</span></h3>
+                                <canvas id="c-01"></canvas>
+                            </div>
+
+                            <!-- CHAMBER EXTRA -->
+                            <div class="chamber-extra">
+                                <div class="chamber-card">
+                                    <p class="chamber-card-title">Etileno</p>
+                                    <h3 class="chamber-card-value">2.5 <span>ppm</span></h3>
+                                    <p class="chamber-card-disclaimer">+ 0.3 última hora</p>
+                                </div>
+                                <div class="chamber-card">
+                                    <p class="chamber-card-title">Volume Câmara</p>
+                                    <h3 class="chamber-card-value">48 <span>m³</span></h3>
+                                    <p class="chamber-card-disclaimer"></p>
+                                </div>
+                                <div class="chamber-card">
+                                    <p class="chamber-card-title">Estoque</p>
+                                    <h3 class="chamber-card-value">6.500 <span>≈ 1.5 toneladas</span></h3>
+                                    <p class="chamber-card-disclaimer"></p>
+                                </div>
+                                <div class="chamber-card">
+                                    <p class="chamber-card-title">Situação Financeira</p>
+                                    <h3 class="chamber-card-value">● Lucro <span>R$ 18.200 est.</span></h3>
+                                    <p class="chamber-card-disclaimer"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </main>
+        </div>
+    </div>
+
+<script src="../scripts/mock-user.js"></script>
+<script src="../scripts/alternarVisibilidadeCamara.js"></script>
+<script>
+    let chamberChart = new Chart(document.getElementById("c-01"), {
+        type: "line",
+        data: {
+            labels: ['00:00', '06:00', '12:00', '18:00', '23:59'],                
+            datasets: [
+                {
+                label: 'Real',
+                data: [0, 2.6, 1.3, 1.3, 3.3],                
+                borderColor: '#7a9b55',                       
+                backgroundColor: 'rgba(122, 155, 85, 0.2)',   
+                fill: true,                                     
+                tension: 0.4,                                   
+                pointRadius: 4,                                 
+                borderWidth: 2                                  
+            },
+                {
+                label: 'Ideal',
+                data: [0, 1.2, 0.8, 1.0, 1.5],
+                borderColor: '#B83232',
+                backgroundColor: 'rgba(184, 50, 50, 0.2)',
+                fill: true,
+                tension: 0.4,
+                pointRadius: 4,
+                borderWidth: 2
+            }]
+        },
+    })
+</script>
+</body>
+</html>
