@@ -67,7 +67,7 @@ create table usuario (
 -- A empresa x pode ter mais de um analista
 create table camara (
 	id_camara 			int auto_increment,
-    empresa_id 			int not null,
+    empresa_id 			int not null,l
     
     local_instalacao	varchar(100) not null, -- Camara número 1, camara ala leste
     observacao	 		varchar(255),
