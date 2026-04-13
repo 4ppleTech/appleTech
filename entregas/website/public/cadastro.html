@@ -13,7 +13,7 @@
     <!-- CDN FONTAWESOME -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body>
+<body onload="listarEmpresas(empresasEncontradas)">
 
     <!-- Botão voltar para a página inicial -->
     <a class="btn-home" href="./index.html" title="Voltar ao início">
@@ -28,7 +28,7 @@
         </div>
 
         <!-- Formulário de cadastro -->
-        <div class="auth-container">
+        <form id="cadastro-form" class="auth-container">
 
             <img class="auth-logo auth-logo--cadastro" src="./assets/svgs/logo.svg" alt="Logo AppleTech">
 
@@ -43,6 +43,7 @@
                     class="auth-input"
                     placeholder="Código de ativação"
                     autocomplete="off"
+                    required
                 >
             </div>
 
@@ -55,6 +56,7 @@
                     class="auth-input"
                     placeholder="Nome"
                     autocomplete="username"
+                    required
                 >
             </div>
 
@@ -67,6 +69,7 @@
                     class="auth-input"
                     placeholder="Email"
                     autocomplete="email"
+                    required
                 >
             </div>
 
@@ -79,14 +82,14 @@
                     class="auth-input"
                     placeholder="Senha"
                     autocomplete="current-password"
+                    required
                 >
                 <button
                     class="passwd-toggle-btn"
                     type="button"
-                    aria-label="Mostrar senha"
-                    onclick="alternarVisibilidadeSenha('ipt-senha', this)"
+                    onclick="alternarVisibilidadeSenha('ipt-senha', 'senha-icon')"
                 >
-                    <i class="fa-regular fa-eye"></i>
+                    <i id="senha-icon" class="fa-regular fa-eye"></i>
                 </button>
             </div>
 
@@ -99,100 +102,106 @@
                     class="auth-input"
                     placeholder="Confirmar senha"
                     autocomplete="new-password"
+                    required
                 >
                 <button
                     class="passwd-toggle-btn"
                     type="button"
-                    aria-label="Mostrar senha"
-                    onclick="alternarVisibilidadeSenha('ipt-confirmar', this)"
+                    onclick="alternarVisibilidadeSenha('ipt-confirmar', 'confirmar-icon')"
                 >
-                    <i class="fa-regular fa-eye"></i>
+                    <i id="confirmar-icon" class="fa-regular fa-eye"></i>
                 </button>
             </div>
 
             <!-- Mensagem de validação -->
-            <p id="auth-message" class="auth-message" aria-live="polite"></p>
+            <p id="auth-message" class="auth-message"></p>
 
-            <button class="auth-btn" type="button" onclick="validarCadastro()">
+            <button class="auth-btn" type="submit">
                 Cadastrar
                 <i class="fa-regular fa-circle-up"></i>
             </button>
 
             <a class="auth-link auth-link--login" href="./login.html">Já tem uma conta? Entrar</a>
 
-        </div>
+        </form>
     </div>
 
+
+<script src="./scripts/listar-empresas.js"></script>
+<script src="./scripts/toggle-senha.js"></script>
+<script src="./scripts/auth/validar.js"></script>
 <script>
-    function validarCadastro() {
-        const codigo    = document.getElementById('ipt-codigo').value.trim();
-        const usuario   = document.getElementById('ipt-usuario').value.trim();
-        const email     = document.getElementById('ipt-email').value.trim();
-        const senha     = document.getElementById('ipt-senha').value;
-        const confirmar = document.getElementById('ipt-confirmar').value;
-        const msgEl     = document.getElementById('auth-message');
+    const empresasEncontradas = []
+    const frm = document.getElementById("cadastro-form");
+    const mensagemValidacao = document.getElementById("auth-message");
+    
+    frm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        mensagemValidacao.innerHTML = "";
 
-        // Limpa mensagem anterior
-        msgEl.textContent = '';
-        msgEl.className = 'auth-message';
+        const codEmpresa = document.getElementById("ipt-codigo").value.trim();
+        const username = document.getElementById("ipt-usuario").value.trim();
+        const email = document.getElementById("ipt-email").value.trim();
+        const senha = document.getElementById("ipt-senha").value.trim();
+        const senhaConfirmar = document.getElementById("ipt-confirmar").value.trim();
+        let idEmpresa;
 
-        // Validação: campos obrigatórios
-        if (!codigo || !usuario || !email || !senha || !confirmar) {
-            exibirErro(msgEl, 'Preencha todos os campos!');
-            return;
+        // === VALIDAR CAMPOS === //
+        const valido = cadastroValido(
+            codEmpresa,
+            username, 
+            email, 
+            senha, 
+            senhaConfirmar
+        );
+
+        console.log(empresasEncontradas)
+        for (let i = 0; i < empresasEncontradas.length; i++) {
+            if(empresasEncontradas[i].codigo_ativacao === codEmpresa) {
+                idEmpresa = empresasEncontradas[i].id_empresa;
+                console.log("[cadastro] Código de Ativação VÁLIDO");
+                break;
+            } else {
+                console.log("[cadastro] Código de Ativação INVÁLIDO");
+                
+                mensagemValidacao.classList.add("error");
+                mensagemValidacao.innerText = "Código de Ativação Inválido";
+            }
         }
 
-        // Validação: e-mail básico
-        const arroba = email.indexOf('@');
-        const ponto  = email.lastIndexOf('.');
-        if (arroba < 1 || ponto < arroba + 2 || ponto === email.length - 1) {
-            exibirErro(msgEl, 'Email inválido.');
-            return;
-        }
-
-        // Validação: regras de senha
-        const especiais = /[!@#$%^&*()\-_=+[\]{};:'",.<>?/\\|]/;
-        const maiuscula = /[A-Z]/;
-
-        if (senha.length < 6 || !maiuscula.test(senha) || !especiais.test(senha)) {
-            exibirErro(
-                msgEl,
-                'A senha precisa ter no mínimo 6 caracteres, 1 letra maiúscula e 1 caractere especial.'
-            );
-            return;
-        }
-
-        // Validação: senhas iguais
-        if (senha !== confirmar) {
-            exibirErro(msgEl, 'As senhas não coincidem.');
-            return;
-        }
-
-        // Sucesso
-        msgEl.textContent = 'Cadastro realizado com sucesso!';
-        msgEl.classList.add('success');
-    }
-
-    function exibirErro(el, texto) {
-        el.textContent = texto;
-        el.classList.add('error');
-    }
-</script>
-<script>
-    function alternarVisibilidadeSenha(inputId, btn) {
-        const input = document.getElementById(inputId);
-        const icon  = btn.querySelector('i');
-        const mostrar = input.type === 'password';
-
-        if(mostrar) {
-            input.type = "text"
-            icon.classList.replace("fa-eye", "fa-eye-slash")
+        // === ENVIAR FORMULÁRIO === //
+        if(!valido[0]) {
+            authMessage.innerHTML = valido[1][0];
         } else {
-            input.type = "password"
-            icon.classList.replace("fa-eye-slash", "fa-eye")
+            fetch("/usuarios/cadastrar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    username,
+                    email,
+                    senha,
+                    idEmpresa
+                })
+            })
+            .then((res) => {
+                console.log("RESPOSTA: ", res);
+                if(res.ok) {
+                    // exibir card com mensagem de sucesso...;
+                    // redirecionar:
+                    setTimeout(() => {
+                        window.location("login.html");
+                    }, 2000);
 
+                    // limpar formulário...
+                } else {
+                    throw "Houve um erro ao tentar realizar o cadastro!";
+                }
+            })
+            .catch((err) => {
+                console.log("[cadastro] ERRO: ", err);
+            })
         }
-    }
+    });
 </script>
 </body>
 </html>

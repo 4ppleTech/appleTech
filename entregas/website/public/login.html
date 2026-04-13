@@ -28,7 +28,7 @@
         </div>
 
         <!-- Formulário de login -->
-        <div class="auth-container">
+        <form id="login-form" class="auth-container">
 
             <img class="auth-logo auth-logo--login" src="./assets/svgs/logo.svg" alt="Logo AppleTech">
 
@@ -59,39 +59,75 @@
                     class="passwd-toggle-btn"
                     type="button"
                     aria-label="Mostrar senha"
-                    onclick="alternarVisibilidadeSenha('ipt-senha', this)"
+                    onclick="alternarVisibilidadeSenha('ipt-senha', 'senha-icon')"
                 >
-                    <i class="fa-regular fa-eye"></i>
+                    <i id="senha-icon" class="fa-regular fa-eye"></i>
                 </button>
             </div>
 
             <a class="auth-link auth-link--forgot" href="/">Esqueceu a senha?</a>
 
-            <button class="auth-btn" type="button">
+            <p id="auth-message" class="auth-message"></p>
+
+            <button class="auth-btn" type="submit">
                 Entrar
                 <i class="fa-regular fa-circle-up"></i>
             </button>
 
             <a class="auth-link auth-link--register" href="./cadastro.html">Não tem conta? Cadastre-se</a>
-        </div>
+        </form>
     </div>
 
+<script src="./scripts/toggle-senha.js"></script>
+<script src="./scripts/auth/validar.js"></script>
 <script>
-    function alternarVisibilidadeSenha(inputId, btn) {
-        const input = document.getElementById(inputId);
-        const icon  = btn.querySelector('i');
-        const mostrar = input.type === 'password';
+    const frm = document.getElementById("login-form");
+    const mensagemValidacao = document.getElementById("auth-message");
+    
+    frm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        mensagemValidacao.innerHTML = "";
 
-        if(mostrar) {
-            input.type = "text"
-            icon.classList.replace("fa-eye", "fa-eye-slash")
+        const email = document.getElementById("ipt-email").value.trim();
+        const senha = document.getElementById("ipt-senha").value.trim();
+
+        // === VALIDAR CAMPOS === //
+        const valido = loginValido(
+            email, 
+            senha, 
+        );
+
+        // === ENVIAR FORMULÁRIO === //
+        if(!valido[0]) {
+            authMessage.innerHTML = valido[1][0];
         } else {
-            input.type = "password"
-            icon.classList.replace("fa-eye-slash", "fa-eye")
+            fetch("/usuarios/autenticar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email,
+                    senha,
+                })
+            })
+            .then((res) => {
+                console.log("RESPOSTA: ", res);
+                if(res.ok) {
+                    // exibir card com mensagem de sucesso...;
+                    // redirecionar:
+                    setTimeout(() => {
+                        window.location("./dashboard/home.html");
+                    }, 2000);
 
+                    // limpar formulário...
+                } else {
+                    throw "Houve um erro ao tentar realizar o login!";
+                }
+            })
+            .catch((err) => {
+                console.log("[login] ERRO: ", err);
+            })
         }
-    }
+    });
 </script>
-<script src="./scripts/alternar-visibilidade-senha.js"></script>
 </body>
 </html>
