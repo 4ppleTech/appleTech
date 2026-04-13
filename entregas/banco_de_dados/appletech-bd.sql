@@ -48,7 +48,7 @@ create table usuario (
     email			varchar(255) not null unique,
     telefone		varchar(25) unique,
     situacao		varchar(10) not null default 'Ativo',
-    papel_usuario varchar(40) not null,
+    papel_usuario varchar(40) not null default 'analista',
     senha 			varchar(100) not null,
     
 	data_criacao 	datetime default current_timestamp,
