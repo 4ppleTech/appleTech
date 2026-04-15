@@ -67,7 +67,7 @@ create table usuario (
 -- A empresa x pode ter mais de um analista
 create table camara (
 	id_camara 			int auto_increment,
-    empresa_id 			int not null,l
+    empresa_id 			int not null,
     
     local_instalacao	varchar(100) not null, -- Camara número 1, camara ala leste
     observacao	 		varchar(255),
@@ -122,6 +122,23 @@ create table leitura (
     constraint fk_sensor_leitor foreign key (sensor_id) references sensor(id_sensor)
 );
 
+create table alerta (
+    id_alerta int auto_increment primary key,
+    leitura_id int not null,
+    
+    nivel varchar(20) not null, 
+    mensagem varchar(255),
+    
+    data_alerta datetime default current_timestamp,
+    
+	data_criacao datetime default current_timestamp,
+	data_atualizacao datetime on update current_timestamp,
+    
+    constraint ckc_nivel check (nivel in ('Crítico', 'Moderado', 'Controlado')),
+    constraint fk_alerta_leitura foreign key (leitura_id) references leitura(id)
+);
+
+
 -- Popular tabelas 
 insert into endereco (cep, numero, complemento, logradouro, bairro, cidade, estado, pais) values
 ('01001-000', '100', null, 'Praça da Sé', 'Sé', 'São Paulo', 'SP', 'Brasil'),
@@ -154,7 +171,7 @@ INSERT INTO sensor (camara_id, modelo, situacao, data_instalacao) VALUES
 (3, 'MQ-2', 'Inativo', '2024-01-04');
 
 insert into leitura (sensor_id, valor_sensor, data_hora) values 
-(1, 90, '2024-05-10 10:00:00'),
+(1, 150, '2024-05-10 10:00:00'),
 (2, 90, '2024-05-10 10:01:00'),
 (4, 0, '2024-05-10 10:02:00'),
 (3, 90, '2024-05-10 10:03:00'), 
@@ -163,8 +180,13 @@ insert into leitura (sensor_id, valor_sensor, data_hora) values
 (4, 0, '2024-05-10 10:07:00'),
 (3, 110, '2024-05-10 10:08:00');
 
--- Fazer joins
+INSERT INTO alerta (leitura_id, nivel, mensagem) VALUES
+(1, 'Crítico', 'Nível de etileno está muito alto, passou de 1.5ppm'),
+(2, 'Moderado', 'Nível de etileno está alcançando 1.5ppm'),
+(3, 'Controlado', 'Nível de etileno longe do limite'),
+(8, 'Crítico', 'Nível de etileno está muito alto, passou de 1.5ppm');
 
+-- Fazer joins
 SELECT * from leitura;
 
 
@@ -185,6 +207,8 @@ WHERE
 	s.situacao = 'Ativo'
 AND
 	e.razao_social = 'Apple Tech Brasil LTDA'
+AND
+	l.data_hora LIKE '%2024-05-10%'
 ORDER BY l.data_hora;
     
     
@@ -216,26 +240,18 @@ JOIN empresa em ON em.endereco_id = en.id_endereco;
 
 
 -- porcentagem da leitura
-SELECT
-	valor_sensor,
-    CASE
-		WHEN ((valor_sensor - 100) / (900)) * 100 > 0 
-			THEN CONCAT(ROUND(((valor_sensor - 100) / (900)) * 100, 2), '%')
-		ELSE
-			0
-	END AS porcentagem
-FROM
-	leitura
-ORDER BY data_hora;
-
-
--- Média etileno
 SELECT 
 	e.nome_fantasia 'nome fantasia',
     e.razao_social 'Razão social',
     c.local_instalacao 'Local da câmara',
     s.modelo 'Modelo do sensor',
     l.valor_sensor 'Valor captado',
+        CASE
+		WHEN ((l.valor_sensor - 100) / (900)) * 100 > 0 
+			THEN CONCAT(ROUND(((l.valor_sensor - 100) / (900)) * 100, 2), '%')
+		ELSE
+			0
+	END AS porcentagem,
     l.data_hora 'Data da leitura'
 FROM
 	empresa e
@@ -246,6 +262,25 @@ WHERE
 	s.situacao = 'Ativo'
 AND
 	e.razao_social = 'Apple Tech Brasil LTDA'
-ORDER BY c.local_instalacao;
+AND
+	l.data_hora LIKE '%2024-05-10%'
+ORDER BY l.data_hora;
 
+-- Média etileno
+SELECT 
+    e.razao_social,
+    e.nome_fantasia,
+	AVG(l.valor_sensor) media
+FROM
+	empresa e
+JOIN camara c ON e.id_empresa = c.empresa_id
+JOIN sensor s ON c.id_camara = s.camara_id
+JOIN leitura l ON s.id_sensor = l.sensor_id
+WHERE
+	s.situacao = 'Ativo'
+AND
+	e.razao_social = 'Apple Tech Brasil LTDA'
+AND
+	data_hora LIKE '%2024-05-10%' -- dia especifico
+ORDER BY c.local_instalacao;
 
