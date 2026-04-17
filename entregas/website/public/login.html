@@ -28,7 +28,7 @@
         </div>
 
         <!-- Formulário de login -->
-        <form id="login-form" class="auth-container">
+        <div class="auth-container">
 
             <img class="auth-logo auth-logo--login" src="./assets/svgs/logo.svg" alt="Logo AppleTech">
 
@@ -69,65 +69,15 @@
 
             <p id="auth-message" class="auth-message"></p>
 
-            <button class="auth-btn" type="submit">
+            <button class="auth-btn">
                 Entrar
                 <i class="fa-regular fa-circle-up"></i>
             </button>
 
             <a class="auth-link auth-link--register" href="./cadastro.html">Não tem conta? Cadastre-se</a>
-        </form>
+        </div>
     </div>
 
 <script src="./scripts/toggle-senha.js"></script>
-<script src="./scripts/auth/validar.js"></script>
-<script>
-    const frm = document.getElementById("login-form");
-    const mensagemValidacao = document.getElementById("auth-message");
-    
-    frm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        mensagemValidacao.innerHTML = "";
-
-        const email = document.getElementById("ipt-email").value.trim();
-        const senha = document.getElementById("ipt-senha").value.trim();
-
-        // === VALIDAR CAMPOS === //
-        const valido = loginValido(
-            email, 
-            senha, 
-        );
-
-        // === ENVIAR FORMULÁRIO === //
-        if(!valido[0]) {
-            authMessage.innerHTML = valido[1][0];
-        } else {
-            fetch("/usuarios/autenticar", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    email,
-                    senha,
-                })
-            })
-            .then((res) => {
-                console.log("RESPOSTA: ", res);
-                if(res.ok) {
-                    // exibir card com mensagem de sucesso...;
-                    // redirecionar:
-                    setTimeout(() => {
-                        window.location("./dashboard/home.html");
-                    }, 2000);
-
-                    // limpar formulário...
-                } else {
-                    throw "Houve um erro ao tentar realizar o login!";
-                }
-            })
-            .catch((err) => {
-                console.log("[login] ERRO: ", err);
-            })
-        }
-    });
-</script>
 </body>
 </html>
