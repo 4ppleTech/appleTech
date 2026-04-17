@@ -1,14 +1,5 @@
 var usuarioModel = require("../models/usuarioModel");
 var camaraModel = require("../models/camaraModel");
-var empresaModel = require("../models/empresaModel");
-
-function buscarUsuarioPorEmpresa(empresaId) {
-
-  var instrucaoSql = `SELECT * FROM camara c WHERE empresa_id = ${empresaId}`;
-
-  console.log("Executando a instrução SQL: \n" + instrucaoSql);
-  return database.executar(instrucaoSql);
-}
 
 function autenticar(req, res) {
     console.log(req)
