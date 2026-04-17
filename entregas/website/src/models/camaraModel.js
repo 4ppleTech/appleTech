@@ -1,5 +1,7 @@
 var database = require("../database/config");
 
+// Aviso: no futuro, criar função update
+
 function buscarCamarasPorEmpresa(empresaId) {
 
   var instrucaoSql = `SELECT * FROM camara WHERE empresa_id = ${empresaId}`;
