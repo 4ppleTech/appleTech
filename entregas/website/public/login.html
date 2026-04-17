@@ -90,7 +90,8 @@
         var senhaVar = ipt_senha.value;
 
         if (emailVar == "" || senhaVar == "") {
-            auth_message.style.display = "block"
+            auth_message.style.display = "block";
+            auth_message.classList.add("error");
             auth_message.innerHTML = "(Mensagem de erro para todos os campos em branco)";
             // finalizarAguardar();
             return false;
@@ -139,6 +140,10 @@
 
                 resposta.text().then(texto => {
                     console.error(texto);
+
+                    auth_message.style.display = "block";
+                    auth_message.classList.add("error");
+                    auth_message.innerHTML = texto;
                     // finalizarAguardar(texto);    
                 });
             }

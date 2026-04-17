@@ -233,6 +233,7 @@ body {
 
 /* ---------- Mensagem de validação ---------- */
 .auth-message {
+    display: block;
     color:  #7A6A52;
     font-size: 0.8125rem;
     margin-top: 0.3125rem;

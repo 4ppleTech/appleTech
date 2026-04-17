@@ -1,5 +1,5 @@
 const DADOS_CONTA_FICTICIA = {
-    pfp: "../assets/imgs/avatar-pfp.png",
+    pfp: "../../assets/imgs/avatar-pfp.png",
     username: "John Doe",
     role: "Administrador"
 }
