@@ -145,6 +145,46 @@
     var codigoVar = ipt_codigo.value;
     var idEmpresaVincular
 
+      let emailRegex = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
+
+      // mínimo 6 caracteres | 1 maiúscula | 1 minúscula | 1 caractere especial
+      let senhaRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^\w\s]).{6,}$/;
+
+      if(!listaEmpresasCadastradas.includes(codigoVar)) {
+        auth_message.style.display = "block";
+        auth_message.classList.add("error");
+        auth_message.innerHTML = "O Código de Validação Não existe!";
+        return false;
+      }
+
+      if(!emailRegex.test(emailVar)) {
+        auth_message.style.display = "block";
+        auth_message.classList.add("error");
+        auth_message.innerHTML = "Formato de e-mail inválido.";
+        return false;
+      }
+
+      if(!senhaRegex.test(senhaVar) || !senhaRegex.test(confirmacaoSenhaVar)) {
+        auth_message.style.display = "block";
+        auth_message.classList.add("error");
+        auth_message.innerHTML = "Senha deve obedecer ao formato: mínimo 6 caracteres | 1 maiúscula | 1 minúscula | 1 caractere especial.";
+        return false;
+      }
+
+      if(senhaVar !== confirmacaoSenhaVar) {
+        auth_message.style.display = "block";
+        auth_message.classList.add("error");
+        auth_message.innerHTML = "Senhas não coincidem!";
+        return false;
+      }
+
+      if(nomeVar.length < 3) {
+        auth_message.style.display = "block";
+        auth_message.classList.add("error");
+        auth_message.innerHTML = "Nome de usuário deve possuir mais do que 3 caracteres.";
+        return false;
+      }
+
     // Verificando se há algum campo em branco
     if (
       nomeVar == "" ||
@@ -154,6 +194,7 @@
       codigoVar == ""
     ) {
       auth_message.style.display = "block";
+      auth_message.classList.add("error");
       auth_message.innerHTML =
         "(Mensagem de erro para todos os campos em branco)";
 
@@ -172,6 +213,7 @@
         break;
       } else {
         auth_message.style.display = "block";
+        auth_message.classList.add("error");
         auth_message.innerHTML = "(Mensagem de erro para código inválido)";
         // finalizarAguardar();
       }
@@ -197,7 +239,7 @@
 
         if (resposta.ok) {
           auth_message.style.display = "block";
-
+          auth_message.classList.add("success");
           auth_message.innerHTML =
             "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
 

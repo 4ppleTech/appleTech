@@ -89,10 +89,29 @@
         var emailVar = ipt_email.value;
         var senhaVar = ipt_senha.value;
 
+        let emailRegex = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
+
+        // mínimo 6 caracteres | 1 maiúscula | 1 minúscula | 1 caractere especial
+        let senhaRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^\w\s]).{6,}$/;
+
+        if(!emailRegex.test(emailVar)) {
+            auth_message.style.display = "block";
+            auth_message.classList.add("error");
+            auth_message.innerHTML = "Formato de e-mail inválido.";
+            return false;
+        }
+
+        if(!senhaRegex.test(senhaVar)) {
+            auth_message.style.display = "block";
+            auth_message.classList.add("error");
+            auth_message.innerHTML = "Senha deve obedecer ao formato: mínimo 6 caracteres | 1 maiúscula | 1 minúscula | 1 caractere especial.";
+            return false;
+        }
+
         if (emailVar == "" || senhaVar == "") {
             auth_message.style.display = "block";
             auth_message.classList.add("error");
-            auth_message.innerHTML = "(Mensagem de erro para todos os campos em branco)";
+            auth_message.innerHTML = "Preencha todos os campos antes de seguir em frente!";
             // finalizarAguardar();
             return false;
         }
