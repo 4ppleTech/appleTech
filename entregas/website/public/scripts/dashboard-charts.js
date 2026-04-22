@@ -69,27 +69,40 @@ function atualizarPeriodo(periodo) {                                    // receb
 
 // // === GRÁFICO DE BARRAS === //
 const columnData = {
-    labels: ['C-01', 'C-02', 'C-03', 'C-04', 'C-05', 'Ideal'],
-    data: [3.1, 2.0, 1.5, 4.2, 2.2]
+    labels: ['C-01', 'C-02', 'C-03', 'C-04', 'C-05'],
+    data: [3.1, 2.0, 1.5, 4.2, 2.2],
+    ideal: [2.8, 2.0, 1.8, 1.5, 2.5]
 };
 
 let columnChart = new Chart(columnChartDiv, {
     type: 'bar',
     data: {
-        labels: columnData.labels,
-        datasets: [{
-        data: columnData.data,
-        borderColor: '#7a9b55',
-        backgroundColor: 'rgba(122, 155, 85, 0.2)',
-        fill: true,
-        tension: 0.4,
-        pointRadius: 0,
-        borderWidth: 2
-        }]
+            labels: columnData.labels,
+            datasets: [{
+            label: "Valor Real",
+            data: columnData.data,
+            borderColor: '#7a9b55',
+            backgroundColor: 'rgba(122, 155, 85, 0.2)',
+            fill: true,
+            tension: 0.4,
+            pointRadius: 0,
+            borderWidth: 2
+        },
+        {
+            label: "Valor Ideal",
+            data: columnData.ideal,
+            borderColor: '#B83232',
+            backgroundColor: 'rgba(184, 50, 50, 0.2)',
+            fill: true,
+            tension: 0.4,
+            pointRadius: 0,
+            borderWidth: 2
+        }
+    ]
     },
     options: {
         plugins: {
-            legend: { display: false },
+            legend: { display: true },
         },
         scales: {
             x: {
