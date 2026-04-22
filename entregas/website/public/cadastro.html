@@ -13,7 +13,8 @@
     <!-- CDN FONTAWESOME -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body onload="listar()">
+<!-- <body onload="listar()"> -->
+<body>
 
     <!-- Botão voltar para a página inicial -->
     <a class="btn-home" href="./index.html" title="Voltar ao início">
@@ -128,6 +129,7 @@
     
 <script src="./scripts/toggle-senha.js"></script>
 <script src="./scripts/utils/sessao.js"></script>
+<script src="./scripts/utils/mock-user.js"></script>
 <script>
 
   // Array para armazenar empresas cadastradas para validação de código de ativação 
@@ -150,12 +152,13 @@
       // mínimo 6 caracteres | 1 maiúscula | 1 minúscula | 1 caractere especial
       let senhaRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^\w\s]).{6,}$/;
 
-      if(!listaEmpresasCadastradas.includes(codigoVar)) {
-        auth_message.style.display = "block";
-        auth_message.classList.add("error");
-        auth_message.innerHTML = "O Código de Validação Não existe!";
-        return false;
-      }
+      // === AVISO: DESCOMENTAR PARA A SPRINT 3 === //
+      // if(!listaEmpresasCadastradas.includes(codigoVar)) {
+      //   auth_message.style.display = "block";
+      //   auth_message.classList.add("error");
+      //   auth_message.innerHTML = "O Código de Validação Não existe!";
+      //   return false;
+      // }
 
       if(!emailRegex.test(emailVar)) {
         auth_message.style.display = "block";
@@ -219,46 +222,54 @@
       }
     }
 
-    // Enviando o valor da nova input
-    fetch("/usuarios/cadastrar", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        // crie um atributo que recebe o valor recuperado aqui
-        // Agora vá para o arquivo routes/usuario.js
-        nomeServer: nomeVar,
-        emailServer: emailVar,
-        senhaServer: senhaVar,
-        idEmpresaVincularServer: idEmpresaVincular
-      }),
-    })
-      .then(function (resposta) {
-        console.log("resposta: ", resposta);
+    // === AVISO: DADOS MOCKADOS PARA SPRINT 2 === //
+    if(codigoVar === DADOS_CONTA_FICTICIA.codigo_ativacao && nomeVar === DADOS_CONTA_FICTICIA.nome && emailVar === DADOS_CONTA_FICTICIA.email && senhaVar === DADOS_CONTA_FICTICIA.senha) {
+      setTimeout(function () {
+          window.location = "./login.html";
+      }, 1000);
+    }
 
-        if (resposta.ok) {
-          auth_message.style.display = "block";
-          auth_message.classList.add("success");
-          auth_message.innerHTML =
-            "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+    // === AVISO: DESCOMENTAR PARA A SPRINT 3 === //
+  //   // Enviando o valor da nova input
+  //   fetch("/usuarios/cadastrar", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       // crie um atributo que recebe o valor recuperado aqui
+  //       // Agora vá para o arquivo routes/usuario.js
+  //       nomeServer: nomeVar,
+  //       emailServer: emailVar,
+  //       senhaServer: senhaVar,
+  //       idEmpresaVincularServer: idEmpresaVincular
+  //     }),
+  //   })
+  //     .then(function (resposta) {
+  //       console.log("resposta: ", resposta);
 
-          setTimeout(() => {
-            window.location = "login.html";
-          }, 2000);
+  //       if (resposta.ok) {
+  //         auth_message.style.display = "block";
+  //         auth_message.classList.add("success");
+  //         auth_message.innerHTML =
+  //           "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
 
-          limparFormulario();
-        //   finalizarAguardar();
-        } else {
-          throw "Houve um erro ao tentar realizar o cadastro!";
-        }
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-        // finalizarAguardar();
-      });
+  //         setTimeout(() => {
+  //           window.location = "login.html";
+  //         }, 2000);
 
-    return false;
+  //         limparFormulario();
+  //       //   finalizarAguardar();
+  //       } else {
+  //         throw "Houve um erro ao tentar realizar o cadastro!";
+  //       }
+  //     })
+  //     .catch(function (resposta) {
+  //       console.log(`#ERRO: ${resposta}`);
+  //       // finalizarAguardar();
+  //     });
+
+  //   return false;
   }
 
   // Listando empresas cadastradas 

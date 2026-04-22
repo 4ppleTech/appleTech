@@ -59,7 +59,7 @@
                     class="passwd-toggle-btn"
                     type="button"
                     aria-label="Mostrar senha"
-                    onclick="alternarVisibilidadeSenha('ipt-senha', 'senha-icon')"
+                    onclick="alternarVisibilidadeSenha('ipt_senha', 'senha-icon')"
                 >
                     <i id="senha-icon" class="fa-regular fa-eye"></i>
                 </button>
@@ -80,6 +80,7 @@
 
 <script src="./scripts/utils/sessao.js"></script>
 <script src="./scripts/toggle-senha.js"></script>
+<script src="./scripts/utils/mock-user.js"></script>
 <script>
 
 
@@ -122,56 +123,65 @@
         console.log("FORM LOGIN: ", emailVar);
         console.log("FORM SENHA: ", senhaVar);
 
-        fetch("/usuarios/autenticar", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                emailServer: emailVar,
-                senhaServer: senhaVar
-            })
-        }).then(function (resposta) {
-            console.log("ESTOU NO THEN DO entrar()!")
+        // === AVISO: VALIDAÇÃO MOCKADA PARA SPRINT 2 === //
+        if(emailVar === DADOS_CONTA_FICTICIA.email && senhaVar === DADOS_CONTA_FICTICIA.senha) {
+            setTimeout(function () {
+                window.location = "./dashboard/home.html";
+            }, 1000);
+        }
 
-            if (resposta.ok) {
-                console.log(resposta);
 
-                resposta.json().then(json => {
-                    console.log(json);
-                    console.log(JSON.stringify(json));
-                    sessionStorage.EMAIL_USUARIO = json.email;
-                    sessionStorage.NOME_USUARIO = json.nome;
-                    sessionStorage.ID_USUARIO = json.id;
-                    sessionStorage.PAPEL_USUARIO = json.papel_usuario;
-                    sessionStorage.SITUACAO_USUARIO = json.situacao;
-                    sessionStorage.CAMARAS = JSON.stringify(json.camaras)
+        // === AVISO: DESCOMENTAR NA SPRINT 3 === //
+    //     fetch("/usuarios/autenticar", {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json"
+    //         },
+    //         body: JSON.stringify({
+    //             emailServer: emailVar,
+    //             senhaServer: senhaVar
+    //         })
+    //     }).then(function (resposta) {
+    //         console.log("ESTOU NO THEN DO entrar()!")
 
-                    setTimeout(function () {
-                        window.location = "./dashboard/home.html";
-                    }, 1000); // apenas para exibir o loading
+    //         if (resposta.ok) {
+    //             console.log(resposta);
 
-                });
+    //             resposta.json().then(json => {
+    //                 console.log(json);
+    //                 console.log(JSON.stringify(json));
+    //                 sessionStorage.EMAIL_USUARIO = json.email;
+    //                 sessionStorage.NOME_USUARIO = json.nome;
+    //                 sessionStorage.ID_USUARIO = json.id;
+    //                 sessionStorage.PAPEL_USUARIO = json.papel_usuario;
+    //                 sessionStorage.SITUACAO_USUARIO = json.situacao;
+    //                 sessionStorage.CAMARAS = JSON.stringify(json.camaras)
 
-            } else {
+    //                 setTimeout(function () {
+    //                     window.location = "./dashboard/home.html";
+    //                 }, 1000); // apenas para exibir o loading
 
-                console.log("Houve um erro ao tentar realizar o login!");
+    //             });
 
-                resposta.text().then(texto => {
-                    console.error(texto);
+    //         } else {
 
-                    auth_message.style.display = "block";
-                    auth_message.classList.add("error");
-                    auth_message.innerHTML = texto;
-                    // finalizarAguardar(texto);    
-                });
-            }
+    //             console.log("Houve um erro ao tentar realizar o login!");
 
-        }).catch(function (erro) {
-            console.log(erro);
-        })
+    //             resposta.text().then(texto => {
+    //                 console.error(texto);
 
-        return false;
+    //                 auth_message.style.display = "block";
+    //                 auth_message.classList.add("error");
+    //                 auth_message.innerHTML = texto;
+    //                 // finalizarAguardar(texto);    
+    //             });
+    //         }
+
+    //     }).catch(function (erro) {
+    //         console.log(erro);
+    //     })
+
+    //     return false;
     }
 
     function sumirMensagem() {
