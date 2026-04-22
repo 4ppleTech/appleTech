@@ -28,7 +28,7 @@
         </div>
 
         <!-- Formulário de login -->
-        <form id="login-form" class="auth-container">
+        <div class="auth-container">
 
             <img class="auth-logo auth-logo--login" src="./assets/svgs/logo.svg" alt="Logo AppleTech">
 
@@ -39,7 +39,7 @@
                 <i class="fa-regular fa-envelope"></i>
                 <input
                     type="email"
-                    id="ipt-email"
+                    id="ipt_email"
                     class="auth-input"
                     placeholder="Email"
                     autocomplete="email"
@@ -50,7 +50,7 @@
                 <i class="fa-solid fa-lock"></i>
                 <input
                     type="password"
-                    id="ipt-senha"
+                    id="ipt_senha"
                     class="auth-input"
                     placeholder="Senha"
                     autocomplete="current-password"
@@ -59,7 +59,7 @@
                     class="passwd-toggle-btn"
                     type="button"
                     aria-label="Mostrar senha"
-                    onclick="alternarVisibilidadeSenha('ipt-senha', 'senha-icon')"
+                    onclick="alternarVisibilidadeSenha('ipt_senha', 'senha-icon')"
                 >
                     <i id="senha-icon" class="fa-regular fa-eye"></i>
                 </button>
@@ -67,67 +67,127 @@
 
             <a class="auth-link auth-link--forgot" href="/">Esqueceu a senha?</a>
 
-            <p id="auth-message" class="auth-message"></p>
+            <p id="auth_message" class="auth-message"></p>
 
-            <button class="auth-btn" type="submit">
+            <button class="auth-btn" onclick="entrar()">
                 Entrar
                 <i class="fa-regular fa-circle-up"></i>
             </button>
 
             <a class="auth-link auth-link--register" href="./cadastro.html">Não tem conta? Cadastre-se</a>
-        </form>
+        </div>
     </div>
 
+<script src="./scripts/utils/sessao.js"></script>
 <script src="./scripts/toggle-senha.js"></script>
-<script src="./scripts/auth/validar.js"></script>
+<script src="./scripts/utils/mock-user.js"></script>
 <script>
-    const frm = document.getElementById("login-form");
-    const mensagemValidacao = document.getElementById("auth-message");
-    
-    frm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        mensagemValidacao.innerHTML = "";
 
-        const email = document.getElementById("ipt-email").value.trim();
-        const senha = document.getElementById("ipt-senha").value.trim();
 
-        // === VALIDAR CAMPOS === //
-        const valido = loginValido(
-            email, 
-            senha, 
-        );
+    function entrar() {
+        // aguardar();
 
-        // === ENVIAR FORMULÁRIO === //
-        if(!valido[0]) {
-            authMessage.innerHTML = valido[1][0];
-        } else {
-            fetch("/usuarios/autenticar", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    email,
-                    senha,
-                })
-            })
-            .then((res) => {
-                console.log("RESPOSTA: ", res);
-                if(res.ok) {
-                    // exibir card com mensagem de sucesso...;
-                    // redirecionar:
-                    setTimeout(() => {
-                        window.location("./dashboard/home.html");
-                    }, 2000);
+        var emailVar = ipt_email.value;
+        var senhaVar = ipt_senha.value;
 
-                    // limpar formulário...
-                } else {
-                    throw "Houve um erro ao tentar realizar o login!";
-                }
-            })
-            .catch((err) => {
-                console.log("[login] ERRO: ", err);
-            })
+        let emailRegex = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
+
+        // mínimo 6 caracteres | 1 maiúscula | 1 minúscula | 1 caractere especial
+        let senhaRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^\w\s]).{6,}$/;
+
+        if(!emailRegex.test(emailVar)) {
+            auth_message.style.display = "block";
+            auth_message.classList.add("error");
+            auth_message.innerHTML = "Formato de e-mail inválido.";
+            return false;
         }
-    });
+
+        if(!senhaRegex.test(senhaVar)) {
+            auth_message.style.display = "block";
+            auth_message.classList.add("error");
+            auth_message.innerHTML = "Senha deve obedecer ao formato: mínimo 6 caracteres | 1 maiúscula | 1 minúscula | 1 caractere especial.";
+            return false;
+        }
+
+        if (emailVar == "" || senhaVar == "") {
+            auth_message.style.display = "block";
+            auth_message.classList.add("error");
+            auth_message.innerHTML = "Preencha todos os campos antes de seguir em frente!";
+            // finalizarAguardar();
+            return false;
+        }
+        else {
+            setInterval(sumirMensagem, 5000)
+        }
+
+        console.log("FORM LOGIN: ", emailVar);
+        console.log("FORM SENHA: ", senhaVar);
+
+        // === AVISO: VALIDAÇÃO MOCKADA PARA SPRINT 2 === //
+        if(emailVar === DADOS_CONTA_FICTICIA.email && senhaVar === DADOS_CONTA_FICTICIA.senha) {
+            setTimeout(function () {
+                window.location = "./dashboard/home.html";
+            }, 1000);
+        }
+
+
+        // === AVISO: DESCOMENTAR NA SPRINT 3 === //
+    //     fetch("/usuarios/autenticar", {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json"
+    //         },
+    //         body: JSON.stringify({
+    //             emailServer: emailVar,
+    //             senhaServer: senhaVar
+    //         })
+    //     }).then(function (resposta) {
+    //         console.log("ESTOU NO THEN DO entrar()!")
+
+    //         if (resposta.ok) {
+    //             console.log(resposta);
+
+    //             resposta.json().then(json => {
+    //                 console.log(json);
+    //                 console.log(JSON.stringify(json));
+    //                 sessionStorage.EMAIL_USUARIO = json.email;
+    //                 sessionStorage.NOME_USUARIO = json.nome;
+    //                 sessionStorage.ID_USUARIO = json.id;
+    //                 sessionStorage.PAPEL_USUARIO = json.papel_usuario;
+    //                 sessionStorage.SITUACAO_USUARIO = json.situacao;
+    //                 sessionStorage.CAMARAS = JSON.stringify(json.camaras)
+
+    //                 setTimeout(function () {
+    //                     window.location = "./dashboard/home.html";
+    //                 }, 1000); // apenas para exibir o loading
+
+    //             });
+
+    //         } else {
+
+    //             console.log("Houve um erro ao tentar realizar o login!");
+
+    //             resposta.text().then(texto => {
+    //                 console.error(texto);
+
+    //                 auth_message.style.display = "block";
+    //                 auth_message.classList.add("error");
+    //                 auth_message.innerHTML = texto;
+    //                 // finalizarAguardar(texto);    
+    //             });
+    //         }
+
+    //     }).catch(function (erro) {
+    //         console.log(erro);
+    //     })
+
+    //     return false;
+    }
+
+    function sumirMensagem() {
+        auth_message.style.display = "none"
+    }
+
 </script>
 </body>
 </html>

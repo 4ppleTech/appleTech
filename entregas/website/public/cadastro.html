@@ -13,7 +13,8 @@
     <!-- CDN FONTAWESOME -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body onload="listarEmpresas(empresasEncontradas)">
+<!-- <body onload="listar()"> -->
+<body>
 
     <!-- Botão voltar para a página inicial -->
     <a class="btn-home" href="./index.html" title="Voltar ao início">
@@ -28,7 +29,7 @@
         </div>
 
         <!-- Formulário de cadastro -->
-        <form id="cadastro-form" class="auth-container">
+        <div class="auth-container">
 
             <img class="auth-logo auth-logo--cadastro" src="./assets/svgs/logo.svg" alt="Logo AppleTech">
 
@@ -39,7 +40,7 @@
                 <i class="fa-solid fa-key"></i>
                 <input
                     type="text"
-                    id="ipt-codigo"
+                    id="ipt_codigo"
                     class="auth-input"
                     placeholder="Código de ativação"
                     autocomplete="off"
@@ -52,7 +53,7 @@
                 <i class="fa-regular fa-circle-user"></i>
                 <input
                     type="text"
-                    id="ipt-usuario"
+                    id="ipt_usuario"
                     class="auth-input"
                     placeholder="Nome"
                     autocomplete="username"
@@ -65,7 +66,7 @@
                 <i class="fa-regular fa-envelope"></i>
                 <input
                     type="email"
-                    id="ipt-email"
+                    id="ipt_email"
                     class="auth-input"
                     placeholder="Email"
                     autocomplete="email"
@@ -78,7 +79,7 @@
                 <i class="fa-solid fa-lock"></i>
                 <input
                     type="password"
-                    id="ipt-senha"
+                    id="ipt_senha"
                     class="auth-input"
                     placeholder="Senha"
                     autocomplete="current-password"
@@ -87,7 +88,7 @@
                 <button
                     class="passwd-toggle-btn"
                     type="button"
-                    onclick="alternarVisibilidadeSenha('ipt-senha', 'senha-icon')"
+                    onclick="alternarVisibilidadeSenha('ipt_senha', 'senha-icon')"
                 >
                     <i id="senha-icon" class="fa-regular fa-eye"></i>
                 </button>
@@ -98,7 +99,7 @@
                 <i class="fa-solid fa-lock"></i>
                 <input
                     type="password"
-                    id="ipt-confirmar"
+                    id="ipt_confirmar"
                     class="auth-input"
                     placeholder="Confirmar senha"
                     autocomplete="new-password"
@@ -107,101 +108,193 @@
                 <button
                     class="passwd-toggle-btn"
                     type="button"
-                    onclick="alternarVisibilidadeSenha('ipt-confirmar', 'confirmar-icon')"
+                    onclick="alternarVisibilidadeSenha('ipt_confirmar', 'confirmar-icon')"
                 >
                     <i id="confirmar-icon" class="fa-regular fa-eye"></i>
                 </button>
             </div>
 
             <!-- Mensagem de validação -->
-            <p id="auth-message" class="auth-message"></p>
+            <p id="auth_message" class="auth-message"></p>
 
-            <button class="auth-btn" type="submit">
+            <button class="auth-btn" onclick="cadastrar()">
                 Cadastrar
                 <i class="fa-regular fa-circle-up"></i>
             </button>
 
             <a class="auth-link auth-link--login" href="./login.html">Já tem uma conta? Entrar</a>
 
-        </form>
+        </div>
     </div>
-
-
-<script src="./scripts/listar-empresas.js"></script>
-<script src="./scripts/toggle-senha.js"></script>
-<script src="./scripts/auth/validar.js"></script>
-<script>
-    const empresasEncontradas = []
-    const frm = document.getElementById("cadastro-form");
-    const mensagemValidacao = document.getElementById("auth-message");
     
-    frm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        mensagemValidacao.innerHTML = "";
+<script src="./scripts/toggle-senha.js"></script>
+<script src="./scripts/utils/sessao.js"></script>
+<script src="./scripts/utils/mock-user.js"></script>
+<script>
 
-        const codEmpresa = document.getElementById("ipt-codigo").value.trim();
-        const username = document.getElementById("ipt-usuario").value.trim();
-        const email = document.getElementById("ipt-email").value.trim();
-        const senha = document.getElementById("ipt-senha").value.trim();
-        const senhaConfirmar = document.getElementById("ipt-confirmar").value.trim();
-        let idEmpresa;
+  // Array para armazenar empresas cadastradas para validação de código de ativação 
+  let listaEmpresasCadastradas = [];
 
-        // === VALIDAR CAMPOS === //
-        const valido = cadastroValido(
-            codEmpresa,
-            username, 
-            email, 
-            senha, 
-            senhaConfirmar
-        );
+  function cadastrar() {
+    // aguardar();
 
-        console.log(empresasEncontradas)
-        for (let i = 0; i < empresasEncontradas.length; i++) {
-            if(empresasEncontradas[i].codigo_ativacao === codEmpresa) {
-                idEmpresa = empresasEncontradas[i].id_empresa;
-                console.log("[cadastro] Código de Ativação VÁLIDO");
-                break;
-            } else {
-                console.log("[cadastro] Código de Ativação INVÁLIDO");
-                
-                mensagemValidacao.classList.add("error");
-                mensagemValidacao.innerText = "Código de Ativação Inválido";
-            }
-        }
+    //Recupere o valor da nova input pelo nome do id
+    // Agora vá para o método fetch logo abaixo
+    var nomeVar = ipt_usuario.value;
+    var emailVar = ipt_email.value;
+    var senhaVar = ipt_senha.value;
+    var confirmacaoSenhaVar = ipt_confirmar.value;
+    var codigoVar = ipt_codigo.value;
+    var idEmpresaVincular
 
-        // === ENVIAR FORMULÁRIO === //
-        if(!valido[0]) {
-            authMessage.innerHTML = valido[1][0];
-        } else {
-            fetch("/usuarios/cadastrar", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    username,
-                    email,
-                    senha,
-                    idEmpresa
-                })
-            })
-            .then((res) => {
-                console.log("RESPOSTA: ", res);
-                if(res.ok) {
-                    // exibir card com mensagem de sucesso...;
-                    // redirecionar:
-                    setTimeout(() => {
-                        window.location("login.html");
-                    }, 2000);
+      let emailRegex = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
 
-                    // limpar formulário...
-                } else {
-                    throw "Houve um erro ao tentar realizar o cadastro!";
-                }
-            })
-            .catch((err) => {
-                console.log("[cadastro] ERRO: ", err);
-            })
-        }
-    });
+      // mínimo 6 caracteres | 1 maiúscula | 1 minúscula | 1 caractere especial
+      let senhaRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^\w\s]).{6,}$/;
+
+      // === AVISO: DESCOMENTAR PARA A SPRINT 3 === //
+      // if(!listaEmpresasCadastradas.includes(codigoVar)) {
+      //   auth_message.style.display = "block";
+      //   auth_message.classList.add("error");
+      //   auth_message.innerHTML = "O Código de Validação Não existe!";
+      //   return false;
+      // }
+
+      if(!emailRegex.test(emailVar)) {
+        auth_message.style.display = "block";
+        auth_message.classList.add("error");
+        auth_message.innerHTML = "Formato de e-mail inválido.";
+        return false;
+      }
+
+      if(!senhaRegex.test(senhaVar) || !senhaRegex.test(confirmacaoSenhaVar)) {
+        auth_message.style.display = "block";
+        auth_message.classList.add("error");
+        auth_message.innerHTML = "Senha deve obedecer ao formato: mínimo 6 caracteres | 1 maiúscula | 1 minúscula | 1 caractere especial.";
+        return false;
+      }
+
+      if(senhaVar !== confirmacaoSenhaVar) {
+        auth_message.style.display = "block";
+        auth_message.classList.add("error");
+        auth_message.innerHTML = "Senhas não coincidem!";
+        return false;
+      }
+
+      if(nomeVar.length < 3) {
+        auth_message.style.display = "block";
+        auth_message.classList.add("error");
+        auth_message.innerHTML = "Nome de usuário deve possuir mais do que 3 caracteres.";
+        return false;
+      }
+
+    // Verificando se há algum campo em branco
+    if (
+      nomeVar == "" ||
+      emailVar == "" ||
+      senhaVar == "" ||
+      confirmacaoSenhaVar == "" ||
+      codigoVar == ""
+    ) {
+      auth_message.style.display = "block";
+      auth_message.classList.add("error");
+      auth_message.innerHTML =
+        "(Mensagem de erro para todos os campos em branco)";
+
+    //   finalizarAguardar();
+      return false;
+    } else {
+      setInterval(sumirMensagem, 5000);
+    }
+
+    // Verificando se o código de ativação é de alguma empresa cadastrada
+    for (let i = 0; i < listaEmpresasCadastradas.length; i++) {
+        console.log("Cod: ", listaEmpresasCadastradas[i])
+      if (listaEmpresasCadastradas[i].codigo_ativacao == codigoVar) {
+        idEmpresaVincular = listaEmpresasCadastradas[i].empresaId
+        console.log("Código de ativação válido.");
+        break;
+      } else {
+        auth_message.style.display = "block";
+        auth_message.classList.add("error");
+        auth_message.innerHTML = "(Mensagem de erro para código inválido)";
+        // finalizarAguardar();
+      }
+    }
+
+    // === AVISO: DADOS MOCKADOS PARA SPRINT 2 === //
+    if(codigoVar === DADOS_CONTA_FICTICIA.codigo_ativacao && nomeVar === DADOS_CONTA_FICTICIA.nome && emailVar === DADOS_CONTA_FICTICIA.email && senhaVar === DADOS_CONTA_FICTICIA.senha) {
+      setTimeout(function () {
+          window.location = "./login.html";
+      }, 1000);
+    }
+
+    // === AVISO: DESCOMENTAR PARA A SPRINT 3 === //
+  //   // Enviando o valor da nova input
+  //   fetch("/usuarios/cadastrar", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       // crie um atributo que recebe o valor recuperado aqui
+  //       // Agora vá para o arquivo routes/usuario.js
+  //       nomeServer: nomeVar,
+  //       emailServer: emailVar,
+  //       senhaServer: senhaVar,
+  //       idEmpresaVincularServer: idEmpresaVincular
+  //     }),
+  //   })
+  //     .then(function (resposta) {
+  //       console.log("resposta: ", resposta);
+
+  //       if (resposta.ok) {
+  //         auth_message.style.display = "block";
+  //         auth_message.classList.add("success");
+  //         auth_message.innerHTML =
+  //           "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+
+  //         setTimeout(() => {
+  //           window.location = "login.html";
+  //         }, 2000);
+
+  //         limparFormulario();
+  //       //   finalizarAguardar();
+  //       } else {
+  //         throw "Houve um erro ao tentar realizar o cadastro!";
+  //       }
+  //     })
+  //     .catch(function (resposta) {
+  //       console.log(`#ERRO: ${resposta}`);
+  //       // finalizarAguardar();
+  //     });
+
+  //   return false;
+  }
+
+  // Listando empresas cadastradas 
+  function listar() {
+    fetch("/empresas/listar", {
+      method: "GET",
+    })
+      .then(function (resposta) {
+        resposta.json().then((empresas) => {
+            console.log("listaEmpresasCadastradas");
+            empresas.forEach((empresa) => {
+                listaEmpresasCadastradas.push(empresa);
+
+                console.log(empresa.codigo_ativacao)
+            });
+        });
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+      });
+  }
+
+  function sumirMensagem() {
+    auth_message.style.display = "none";
+  }
 </script>
 </body>
 </html>
