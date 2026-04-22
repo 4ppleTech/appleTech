@@ -64,6 +64,10 @@ body {
     font-weight: 400;
 }
 
+h1, h2, h3, h4, h5, h6, p, span {
+    cursor: default;
+}
+
 h1, h2 {
     font-family: 'Kufam', sans-serif;
     font-weight: 700;
