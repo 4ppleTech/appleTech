@@ -247,8 +247,8 @@ SELECT
     s.modelo 'Modelo do sensor',
     l.valor_sensor 'Valor captado',
         CASE
-		WHEN ((l.valor_sensor - 100) / (900)) * 100 > 0 
-			THEN CONCAT(ROUND(((l.valor_sensor - 100) / (900)) * 100, 2), '%')
+		WHEN ((l.valor_sensor - 100) / (1000)) * 100 > 0 
+			THEN CONCAT(ROUND(((l.valor_sensor - 100) / (1000)) * 100, 2), '%')
 		ELSE
 			0
 	END AS porcentagem,
