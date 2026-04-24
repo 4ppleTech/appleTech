@@ -13,6 +13,7 @@
     
     <!-- CDNs Chart.JS e FontAwesome -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
@@ -74,7 +75,7 @@
             <!-- CONTENT HEADER -->
             <div class="header">
                 <h1>Dashboard - Câmaras</h1>
-                <span id="current-date">Seg, 12 abr</span>
+                <span id="current-date"></span>
             </div>
 
             <!-- CONTENT MAIN -->
@@ -260,7 +261,10 @@
 
 <script src="../scripts/utils/mock-user.js"></script>
 <script src="../scripts/toggle-camara.js"></script>
+<script src="../scripts/utils/formatar-data.js"></script>
 <script>
+    document.getElementById("current-date").innerText = formatarDataAtual();
+
     let chamberChart = new Chart(document.getElementById("c-01"), {
         type: "line",
         data: {
@@ -268,24 +272,43 @@
             datasets: [
                 {
                 label: 'Real',
-                data: [0, 2.6, 1.3, 1.3, 3.3],                
-                borderColor: '#7a9b55',                       
-                backgroundColor: 'rgba(122, 155, 85, 0.2)',   
+                data: [0.5, 1.6, 2.8, 1.3, 1.5],                
+                borderColor: '#B83232',                       
+                backgroundColor: '#B832322a',   
                 fill: true,                                     
                 tension: 0.4,                                   
                 pointRadius: 4,                                 
                 borderWidth: 2                                  
-            },
-                {
-                label: 'Ideal',
-                data: [0, 1.2, 0.8, 1.0, 1.5],
-                borderColor: '#B83232',
-                backgroundColor: 'rgba(184, 50, 50, 0.2)',
-                fill: true,
-                tension: 0.4,
-                pointRadius: 4,
-                borderWidth: 2
             }]
+        },
+        options: {
+            plugins: {
+                annotation: {
+                    annotations: {
+                        zonaIdeal: {
+                            type: 'box',
+                            yMin: 0.5,
+                            yMax: 1.5,
+                            backgroundColor: '#7a9b555c',
+                            borderColor: '#7A9B55',
+                            borderWidth: 2,
+                            label: {
+                                display: true,
+                                content: 'Zona Ideal',
+                                position: 'end',
+                                color: '#3D5C28',
+                                font: { size: 18, weight: 'bold' }
+                            }
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    min: 0,
+                    max: 3
+                }
+            }
         },
     })
 </script>

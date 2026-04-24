@@ -75,7 +75,7 @@
             <!-- CONTENT HEADER -->
             <div class="header">
                 <h1>Dashboard - Equipe</h1>
-                <span id="current-date">Seg, 12 abr</span>
+                <span id="current-date"></span>
             </div>
 
             <!-- CONTENT MAIN -->
@@ -162,7 +162,9 @@
         </div>
     </div>
 
+<script src="../scripts/utils/formatar-data.js"></script>
 <script>
+    document.getElementById("current-date").innerText = formatarDataAtual();
     function alternar_codigo_companhia() {
         let companyCodeInput = document.getElementById("inCompanyCode");
         let icon = document.querySelector(".code-input button i");
