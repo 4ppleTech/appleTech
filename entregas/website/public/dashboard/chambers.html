@@ -81,8 +81,51 @@
             <!-- CONTENT MAIN -->
             <main class="main">
                 <div class="new-chamber-container">
-                    <img src="../assets/svgs/team-work.svg" alt="Nova Câmara">
-                    <button class="new-chamber-btn"><span>Nova Câmara</span><i class="fa-solid fa-plus"></i></button>
+                    <div class="chamber-container-content">
+                        <img src="../assets/svgs/team-work.svg" alt="Nova Câmara">
+                        <button class="new-chamber-btn" onclick="alternarVisibilidadeFormulario()">Nova Câmara<i class="fa-solid fa-plus"></i></button>
+                    </div>
+                    <form id="new-chamber-form" data-form-open="false" style="display: none;">
+                        <div class="form-header"><h2>Adicionar Nova Câmara</h2></div>
+                        <div class="form-body">
+                            <div class="field-group">
+                                <div class="field">
+                                    <label for="ipt-local-instalacao" class="field-label">Local de Instalação <span>*</span></label>
+                                    <input id="ipt-local-instalacao" type="text" class="field-input" placeholder="Ex: Ala Oeste" required>
+                                </div>
+                                <div class="field">
+                                    <label for="ipt-observacao" class="field-label">Observação</label>
+                                    <input id="ipt-observacao" type="text" class="field-input" placeholder="Ex: recém-instalada">
+                                </div>
+                                <div class="field">
+                                    <label for="ipt-apelido" class="field-label">Apelido <span>*</span></label>
+                                    <input id="ipt-apelido" type="text" class="field-input" placeholder="Ex: C-04" required>
+                                </div>
+                            </div>
+                            <div class="field-group">
+                                <div class="field">
+                                    <label for="ipt-comprimento" class="field-label">Comprimento (m) <span>*</span></label>
+                                    <input id="ipt-comprimento" type="number" class="field-input" required>
+                                </div>
+                                <div class="field">
+                                    <label for="ipt-largura" class="field-label">Largura (m) <span>*</span></label>
+                                    <input id="ipt-largura" type="number" class="field-input" required>
+                                </div>
+                                <div class="field">
+                                    <label for="ipt-profundidade" class="field-label">Profundidade (m) <span>*</span></label>
+                                    <input id="ipt-profundidade" type="number" class="field-input" required>
+                                </div>
+                                <div class="field">
+                                    <label for="ipt-qtd-macas" class="field-label">Quantidade de Maçãs<span>*</span></label>
+                                    <input id="ipt-qtd-macas" type="number" class="field-input" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-footer">
+                            <button type="reset" onclick="alternarVisibilidadeFormulario()">Cancelar</button>
+                            <button type="submit" onclick="adicionarNovaCamara()">Adicionar</button>
+                        </div>
+                    </form>
                 </div>
 
                 <div class="chamber-list-results">
@@ -265,6 +308,23 @@
 <script>
     document.getElementById("current-date").innerText = formatarDataAtual();
 
+    const novaCamaraForm = document.getElementById("new-chamber-form");
+
+    function alternarVisibilidadeFormulario() {
+        const containerContent = document.querySelector(".chamber-container-content");
+        const aberto = novaCamaraForm.dataset.formOpen;
+        if(aberto === 'true') {
+            novaCamaraForm.style.display = "none";
+            containerContent.style.display = "block";
+            novaCamaraForm.dataset.formOpen = false;
+        } else {
+            novaCamaraForm.style.display = "block";
+            containerContent.style.display = "none";
+            novaCamaraForm.dataset.formOpen = true;
+        }
+    }
+
+    // Gráfico
     let chamberChart = new Chart(document.getElementById("c-01"), {
         type: "line",
         data: {
