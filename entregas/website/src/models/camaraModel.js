@@ -1,7 +1,6 @@
 var database = require("../database/config");
 
 // Aviso: no futuro, criar função update
-
 function buscarCamarasPorEmpresa(empresaId) {
 
   var instrucaoSql = `SELECT * FROM camara WHERE empresa_id = ${empresaId}`;
@@ -11,7 +10,6 @@ function buscarCamarasPorEmpresa(empresaId) {
 }
 
 function cadastrar(empresaId, observacao, local_instalacao, apelido, comprimento, largura, profundidade, qtd_macas) {
-  
   var instrucaoSql = `INSERT INTO (observacao, local_instalacao, apelido, comprimento, largura, profundidade, qtd_macas, empresa_id) camara 
   VALUES ('${observacao}', '${local_instalacao}', '${apelido}', ${comprimento}, ${largura}, ${profundidade}, ${qtd_macas}, ${empresaId})`;
 
