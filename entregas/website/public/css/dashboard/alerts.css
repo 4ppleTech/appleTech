@@ -61,13 +61,13 @@ main .alerts .alert-list .alert::after {
     height: 100%;
 }
 
-main .alerts .alert-list .alert[data-alert-type="alert-serious"]::after {
+main .alerts .alert-list .alert--serious::after {
     background-color: #B83232;
 }
-main .alerts .alert-list .alert[data-alert-type="alert-caution"]::after {
+main .alerts .alert-list .alert--caution::after {
     background-color: #FEAC0D;
 }
-main .alerts .alert-list .alert[data-alert-type="alert-common"]::after {
+main .alerts .alert-list .alert--common::after {
     background-color: #7A9B55;
 }
 

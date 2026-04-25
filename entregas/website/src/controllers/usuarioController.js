@@ -1,15 +1,16 @@
 var usuarioModel = require("../models/usuarioModel");
-var aquarioModel = require("../models/aquarioModel");
+var camaraModel = require("../models/camaraModel");
 
 function autenticar(req, res) {
-    var email = req.body.email;
-    var senha = req.body.senha;
+    console.log(req)
+    var email = req.body.emailServer;
+    var senha = req.body.senhaServer;
 
     if (email == undefined) {
         res.status(400).send("Seu email está undefined!");
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está indefinida!");
-    } else {
+    }else {
 
         usuarioModel.autenticar(email, senha)
             .then(
@@ -20,18 +21,20 @@ function autenticar(req, res) {
                     if (resultadoAutenticar.length == 1) {
                         console.log(resultadoAutenticar);
 
-                        aquarioModel.buscarAquariosPorEmpresa(resultadoAutenticar[0].empresaId)
-                            .then((resultadoAquarios) => {
-                                if (resultadoAquarios.length > 0) {
+                        camaraModel.buscarCamarasPorEmpresa(resultadoAutenticar[0].empresaId)
+                            .then((resultadoCamaras) => {
+                                if (resultadoCamaras.length > 0) {
                                     res.json({
-                                        id: resultadoAutenticar[0].id,
+                                        id: resultadoAutenticar[0].empresaId,
                                         email: resultadoAutenticar[0].email,
                                         nome: resultadoAutenticar[0].nome,
                                         senha: resultadoAutenticar[0].senha,
-                                        aquarios: resultadoAquarios
+                                        camaras: resultadoCamaras,
+                                        papel_usuario: resultadoAutenticar[0].papel_usuario,
+                                        situacao: resultadoAutenticar[0].situacao
                                     });
                                 } else {
-                                    res.status(204).json({ aquarios: [] });
+                                    res.status(204).json({ camaras: [] });
                                 }
                             })
                     } else if (resultadoAutenticar.length == 0) {
@@ -52,29 +55,37 @@ function autenticar(req, res) {
 }
 
 function cadastrar(req, res) {
-    var username = req.body.username;
-    var email = req.body.email;
-    var senha = req.body.senha;
-    var idEmpresa = req.body.idEmpresa;
+    var nome = req.body.nomeServer;
+    var email = req.body.emailServer;
+    var senha = req.body.senhaServer;
+    var empresaId = req.body.idEmpresaVincularServer;
 
     // Faça as validações dos valores
-    if (username == undefined) {
+    if (nome == undefined) {
         res.status(400).send("Seu nome está undefined!");
     } else if (email == undefined) {
         res.status(400).send("Seu email está undefined!");
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está undefined!");
-    } else if (idEmpresa == undefined) {
-        res.status(400).send("Seu código de empresa está undefined!");
+    } else if (empresaId == undefined) {
+        res.status(400).send("Sua empresa a vincular está undefined!");
     } else {
 
-        // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrar(username, email, senha, idEmpresa)
-            .then((resultado) => res.json(resultado))
-            .catch((err) => {
-                console.log("[usuarioController] ERRO: ", err.sqlMessage);
-                res.status(500).json(err.sqlMessage);
-            })
+        usuarioModel.cadastrar(nome, email, senha, empresaId)
+            .then(
+                function (resultado) {
+                    res.json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log(
+                        "\nHouve um erro ao realizar o cadastro! Erro: ",
+                        erro.sqlMessage
+                    );
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
     }
 }
 
