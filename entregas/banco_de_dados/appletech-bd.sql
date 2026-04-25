@@ -15,7 +15,7 @@ create table endereco(
 	pais varchar(150) not null,
     
 	data_criacao datetime default current_timestamp,
-	data_atualizacao datetime on update current_timestamp,
+	data_atualizacao datetime default current_timestamp on update current_timestamp,
     
 	primary key (id_endereco)
 );
@@ -33,7 +33,7 @@ create table empresa(
     email 			varchar(255),
     
 	data_criacao 	datetime default current_timestamp,
-	data_atualizacao datetime on update current_timestamp,
+	data_atualizacao datetime default current_timestamp on update current_timestamp,
     
     primary key(id_empresa),
     constraint fk_endereco foreign key (endereco_id) references endereco (id_endereco),
@@ -52,7 +52,7 @@ create table usuario (
     senha 			varchar(100) not null,
     
 	data_criacao 	datetime default current_timestamp,
-	data_atualizacao datetime on update current_timestamp,
+	data_atualizacao datetime default current_timestamp on update current_timestamp,
     
 	primary key (id_usuario),
 	constraint ck_cliente check(situacao in ('Ativo', 'Inativo')),
@@ -81,7 +81,7 @@ create table camara (
     qtd_macas			INT,
     
 	data_criacao 		datetime default current_timestamp,
-	data_atualizacao 	datetime on update current_timestamp,
+	data_atualizacao 	datetime default current_timestamp on update current_timestamp,
     
 	primary key (id_camara),
 	constraint ckc_situacao check (situacao in ('Ativo', 'Inativo')),
@@ -97,7 +97,7 @@ create table sensor (
 	data_instalacao		date null,
     
 	data_criacao datetime default current_timestamp,
-	data_atualizacao datetime on update current_timestamp,
+	data_atualizacao datetime default current_timestamp on update current_timestamp,
     
     
 	primary key (id_sensor),
@@ -117,7 +117,7 @@ create table leitura (
     observacao varchar(255),
     
 	data_criacao datetime default current_timestamp,
-	data_atualizacao datetime on update current_timestamp,
+	data_atualizacao datetime default current_timestamp on update current_timestamp,
     
     constraint fk_sensor_leitor foreign key (sensor_id) references sensor(id_sensor)
 );
@@ -132,12 +132,11 @@ create table alerta (
     data_alerta datetime default current_timestamp,
     
 	data_criacao datetime default current_timestamp,
-	data_atualizacao datetime on update current_timestamp,
+	data_atualizacao datetime default current_timestamp on update current_timestamp,
     
     constraint ckc_nivel check (nivel in ('Crítico', 'Moderado', 'Controlado')),
     constraint fk_alerta_leitura foreign key (leitura_id) references leitura(id)
 );
-
 
 -- Popular tabelas 
 insert into endereco (cep, numero, complemento, logradouro, bairro, cidade, estado, pais) values
