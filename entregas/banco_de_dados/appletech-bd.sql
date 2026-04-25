@@ -22,7 +22,7 @@ create table endereco(
 
 create table empresa(
 	id_empresa 		int  auto_increment,
-    endereco_id 	int, -- enderecoId seria uma foreign key que ligaria a empresa com a tabela endereço
+    endereco_id 	int, 
     matriz_id 		int,
     codigo_ativacao VARCHAR(15) NOT NULL UNIQUE,
     
@@ -109,7 +109,7 @@ create table sensor (
 -- //////////////////////////////////////////////////////////////
 
 create table leitura (
-	id	int primary key auto_increment,
+	id_leitura	int primary key auto_increment,
 	sensor_id int not null,
     
     valor_sensor float,
