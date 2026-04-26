@@ -135,7 +135,7 @@ create table alerta (
 	data_atualizacao datetime default current_timestamp on update current_timestamp,
     
     constraint ckc_nivel check (nivel in ('Crítico', 'Moderado', 'Controlado')),
-    constraint fk_alerta_leitura foreign key (leitura_id) references leitura(id)
+    constraint fk_alerta_leitura foreign key (leitura_id) references leitura(id_leitura)
 );
 
 -- Popular tabelas 
@@ -186,13 +186,12 @@ INSERT INTO alerta (leitura_id, nivel, mensagem) VALUES
 (8, 'Crítico', 'Nível de etileno está muito alto, passou de 1.5ppm');
 
 -- Fazer joins
-SELECT * from leitura;
-
 
 -- Verificar a leitura dos sensores ativos da razão social Apple Tech Brasil LTDA, junto com a data da leitura e o local da câmara
 SELECT 
 	e.nome_fantasia 'nome fantasia',
     e.razao_social 'Razão social',
+	c.apelido 'Apelido',
     c.local_instalacao 'Local da câmara',
     s.modelo 'Modelo do sensor',
     l.valor_sensor 'Valor captado',
@@ -242,6 +241,7 @@ JOIN empresa em ON em.endereco_id = en.id_endereco;
 SELECT 
 	e.nome_fantasia 'nome fantasia',
     e.razao_social 'Razão social',
+	c.apelido 'Apelido',
     c.local_instalacao 'Local da câmara',
     s.modelo 'Modelo do sensor',
     l.valor_sensor 'Valor captado',
@@ -280,6 +280,159 @@ WHERE
 AND
 	e.razao_social = 'Apple Tech Brasil LTDA'
 AND
-	data_hora LIKE '%2024-05-10%' -- dia especifico
+	data_hora LIKE CONCAT('%','2024-05-10','%')
 ORDER BY c.local_instalacao;
 
+-- Status geral
+SELECT 
+    e.razao_social,
+    e.nome_fantasia,
+	CASE 
+		WHEN AVG(l.valor_sensor) > 1.5 && AVG(l.valor_sensor) < 2.0 
+			THEN 'Observação'
+		WHEN AVG(l.valor_sensor) > 2.0 
+			THEN 'Risco'
+		ELSE 'Sob Controle'
+	END AS 'Status Geral'
+FROM
+	empresa e
+JOIN camara c ON e.id_empresa = c.empresa_id
+JOIN sensor s ON c.id_camara = s.camara_id
+JOIN leitura l ON s.id_sensor = l.sensor_id
+WHERE
+	s.situacao = 'Ativo'
+AND
+	e.razao_social = 'Apple Tech Brasil LTDA'
+AND
+	data_hora LIKE CONCAT('%','2024-05-10','%')
+ORDER BY c.local_instalacao;
+
+-- Câmaras em risco
+SELECT 
+	e.nome_fantasia 'nome fantasia',
+    e.razao_social 'Razão social',
+	c.apelido 'Apelido',
+    c.local_instalacao 'Local da câmara',
+    s.modelo 'Modelo do sensor',
+    CASE 
+		WHEN l.valor_sensor > 1.5 THEN 'Câmara em risco'
+        ELSE 'Câmara em controle'
+    END AS 'câmaras em risco',
+    c.qtd_macas 'Quantidade de maçãs',
+    l.data_hora 'Data da leitura'
+FROM
+	empresa e
+JOIN camara c ON e.id_empresa = c.empresa_id
+JOIN sensor s ON c.id_camara = s.camara_id
+JOIN leitura l ON s.id_sensor = l.sensor_id
+WHERE
+	s.situacao = 'Ativo'
+AND
+	e.razao_social = 'Apple Tech Brasil LTDA'
+AND
+	l.data_hora LIKE CONCAT('%','2024-05-10','%')
+AND 
+	l.valor_sensor > 1.5
+ORDER BY l.data_hora;
+--
+SELECT 
+	e.nome_fantasia 'nome fantasia',
+    e.razao_social 'Razão social',
+    c.apelido 'Apelido',
+    c.local_instalacao 'Local da câmara',
+    s.modelo 'Modelo do sensor',
+    CASE 
+		WHEN l.valor_sensor > 1.5 THEN 'Câmara em risco'
+        ELSE 'Câmara em controle'
+    END AS 'câmaras em risco',
+    c.qtd_macas 'Quantidade de maçãs',
+    l.data_hora 'Data da leitura'
+FROM
+	empresa e
+JOIN camara c ON e.id_empresa = c.empresa_id
+JOIN sensor s ON c.id_camara = s.camara_id
+JOIN leitura l ON s.id_sensor = l.sensor_id
+WHERE
+	s.situacao = 'Ativo'
+AND
+	e.razao_social = 'Apple Tech Brasil LTDA'
+AND
+	l.data_hora LIKE CONCAT('%','2024-05-10','%')
+AND 
+	l.valor_sensor <= 1.5
+ORDER BY l.data_hora;
+
+-- Câmaras ativas
+SELECT 
+	e.nome_fantasia 'nome fantasia',
+    e.razao_social 'Razão social',
+    c.apelido 'Apelido',
+    c.local_instalacao 'Local da câmara',
+    s.modelo 'Modelo do sensor',
+    s.situacao 'Situação'
+FROM
+	empresa e
+JOIN camara c ON e.id_empresa = c.empresa_id
+JOIN sensor s ON c.id_camara = s.camara_id
+WHERE
+	s.situacao = 'Ativo'
+ORDER BY c.apelido;
+
+-- Câmaras inativas
+SELECT 
+	e.nome_fantasia 'nome fantasia',
+    e.razao_social 'Razão social',
+    c.apelido 'Apelido',
+    c.local_instalacao 'Local da câmara',
+    s.modelo 'Modelo do sensor',
+    s.situacao 'Situação'
+FROM
+	empresa e
+JOIN camara c ON e.id_empresa = c.empresa_id
+JOIN sensor s ON c.id_camara = s.camara_id
+WHERE
+	s.situacao = 'Inativo'
+ORDER BY c.apelido;
+
+-- Todos alertas
+SELECT 
+	e.nome_fantasia 'nome fantasia',
+    e.razao_social 'Razão social',
+	c.apelido 'Apelido',
+    c.local_instalacao 'Local da câmara',
+    l.valor_sensor,
+    a.nivel,
+    a.mensagem
+FROM
+	empresa e
+JOIN camara c ON e.id_empresa = c.empresa_id
+JOIN sensor s ON c.id_camara = s.camara_id
+JOIN leitura l ON s.id_sensor = l.sensor_id
+JOIN alerta a ON l.id_leitura = a.leitura_id
+WHERE
+	s.situacao = 'Ativo'
+AND
+	e.razao_social = 'Apple Tech Brasil LTDA'
+ORDER BY l.data_hora;
+
+-- Últimos alertas
+SELECT 
+	e.nome_fantasia 'nome fantasia',
+    e.razao_social 'Razão social',
+	c.apelido 'Apelido',
+    c.local_instalacao 'Local da câmara',
+    l.valor_sensor,
+    a.nivel,
+    a.mensagem
+FROM
+	empresa e
+JOIN camara c ON e.id_empresa = c.empresa_id
+JOIN sensor s ON c.id_camara = s.camara_id
+JOIN leitura l ON s.id_sensor = l.sensor_id
+JOIN alerta a ON l.id_leitura = a.leitura_id
+WHERE
+	s.situacao = 'Ativo'
+AND
+	e.razao_social = 'Apple Tech Brasil LTDA'
+ORDER BY a.data_criacao
+LIMIT 3;
