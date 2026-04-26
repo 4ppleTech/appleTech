@@ -46,6 +46,9 @@
 .kpi-card--positive { color: #3D5C28; }
 .kpi-card--positive::after { background-color: #7A9B55; }
 
+.kpi-card--caution { color: #d18b00; }
+.kpi-card--caution::after { background-color: #f7ba41; }
+
 .kpi-card--negative { color: #8C1F1F; }
 .kpi-card--negative::after { background-color: #B83232; }
 

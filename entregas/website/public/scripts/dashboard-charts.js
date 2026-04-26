@@ -5,15 +5,15 @@ const columnChartDiv = document.getElementById("column-chart");
 const lineChartData = {
     '24h': {
         labels: ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00', '23:59'],
-        data: [0.5, 2.6, 1.3, 1.3, 2.3, 1.5, 1.5, 0.7, 1.2] 
+        data: [1.1, 1.1, 1.0, 1.1, 1.2, 1.3, 1.5, 1.4, 1.42] 
     },
     '7d': {
         labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'],
-        data: [1.4, 1.8, 1.2, 2.0, 1.5, 0.9, 1.3]
+        data: [1.2, 1.1, 1.3, 1.4, 1.2, 1.3, 1.4]
     },
     '30d': {
         labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4'],
-        data: [1.6, 1.4, 1.9, 1.5]
+        data: [1.2, 1.3, 1.2, 1.4]
     }
 };
 
@@ -70,39 +70,44 @@ function atualizarPeriodo(periodo) {                                    // receb
 // // === GRÁFICO DE BARRAS === //
 const columnData = {
     labels: ['C-01', 'C-02', 'C-03', 'C-04', 'C-05'],
-    data: [1.1, 1.0, 0.5, 1.2, 1.8],
+    data: [1.1, 1.0, 1.8, 1.2, 2.0],
 };
 
 let columnChart = new Chart(columnChartDiv, {
     type: 'bar',
     data: {
         labels: columnData.labels,
-        datasets: [{
-            label: "Valor Atual",
-            data: columnData.data,
-            borderColor: '#B83232',
-            backgroundColor: 'rgba(184, 50, 50, 0.4)',
-            borderWidth: 2
-        }]
+datasets: [{
+    label: "Nível de Etileno (ppm)",
+    data: columnData.data,
+    backgroundColor: columnData.data.map(valor => valor > 1.5 ? 'rgba(184, 50, 50, 0.6)' : 'rgba(122, 155, 85, 0.6)'),
+    borderColor: columnData.data.map(valor => valor > 1.5 ? '#B83232' : '#7A9B55'),
+    borderWidth: 2
+}]
     },
     options: {
         plugins: {
             legend: { display: true },
             annotation: {
                 annotations: {
-                    zonaIdeal: {
-                        type: 'box',
-                        yMin: 0.5,
+                    limiteCritico: {
+                        type: 'line',
+                        yMin: 1.5,
                         yMax: 1.5,
-                        backgroundColor: '#7a9b555c',
-                        borderColor: '#7A9B55',
-                        borderWidth: 2,
+                        borderColor: '#B83232',
+                        borderWidth: 3,
                         label: {
                             display: true,
-                            content: 'Zona Ideal',
+                            content: 'Limite Crítico (1.5 ppm)',
                             position: 'end',
-                            color: '#3D5C28',
-                            font: { size: 18, weight: 'bold' }
+                            backgroundColor: 'rgba(184, 50, 50, 0.8)',
+                            color: '#fff',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            },
+                            padding: 6,
+                            borderRadius: 4
                         }
                     }
                 }

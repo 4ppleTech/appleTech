@@ -130,12 +130,12 @@
 
                 <div class="chamber-list-results">
                     <h1>Total de Câmaras</h1>
-                    <span>3</span>
+                    <span>5</span>
                 </div>
 
                 <ul class="chamber-list">
                     <!-- CHAMBER -->
-                    <li class="chamber" data-chamber-id="c-01" data-chamber-card="open">
+                    <li class="chamber" id="c-01" data-chamber-card="open">
                         <!-- CHAMBER HEADER -->
                         <div class="chamber-header">
                             <button class="chamber-toggler" onclick="alternarVisibilidadeCamara('c-01')"><i class="fa-solid fa-chevron-down"></i></button>
@@ -149,11 +149,11 @@
                             </div>
                             <div>
                                 <p>Situação</p>
-                                <span class="badge" data-badge-type="caution">● Atenção</span>
+                                <span class="badge" data-badge-type="common">● Sob Controle</span>
                             </div>
                             <div>
                                 <p>Última Leitura</p>
-                                <span>8hrs atrás</span>
+                                <span>1min atrás</span>
                             </div>
                         </div>
                         <!-- CHAMBER CONTENT -->
@@ -161,41 +161,37 @@
                             <!-- CHAMBER GRAPH -->
                             <div class="chamber-graph">
                                 <h3 class="chamber-graph-title">Variação de Etileno - <span>C-01</span></h3>
-                                <canvas id="c-01"></canvas>
+                                <canvas id="c-01-graph"></canvas>
                             </div>
 
                             <!-- CHAMBER EXTRA -->
                             <div class="chamber-extra">
                                 <div class="chamber-card">
-                                    <p class="chamber-card-title">Etileno</p>
-                                    <h3 class="chamber-card-value">2.5 <span>ppm</span></h3>
-                                    <p class="chamber-card-disclaimer">+ 0.3 última hora</p>
+                                    <p class="chamber-card-title">Etileno Atual</p>
+                                    <h3 class="chamber-card-value">1.1 <span>ppm</span></h3>
                                 </div>
                                 <div class="chamber-card">
                                     <p class="chamber-card-title">Volume Câmara</p>
                                     <h3 class="chamber-card-value">48 <span>m³</span></h3>
-                                    <p class="chamber-card-disclaimer"></p>
                                 </div>
                                 <div class="chamber-card">
-                                    <p class="chamber-card-title">Estoque</p>
-                                    <h3 class="chamber-card-value">6.500 <span>≈ 1.5 toneladas</span></h3>
-                                    <p class="chamber-card-disclaimer"></p>
+                                    <p class="chamber-card-title">Estoque Total</p>
+                                    <h3 class="chamber-card-value">500kg <span>~3.300 maçãs</span></h3>
                                 </div>
                                 <div class="chamber-card">
-                                    <p class="chamber-card-title">Situação Financeira</p>
-                                    <h3 class="chamber-card-value">● Lucro <span>R$ 18.200 est.</span></h3>
-                                    <p class="chamber-card-disclaimer"></p>
+                                    <p class="chamber-card-title">Estoque em Risco</p>
+                                    <h3 class="chamber-card-value">0kg <span>Receita estimada: R$6.750,00</span></h3>
                                 </div>
                             </div>
                         </div>
                     </li>
-                    <li class="chamber"  data-chamber-id="c-02" data-chamber-card="closed">
+                    <li class="chamber" id="c-02" data-chamber-card="closed">
                         <!-- CHAMBER HEADER -->
                         <div class="chamber-header">
                             <button class="chamber-toggler" onclick="alternarVisibilidadeCamara('c-02')"><i class="fa-solid fa-chevron-down"></i></button>
                             <div>
                                 <h3>C-02</h3>
-                                <p>Câmara ala leste.</p>
+                                <p>Câmara recém-instalada</p>
                             </div>
                             <div>
                                 <p>Status</p>
@@ -203,53 +199,49 @@
                             </div>
                             <div>
                                 <p>Situação</p>
-                                <span class="badge" data-badge-type="caution">● Atenção</span>
+                                <span class="badge" data-badge-type="common">● Sob Controle</span>
                             </div>
                             <div>
                                 <p>Última Leitura</p>
-                                <span>8hrs atrás</span>
+                                <span>1min atrás</span>
                             </div>
                         </div>
                         <!-- CHAMBER CONTENT -->
                         <div class="chamber-content">
                             <!-- CHAMBER GRAPH -->
                             <div class="chamber-graph">
-                                <h3 class="chamber-graph-title">Variação de Etileno - <span>C-01</span></h3>
-                                <canvas id="c-01"></canvas>
+                                <h3 class="chamber-graph-title">Variação de Etileno - <span>C-02</span></h3>
+                                <canvas id="c-02-graph"></canvas>
                             </div>
 
                             <!-- CHAMBER EXTRA -->
                             <div class="chamber-extra">
                                 <div class="chamber-card">
-                                    <p class="chamber-card-title">Etileno</p>
-                                    <h3 class="chamber-card-value">2.5 <span>ppm</span></h3>
-                                    <p class="chamber-card-disclaimer">+ 0.3 última hora</p>
+                                    <p class="chamber-card-title">Etileno Atual</p>
+                                    <h3 class="chamber-card-value">1.0 <span>ppm</span></h3>
                                 </div>
                                 <div class="chamber-card">
                                     <p class="chamber-card-title">Volume Câmara</p>
                                     <h3 class="chamber-card-value">48 <span>m³</span></h3>
-                                    <p class="chamber-card-disclaimer"></p>
                                 </div>
                                 <div class="chamber-card">
-                                    <p class="chamber-card-title">Estoque</p>
-                                    <h3 class="chamber-card-value">6.500 <span>≈ 1.5 toneladas</span></h3>
-                                    <p class="chamber-card-disclaimer"></p>
+                                    <p class="chamber-card-title">Estoque Total</p>
+                                    <h3 class="chamber-card-value">500kg <span>~3.300 maçãs</span></h3>
                                 </div>
                                 <div class="chamber-card">
-                                    <p class="chamber-card-title">Situação Financeira</p>
-                                    <h3 class="chamber-card-value">● Lucro <span>R$ 18.200 est.</span></h3>
-                                    <p class="chamber-card-disclaimer"></p>
+                                    <p class="chamber-card-title">Estoque em Risco</p>
+                                    <h3 class="chamber-card-value">0kg <span>Receita estimada: R$6.750,00</span></h3>
                                 </div>
                             </div>
                         </div>
                     </li>
-                    <li class="chamber"  data-chamber-id="c-03" data-chamber-card="closed">
+                    <li class="chamber" id="c-03" data-chamber-card="closed">
                         <!-- CHAMBER HEADER -->
                         <div class="chamber-header">
                             <button class="chamber-toggler" onclick="alternarVisibilidadeCamara('c-03')"><i class="fa-solid fa-chevron-down"></i></button>
                             <div>
                                 <h3>C-03</h3>
-                                <p>Câmara ala oeste.</p>
+                                <p>Câmara ao lado do frigorífico.</p>
                             </div>
                             <div>
                                 <p>Status</p>
@@ -261,38 +253,134 @@
                             </div>
                             <div>
                                 <p>Última Leitura</p>
-                                <span>8hrs atrás</span>
+                                <span>1min atrás</span>
                             </div>
                         </div>
                         <!-- CHAMBER CONTENT -->
                         <div class="chamber-content">
                             <!-- CHAMBER GRAPH -->
                             <div class="chamber-graph">
-                                <h3 class="chamber-graph-title">Variação de Etileno - <span>C-01</span></h3>
-                                <canvas id="c-01"></canvas>
+                                <h3 class="chamber-graph-title">Variação de Etileno - <span>C-03</span></h3>
+                                <canvas id="c-03-graph"></canvas>
                             </div>
 
                             <!-- CHAMBER EXTRA -->
                             <div class="chamber-extra">
                                 <div class="chamber-card">
-                                    <p class="chamber-card-title">Etileno</p>
-                                    <h3 class="chamber-card-value">2.5 <span>ppm</span></h3>
-                                    <p class="chamber-card-disclaimer">+ 0.3 última hora</p>
+                                    <p class="chamber-card-title">Etileno Atual</p>
+                                    <h3 class="chamber-card-value">1.8 <span>ppm</span></h3>
                                 </div>
                                 <div class="chamber-card">
                                     <p class="chamber-card-title">Volume Câmara</p>
                                     <h3 class="chamber-card-value">48 <span>m³</span></h3>
-                                    <p class="chamber-card-disclaimer"></p>
                                 </div>
                                 <div class="chamber-card">
-                                    <p class="chamber-card-title">Estoque</p>
-                                    <h3 class="chamber-card-value">6.500 <span>≈ 1.5 toneladas</span></h3>
-                                    <p class="chamber-card-disclaimer"></p>
+                                    <p class="chamber-card-title">Estoque Total</p>
+                                    <h3 class="chamber-card-value">300kg <span>~2.000 maçãs</span></h3>
                                 </div>
                                 <div class="chamber-card">
-                                    <p class="chamber-card-title">Situação Financeira</p>
-                                    <h3 class="chamber-card-value">● Lucro <span>R$ 18.200 est.</span></h3>
-                                    <p class="chamber-card-disclaimer"></p>
+                                    <p class="chamber-card-title">Estoque em Risco</p>
+                                    <h3 class="chamber-card-value">54kg <span>Receita estimada: R$3.321,00</span></h3>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="chamber" id="c-04" data-chamber-card="closed">
+                        <!-- CHAMBER HEADER -->
+                        <div class="chamber-header">
+                            <button class="chamber-toggler" onclick="alternarVisibilidadeCamara('c-04')"><i class="fa-solid fa-chevron-down"></i></button>
+                            <div>
+                                <h3>C-04</h3>
+                                <p>Câmara da ala oeste.</p>
+                            </div>
+                            <div>
+                                <p>Status</p>
+                                <span class="badge" data-badge-type="common">● Ativo</span>
+                            </div>
+                            <div>
+                                <p>Situação</p>
+                                <span class="badge" data-badge-type="common">● Ativo</span>
+                            </div>
+                            <div>
+                                <p>Última Leitura</p>
+                                <span>1min atrás</span>
+                            </div>
+                        </div>
+                        <!-- CHAMBER CONTENT -->
+                        <div class="chamber-content">
+                            <!-- CHAMBER GRAPH -->
+                            <div class="chamber-graph">
+                                <h3 class="chamber-graph-title">Variação de Etileno - <span>C-04</span></h3>
+                                <canvas id="c-04-graph"></canvas>
+                            </div>
+
+                            <!-- CHAMBER EXTRA -->
+                            <div class="chamber-extra">
+                                <div class="chamber-card">
+                                    <p class="chamber-card-title">Etileno Atual</p>
+                                    <h3 class="chamber-card-value">1.2 <span>ppm</span></h3>
+                                </div>
+                                <div class="chamber-card">
+                                    <p class="chamber-card-title">Volume Câmara</p>
+                                    <h3 class="chamber-card-value">48 <span>m³</span></h3>
+                                </div>
+                                <div class="chamber-card">
+                                    <p class="chamber-card-title">Estoque Total</p>
+                                    <h3 class="chamber-card-value">200kg <span>~1.300 maçãs</span></h3>
+                                </div>
+                                <div class="chamber-card">
+                                    <p class="chamber-card-title">Estoque em Risco</p>
+                                    <h3 class="chamber-card-value">0kg <span>Receita estimada: R$2.700,00</span></h3>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="chamber" id="c-05" data-chamber-card="closed">
+                        <!-- CHAMBER HEADER -->
+                        <div class="chamber-header">
+                            <button class="chamber-toggler" onclick="alternarVisibilidadeCamara('c-05')"><i class="fa-solid fa-chevron-down"></i></button>
+                            <div>
+                                <h3>C-05</h3>
+                                <p>Câmara da ala leste.</p>
+                            </div>
+                            <div>
+                                <p>Status</p>
+                                <span class="badge" data-badge-type="common">● Ativo</span>
+                            </div>
+                            <div>
+                                <p>Situação</p>
+                                <span class="badge" data-badge-type="serious">● Crítico</span>
+                            </div>
+                            <div>
+                                <p>Última Leitura</p>
+                                <span>1min atrás</span>
+                            </div>
+                        </div>
+                        <!-- CHAMBER CONTENT -->
+                        <div class="chamber-content">
+                            <!-- CHAMBER GRAPH -->
+                            <div class="chamber-graph">
+                                <h3 class="chamber-graph-title">Variação de Etileno - <span>C-05</span></h3>
+                                <canvas id="c-05-graph"></canvas>
+                            </div>
+
+                            <!-- CHAMBER EXTRA -->
+                            <div class="chamber-extra">
+                                <div class="chamber-card">
+                                    <p class="chamber-card-title">Etileno Atual</p>
+                                    <h3 class="chamber-card-value">2.0 <span>ppm</span></h3>
+                                </div>
+                                <div class="chamber-card">
+                                    <p class="chamber-card-title">Volume Câmara</p>
+                                    <h3 class="chamber-card-value">48 <span>m³</span></h3>
+                                </div>
+                                <div class="chamber-card">
+                                    <p class="chamber-card-title">Estoque Total</p>
+                                    <h3 class="chamber-card-value">500kg <span>~3.300 maçãs</span></h3>
+                                </div>
+                                <div class="chamber-card">
+                                    <p class="chamber-card-title">Estoque em Risco</p>
+                                    <h3 class="chamber-card-value">100kg <span>Receita estimada: R$5.400,00</span></h3>
                                 </div>
                             </div>
                         </div>
@@ -324,7 +412,69 @@
         }
     }
 
-    // Gráfico
+    // Gráficos
+    const datasets = [
+        [1.1, 1.3, 0.9, 1.0, 1.1],
+        [1.0, 0.8, 0.9, 1.1, 1.0],
+        [1.3, 1.2, 1.5, 1.6, 1.8],
+        [1.1, 1.4, 1.0, 1.2, 1.2],
+        [1.5, 1.3, 1.8, 1.8, 2.0]
+    ]
+
+    datasets.forEach((data, idx) => {
+        new Chart(document.getElementById(`c-0${idx+1}-graph`), {
+            type: "line",
+            data: {
+                labels: ['00:00', '06:00', '12:00', '18:00', '23:59'],                
+                datasets: [
+                    {
+                    label: 'Real',
+                    data,                
+                    borderColor: '#7A9B55',                       
+                    backgroundColor: 'rgba(122, 155, 85, 0.2)',   
+                    fill: true,                                     
+                    tension: 0.4,                                   
+                    pointRadius: 4,                                 
+                    borderWidth: 2                                  
+                }]
+            },
+            options: {
+                plugins: {
+                    annotation: {
+                        annotations: {
+                            limiteCritico: {
+                                type: 'line',
+                                yMin: 1.5,
+                                yMax: 1.5,
+                                borderColor: '#B83232',
+                                borderWidth: 3,
+                                label: {
+                                    display: true,
+                                    content: 'Limite Crítico (1.5 ppm)',
+                                    position: 'end',
+                                    backgroundColor: 'rgba(184, 50, 50, 0.8)',
+                                    color: '#fff',
+                                    font: {
+                                        size: 14,
+                                        weight: 'bold'
+                                    },
+                                    padding: 6,
+                                    borderRadius: 4
+                                }
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 3
+                    }
+                }
+            },
+        })
+    })
+
     let chamberChart = new Chart(document.getElementById("c-01"), {
         type: "line",
         data: {
