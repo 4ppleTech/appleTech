@@ -170,14 +170,14 @@ INSERT INTO sensor (camara_id, modelo, situacao, data_instalacao) VALUES
 (3, 'MQ-2', 'Inativo', '2024-01-04');
 
 insert into leitura (sensor_id, valor_sensor, data_hora) values 
-(1, 150, '2024-05-10 10:00:00'),
-(2, 90, '2024-05-10 10:01:00'),
+(1, 1.4, '2024-05-10 10:00:00'),
+(2, 1.5, '2024-05-10 10:01:00'),
 (4, 0, '2024-05-10 10:02:00'),
-(3, 90, '2024-05-10 10:03:00'), 
-(1, 80, '2024-05-10 10:05:00'),
-(2, 110, '2024-05-10 10:06:00'),
-(4, 0, '2024-05-10 10:07:00'),
-(3, 110, '2024-05-10 10:08:00');
+(3, 1.6, '2024-05-10 10:03:00'), 
+(1, 1.7, '2024-05-10 10:05:00'),
+(2, 1.5, '2024-05-10 10:06:00'),
+(4, 1.7, '2024-05-10 10:07:00'),
+(3, 1.1, '2024-05-10 10:08:00');
 
 INSERT INTO alerta (leitura_id, nivel, mensagem) VALUES
 (1, 'Crítico', 'Nível de etileno está muito alto, passou de 1.5ppm'),
@@ -307,6 +307,15 @@ AND
 	data_hora LIKE CONCAT('%','2024-05-10','%')
 ORDER BY c.local_instalacao;
 
+
+
+
+
+-- SELECTS PARA AS KPI ABAIXO
+
+
+
+
 -- Câmaras em risco
 SELECT 
 	e.nome_fantasia 'nome fantasia',
@@ -334,19 +343,17 @@ AND
 AND 
 	l.valor_sensor > 1.5
 ORDER BY l.data_hora;
---
+
+
+
+-- Pico de etileno em uma camara
 SELECT 
-	e.nome_fantasia 'nome fantasia',
-    e.razao_social 'Razão social',
-    c.apelido 'Apelido',
+    e.razao_social,
+    e.nome_fantasia,
+	c.apelido 'Apelido',
     c.local_instalacao 'Local da câmara',
-    s.modelo 'Modelo do sensor',
-    CASE 
-		WHEN l.valor_sensor > 1.5 THEN 'Câmara em risco'
-        ELSE 'Câmara em controle'
-    END AS 'câmaras em risco',
-    c.qtd_macas 'Quantidade de maçãs',
-    l.data_hora 'Data da leitura'
+    l.valor_sensor 'Pico de etileno',
+    l.data_hora 'Data e hora'
 FROM
 	empresa e
 JOIN camara c ON e.id_empresa = c.empresa_id
@@ -357,12 +364,41 @@ WHERE
 AND
 	e.razao_social = 'Apple Tech Brasil LTDA'
 AND
-	l.data_hora LIKE CONCAT('%','2024-05-10','%')
-AND 
-	l.valor_sensor <= 1.5
-ORDER BY l.data_hora;
+	data_hora LIKE CONCAT('%','2024-05-10','%')
+ORDER BY l.valor_sensor DESC
+LIMIT 1;
 
--- Câmaras ativas
+
+
+
+-- Estoque em risco e receita em risco
+SELECT 
+    e.razao_social,
+    e.nome_fantasia,
+	c.apelido 'Apelido',
+    c.local_instalacao 'Local da câmara',
+    l.valor_sensor 'Etileno',
+    CONCAT(ROUND(c.qtd_macas * (l.valor_sensor / 10), 2), 'kg') 'Estoque em risco',
+    CONCAT('R$', ROUND(c.qtd_macas * (l.valor_sensor / 10), 2) * 13.50) 'Receita em risco',
+    l.data_hora 'Data e hora'
+FROM
+	empresa e
+JOIN camara c ON e.id_empresa = c.empresa_id
+JOIN sensor s ON c.id_camara = s.camara_id
+JOIN leitura l ON s.id_sensor = l.sensor_id
+WHERE
+	s.situacao = 'Ativo'
+AND
+	e.razao_social = 'Apple Tech Brasil LTDA'
+AND
+	data_hora LIKE CONCAT('%','2024-05-10','%')
+AND
+	l.valor_sensor > 1.5
+ORDER BY l.valor_sensor DESC;
+
+
+
+-- Sensor ativo
 SELECT 
 	e.nome_fantasia 'nome fantasia',
     e.razao_social 'Razão social',
@@ -378,7 +414,11 @@ WHERE
 	s.situacao = 'Ativo'
 ORDER BY c.apelido;
 
--- Câmaras inativas
+
+
+
+
+-- Sensor inativo
 SELECT 
 	e.nome_fantasia 'nome fantasia',
     e.razao_social 'Razão social',
@@ -393,6 +433,9 @@ JOIN sensor s ON c.id_camara = s.camara_id
 WHERE
 	s.situacao = 'Inativo'
 ORDER BY c.apelido;
+
+
+
 
 -- Todos alertas
 SELECT 
@@ -414,6 +457,9 @@ WHERE
 AND
 	e.razao_social = 'Apple Tech Brasil LTDA'
 ORDER BY l.data_hora;
+
+
+
 
 -- Últimos alertas
 SELECT 
