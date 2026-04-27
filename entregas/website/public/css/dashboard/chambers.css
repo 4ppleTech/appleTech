@@ -270,6 +270,15 @@
 .chamber-card .chamber-card-value {
     color: #3D3020;
 }
+.chamber-card .chamber-card-value--positive {
+    color: #7A9B55;
+}
+.chamber-card .chamber-card-value--caution {
+    color: #d18b00;
+}
+.chamber-card .chamber-card-value--negative {
+    color: #B83232;
+}
 
 .chamber-card .chamber-card-value span {
     font-size: 0.8rem;
