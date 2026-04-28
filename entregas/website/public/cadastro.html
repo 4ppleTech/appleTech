@@ -160,32 +160,32 @@
       //   return false;
       // }
 
+      if(nomeVar.length < 3) {
+        auth_message.style.display = "block";
+        auth_message.classList.add("error");
+        auth_message.innerHTML = "Nome de usuário deve possuir mais do que 3 caracteres.";
+        return;
+      }
+
       if(!emailRegex.test(emailVar)) {
         auth_message.style.display = "block";
         auth_message.classList.add("error");
         auth_message.innerHTML = "Formato de e-mail inválido.";
-        return false;
+        return;
       }
 
       if(!senhaRegex.test(senhaVar) || !senhaRegex.test(confirmacaoSenhaVar)) {
         auth_message.style.display = "block";
         auth_message.classList.add("error");
         auth_message.innerHTML = "Senha deve obedecer ao formato: mínimo 6 caracteres | 1 maiúscula | 1 minúscula | 1 caractere especial.";
-        return false;
+        return;
       }
 
       if(senhaVar !== confirmacaoSenhaVar) {
         auth_message.style.display = "block";
         auth_message.classList.add("error");
         auth_message.innerHTML = "Senhas não coincidem!";
-        return false;
-      }
-
-      if(nomeVar.length < 3) {
-        auth_message.style.display = "block";
-        auth_message.classList.add("error");
-        auth_message.innerHTML = "Nome de usuário deve possuir mais do que 3 caracteres.";
-        return false;
+        return;
       }
 
     // Verificando se há algum campo em branco
@@ -198,8 +198,7 @@
     ) {
       auth_message.style.display = "block";
       auth_message.classList.add("error");
-      auth_message.innerHTML =
-        "(Mensagem de erro para todos os campos em branco)";
+      auth_message.innerHTML = "Preencha todos os campos antes de seguir em frente!";
 
     //   finalizarAguardar();
       return false;
@@ -227,6 +226,10 @@
       setTimeout(function () {
           window.location = "./login.html";
       }, 1000);
+    } else {
+        auth_message.style.display = "block";
+        auth_message.classList.add("error");
+        auth_message.innerHTML = "Credenciais Inválidas!";
     }
 
     // === AVISO: DESCOMENTAR PARA A SPRINT 3 === //

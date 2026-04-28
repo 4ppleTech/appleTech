@@ -230,7 +230,7 @@ body {
 .auth-message {
     display: block;
     color:  #7A6A52;
-    font-size: 0.rem;
+    font-size: 0.75rem;
     margin-top: 0.rem;
     min-height: 1.25rem;
     text-align: center;
