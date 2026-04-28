@@ -46,7 +46,6 @@ create table usuario (
 	empresa_id		int not null,
     nome			varchar(60) not null,
     email			varchar(255) not null unique,
-    telefone		varchar(25) unique,
     situacao		varchar(10) not null default 'Ativo',
     papel_usuario varchar(40) not null default 'analista',
     senha 			varchar(100) not null,
@@ -151,11 +150,11 @@ insert into empresa (endereco_id, matriz_id, codigo_ativacao, razao_social, nome
 (2, 1, 'ED145B', 'Apple Tech RJ LTDA', 'AppleTech RJ', '12345678000102', '21999999999', 'rj@appletech.com'),
 (3, 1, 'AZ235D', 'Apple Tech MG LTDA', 'AppleTech MG', '12345678000103', '31999999999', 'mg@appletech.com');
 
-insert into usuario (empresa_id, nome, email, telefone, situacao, papel_usuario, senha) values
-(1, 'João Silva', 'joao@apple.com', '11911111111', 'Ativo', 'administrador', '123456'),
-(1, 'Maria Souza', 'maria@apple.com', '11922222222', 'Ativo', 'analista', '123456'),
-(2, 'Carlos Lima', 'carlos@apple.com', '21933333333', 'Ativo', 'analista', '123456'),
-(3, 'Ana Costa', 'ana@apple.com', '31944444444', 'Inativo', 'analista', '123456');
+insert into usuario (empresa_id, nome, email, situacao, papel_usuario, senha) values
+(1, 'João Silva', 'joao@apple.com', 'Ativo', 'administrador', '123456'),
+(1, 'Maria Souza', 'maria@apple.com', 'Ativo', 'analista', '123456'),
+(2, 'Carlos Lima', 'carlos@apple.com', 'Ativo', 'analista', '123456'),
+(3, 'Ana Costa', 'ana@apple.com', 'Inativo', 'analista', '123456');
 
 insert into camara (empresa_id, local_instalacao, observacao, situacao, comprimento, largura, profundidade, qtd_macas, apelido) values
 (1, 'Câmara 1 - Estoque', 'Produtos congelados', 'Ativo', 5.0, 4.0, 3.0, 100, 'CO1'),
