@@ -142,7 +142,19 @@
                         <!-- CONTENT GRÁFICO LINHAS -->
                         <div class="chart-card">
                             <div class="chart-header">
-                                <h2 class="chart-title">Variação Média de Etileno <span>(ppm)</span></h2>
+                                <h2 class="chart-title">Nível Atual de Etileno por Câmara  <span>(ppm)</span></h2>
+                                <div class="btn-group">
+                                    <a href="./chambers.html">Análise Individual</a>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="column-chart"></canvas>
+                            </div>
+                        </div>
+                        <!-- CONTENT GRÁFICO COLUNAS -->
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h2 class="chart-title">Nível Atual de Etileno por Câmara <span>(ppm)</span></h2>
                                 <div class="btn-group">
                                     <button data-periodo="24h"onclick="atualizarPeriodo('24h')" class="active">24hrs</button>
                                     <button data-periodo="7d" onclick="atualizarPeriodo('7d')">7 dias</button>
@@ -151,18 +163,6 @@
                             </div>
                             <div class="chart-container">
                                 <canvas id="line-chart"></canvas>
-                            </div>
-                        </div>
-                        <!-- CONTENT GRÁFICO COLUNAS -->
-                        <div class="chart-card">
-                            <div class="chart-header">
-                                <h2 class="chart-title">Nível Atual de Etileno por Câmara <span>(ppm)</span></h2>
-                                <div class="btn-group">
-                                    <a href="./chambers.html">Análise Individual</a>
-                                </div>
-                            </div>
-                            <div class="chart-container">
-                                <canvas id="column-chart"></canvas>
                             </div>
                         </div>
                     </div>
