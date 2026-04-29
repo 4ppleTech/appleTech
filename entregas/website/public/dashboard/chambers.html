@@ -63,7 +63,7 @@
                         <span id="account-role"></span>
                     </div>
                 </div>
-                <button id="logout-btn">
+                <button id="logout-btn" onclick="limparSessao()">
                     <i class="fa-solid fa-right-from-bracket" style="rotate: 180deg"></i>
                     <span>Sair</span>
                 </button>
@@ -393,6 +393,7 @@
 <script src="../scripts/utils/mock-user.js"></script>
 <script src="../scripts/toggle-camara.js"></script>
 <script src="../scripts/utils/formatar-data.js"></script>
+<script src="../scripts/utils/sessao.js"></script>
 <script>
     document.getElementById("current-date").innerText = formatarDataAtual();
 
