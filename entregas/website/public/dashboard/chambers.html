@@ -63,7 +63,7 @@
                         <span id="account-role"></span>
                     </div>
                 </div>
-                <button id="logout-btn" onclick="limparSessao()">
+                <button id="logout-btn">
                     <i class="fa-solid fa-right-from-bracket" style="rotate: 180deg"></i>
                     <span>Sair</span>
                 </button>
@@ -116,7 +116,7 @@
                                     <input id="ipt-profundidade" type="number" class="field-input" required>
                                 </div>
                                 <div class="field">
-                                    <label for="ipt-qtd-macas" class="field-label">Quantidade de Maçãs<span>*</span></label>
+                                    <label for="ipt-qtd-macas" class="field-label">Quantidade de Maçãs (Kg)<span>*</span></label>
                                     <input id="ipt-qtd-macas" type="number" class="field-input" required>
                                 </div>
                             </div>
@@ -160,7 +160,14 @@
                         <div class="chamber-content">
                             <!-- CHAMBER GRAPH -->
                             <div class="chamber-graph">
-                                <h3 class="chamber-graph-title">Variação de Etileno - <span>C-01</span></h3>
+                                <div>
+                                    <h3 class="chamber-graph-title">Variação de Etileno - <span>C-01</span></h3>
+                                    <div class="btn-group">
+                                        <button data-periodo="24h"onclick="atualizarPeriodo('24h')" class="active">24hrs</button>
+                                        <button data-periodo="7d" onclick="atualizarPeriodo('7d')">7 dias</button>
+                                        <button data-periodo="30d"onclick="atualizarPeriodo('30d')">30 dias</button>
+                                    </div>
+                                </div>
                                 <canvas id="c-01-graph"></canvas>
                             </div>
 
@@ -210,7 +217,14 @@
                         <div class="chamber-content">
                             <!-- CHAMBER GRAPH -->
                             <div class="chamber-graph">
-                                <h3 class="chamber-graph-title">Variação de Etileno - <span>C-02</span></h3>
+                                <div>
+                                    <h3 class="chamber-graph-title">Variação de Etileno - <span>C-02</span></h3>
+                                    <div class="btn-group">
+                                        <button data-periodo="24h"onclick="atualizarPeriodo('24h')" class="active">24hrs</button>
+                                        <button data-periodo="7d" onclick="atualizarPeriodo('7d')">7 dias</button>
+                                        <button data-periodo="30d"onclick="atualizarPeriodo('30d')">30 dias</button>
+                                    </div>
+                                </div>
                                 <canvas id="c-02-graph"></canvas>
                             </div>
 
@@ -260,7 +274,14 @@
                         <div class="chamber-content">
                             <!-- CHAMBER GRAPH -->
                             <div class="chamber-graph">
-                                <h3 class="chamber-graph-title">Variação de Etileno - <span>C-03</span></h3>
+                                <div>
+                                    <h3 class="chamber-graph-title">Variação de Etileno - <span>C-03</span></h3>
+                                    <div class="btn-group">
+                                        <button data-periodo="24h"onclick="atualizarPeriodo('24h')" class="active">24hrs</button>
+                                        <button data-periodo="7d" onclick="atualizarPeriodo('7d')">7 dias</button>
+                                        <button data-periodo="30d"onclick="atualizarPeriodo('30d')">30 dias</button>
+                                    </div>
+                                </div>
                                 <canvas id="c-03-graph"></canvas>
                             </div>
 
@@ -310,7 +331,14 @@
                         <div class="chamber-content">
                             <!-- CHAMBER GRAPH -->
                             <div class="chamber-graph">
-                                <h3 class="chamber-graph-title">Variação de Etileno - <span>C-04</span></h3>
+                                <div>
+                                    <h3 class="chamber-graph-title">Variação de Etileno - <span>C-04</span></h3>
+                                    <div class="btn-group">
+                                        <button data-periodo="24h"onclick="atualizarPeriodo('24h')" class="active">24hrs</button>
+                                        <button data-periodo="7d" onclick="atualizarPeriodo('7d')">7 dias</button>
+                                        <button data-periodo="30d"onclick="atualizarPeriodo('30d')">30 dias</button>
+                                    </div>
+                                </div>
                                 <canvas id="c-04-graph"></canvas>
                             </div>
 
@@ -360,7 +388,14 @@
                         <div class="chamber-content">
                             <!-- CHAMBER GRAPH -->
                             <div class="chamber-graph">
-                                <h3 class="chamber-graph-title">Variação de Etileno - <span>C-05</span></h3>
+                                <div>
+                                    <h3 class="chamber-graph-title">Variação de Etileno - <span>C-05</span></h3>
+                                    <div class="btn-group">
+                                        <button data-periodo="24h"onclick="atualizarPeriodo('24h')" class="active">24hrs</button>
+                                        <button data-periodo="7d" onclick="atualizarPeriodo('7d')">7 dias</button>
+                                        <button data-periodo="30d"onclick="atualizarPeriodo('30d')">30 dias</button>
+                                    </div>
+                                </div>
                                 <canvas id="c-05-graph"></canvas>
                             </div>
 
@@ -393,7 +428,6 @@
 <script src="../scripts/utils/mock-user.js"></script>
 <script src="../scripts/toggle-camara.js"></script>
 <script src="../scripts/utils/formatar-data.js"></script>
-<script src="../scripts/utils/sessao.js"></script>
 <script>
     document.getElementById("current-date").innerText = formatarDataAtual();
 
