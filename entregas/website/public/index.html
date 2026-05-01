@@ -282,7 +282,24 @@
             <p>Prejuízo pela perda de qualidade: <strong>R$ ${prejQualiWorst.toFixed(2)}</strong></p>
             <p>Prejuízo total: <strong>R$ ${prejTotalWorst.toFixed(2)}</strong></p>
             <p>Redução do lucro: <strong>${pctReducaoWorst.toFixed(2)}%</strong></p>`;
+
     }
+
+    /* EXPLICAÇÃO DA CALCULADORA:
+       
+       A calculadora estima a perda financeira causada pelo amadurecimento precoce causado pelo gás etileno
+       em maçãs gala armazenadas por 6 meses sem monitoramento IoT.
+       
+       1. Descarte (Perda Física): Representa as maçãs que apodreceram. No melhor caso (8%) 
+          e no pior caso (15%). O prejuízo é calculado sobre o custo de aquisição.
+       
+       2. Perda Qualitativa: Maçãs que não apodreceram, mas perderam firmeza e brilho ("farinhentas"). 
+          Essas frutas sofrem um desconto no preço de venda para não serem descartadas.
+          no melhor caso 10% do lote restante é vendido com 15% de desconto já no pior caso: 20% do lote restante é vendido com 25% de desconto.
+       
+       3. Redução do Lucro: Mostra a porcentagem do lucro esperado que foi reduzida pelos 
+          prejuízos citados acima.
+    */
 </script>
 </body>
 </html>
