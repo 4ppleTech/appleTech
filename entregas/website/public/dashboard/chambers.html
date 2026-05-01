@@ -134,292 +134,7 @@
                 </div>
 
                 <ul class="chamber-list">
-                    <!-- CHAMBER -->
-                    <li class="chamber" id="c-01" data-chamber-card="open">
-                        <!-- CHAMBER HEADER -->
-                        <div class="chamber-header">
-                            <button class="chamber-toggler" onclick="alternarVisibilidadeCamara('c-01')"><i class="fa-solid fa-chevron-down"></i></button>
-                            <div>
-                                <h3>C-01</h3>
-                                <p>Câmara ao lado do frigorífico.</p>
-                            </div>
-                            <div>
-                                <p>Status</p>
-                                <span class="badge" data-badge-type="common">● Ativo</span>
-                            </div>
-                            <div>
-                                <p>Situação</p>
-                                <span class="badge" data-badge-type="common">● Sob Controle</span>
-                            </div>
-                            <div>
-                                <p>Última Leitura</p>
-                                <span>1min atrás</span>
-                            </div>
-                        </div>
-                        <!-- CHAMBER CONTENT -->
-                        <div class="chamber-content">
-                            <!-- CHAMBER GRAPH -->
-                            <div class="chamber-graph">
-                                <div>
-                                    <h3 class="chamber-graph-title">Variação de Etileno - <span>C-01</span></h3>
-                                    <div class="btn-group">
-                                        <button data-periodo="24h"onclick="atualizarPeriodo('24h')" class="active">24hrs</button>
-                                        <button data-periodo="7d" onclick="atualizarPeriodo('7d')">7 dias</button>
-                                        <button data-periodo="30d"onclick="atualizarPeriodo('30d')">30 dias</button>
-                                    </div>
-                                </div>
-                                <canvas id="c-01-graph"></canvas>
-                            </div>
-
-                            <!-- CHAMBER EXTRA -->
-                            <div class="chamber-extra">
-                                <div class="chamber-card">
-                                    <p class="chamber-card-title">Etileno Atual</p>
-                                    <h3 class="chamber-card-value chamber-card-value--positive">1.1 <span>ppm</span></h3>
-                                </div>
-                                <div class="chamber-card">
-                                    <p class="chamber-card-title">Volume Câmara</p>
-                                    <h3 class="chamber-card-value">48 <span>m³</span></h3>
-                                </div>
-                                <div class="chamber-card">
-                                    <p class="chamber-card-title">Estoque Total</p>
-                                    <h3 class="chamber-card-value">500kg <span>~3.300 maçãs</span></h3>
-                                </div>
-                                <div class="chamber-card">
-                                    <p class="chamber-card-title">Estoque em Risco</p>
-                                    <h3 class="chamber-card-value chamber-card-value--positive">0kg <span>Receita estimada: R$6.750,00</span></h3>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="chamber" id="c-02" data-chamber-card="closed">
-                        <!-- CHAMBER HEADER -->
-                        <div class="chamber-header">
-                            <button class="chamber-toggler" onclick="alternarVisibilidadeCamara('c-02')"><i class="fa-solid fa-chevron-down"></i></button>
-                            <div>
-                                <h3>C-02</h3>
-                                <p>Câmara recém-instalada</p>
-                            </div>
-                            <div>
-                                <p>Status</p>
-                                <span class="badge" data-badge-type="common">● Ativo</span>
-                            </div>
-                            <div>
-                                <p>Situação</p>
-                                <span class="badge" data-badge-type="common">● Sob Controle</span>
-                            </div>
-                            <div>
-                                <p>Última Leitura</p>
-                                <span>1min atrás</span>
-                            </div>
-                        </div>
-                        <!-- CHAMBER CONTENT -->
-                        <div class="chamber-content">
-                            <!-- CHAMBER GRAPH -->
-                            <div class="chamber-graph">
-                                <div>
-                                    <h3 class="chamber-graph-title">Variação de Etileno - <span>C-02</span></h3>
-                                    <div class="btn-group">
-                                        <button data-periodo="24h"onclick="atualizarPeriodo('24h')" class="active">24hrs</button>
-                                        <button data-periodo="7d" onclick="atualizarPeriodo('7d')">7 dias</button>
-                                        <button data-periodo="30d"onclick="atualizarPeriodo('30d')">30 dias</button>
-                                    </div>
-                                </div>
-                                <canvas id="c-02-graph"></canvas>
-                            </div>
-
-                            <!-- CHAMBER EXTRA -->
-                            <div class="chamber-extra">
-                                <div class="chamber-card">
-                                    <p class="chamber-card-title">Etileno Atual</p>
-                                    <h3 class="chamber-card-value chamber-card-value--positive">1.0 <span>ppm</span></h3>
-                                </div>
-                                <div class="chamber-card">
-                                    <p class="chamber-card-title">Volume Câmara</p>
-                                    <h3 class="chamber-card-value">48 <span>m³</span></h3>
-                                </div>
-                                <div class="chamber-card">
-                                    <p class="chamber-card-title">Estoque Total</p>
-                                    <h3 class="chamber-card-value">500kg <span>~3.300 maçãs</span></h3>
-                                </div>
-                                <div class="chamber-card">
-                                    <p class="chamber-card-title">Estoque em Risco</p>
-                                    <h3 class="chamber-card-value chamber-card-value--positive">0kg <span>Receita estimada: R$6.750,00</span></h3>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="chamber" id="c-03" data-chamber-card="closed">
-                        <!-- CHAMBER HEADER -->
-                        <div class="chamber-header">
-                            <button class="chamber-toggler" onclick="alternarVisibilidadeCamara('c-03')"><i class="fa-solid fa-chevron-down"></i></button>
-                            <div>
-                                <h3>C-03</h3>
-                                <p>Câmara ao lado do frigorífico.</p>
-                            </div>
-                            <div>
-                                <p>Status</p>
-                                <span class="badge" data-badge-type="common">● Ativo</span>
-                            </div>
-                            <div>
-                                <p>Situação</p>
-                                <span class="badge" data-badge-type="caution">● Atenção</span>
-                            </div>
-                            <div>
-                                <p>Última Leitura</p>
-                                <span>1min atrás</span>
-                            </div>
-                        </div>
-                        <!-- CHAMBER CONTENT -->
-                        <div class="chamber-content">
-                            <!-- CHAMBER GRAPH -->
-                            <div class="chamber-graph">
-                                <div>
-                                    <h3 class="chamber-graph-title">Variação de Etileno - <span>C-03</span></h3>
-                                    <div class="btn-group">
-                                        <button data-periodo="24h"onclick="atualizarPeriodo('24h')" class="active">24hrs</button>
-                                        <button data-periodo="7d" onclick="atualizarPeriodo('7d')">7 dias</button>
-                                        <button data-periodo="30d"onclick="atualizarPeriodo('30d')">30 dias</button>
-                                    </div>
-                                </div>
-                                <canvas id="c-03-graph"></canvas>
-                            </div>
-
-                            <!-- CHAMBER EXTRA -->
-                            <div class="chamber-extra">
-                                <div class="chamber-card">
-                                    <p class="chamber-card-title">Etileno Atual</p>
-                                    <h3 class="chamber-card-value chamber-card-value--negative">1.8 <span>ppm</span></h3>
-                                </div>
-                                <div class="chamber-card">
-                                    <p class="chamber-card-title">Volume Câmara</p>
-                                    <h3 class="chamber-card-value">48 <span>m³</span></h3>
-                                </div>
-                                <div class="chamber-card">
-                                    <p class="chamber-card-title">Estoque Total</p>
-                                    <h3 class="chamber-card-value">300kg <span>~2.000 maçãs</span></h3>
-                                </div>
-                                <div class="chamber-card">
-                                    <p class="chamber-card-title">Estoque em Risco</p>
-                                    <h3 class="chamber-card-value chamber-card-value--negative">54kg <span>Receita estimada: R$3.321,00</span></h3>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="chamber" id="c-04" data-chamber-card="closed">
-                        <!-- CHAMBER HEADER -->
-                        <div class="chamber-header">
-                            <button class="chamber-toggler" onclick="alternarVisibilidadeCamara('c-04')"><i class="fa-solid fa-chevron-down"></i></button>
-                            <div>
-                                <h3>C-04</h3>
-                                <p>Câmara da ala oeste.</p>
-                            </div>
-                            <div>
-                                <p>Status</p>
-                                <span class="badge" data-badge-type="common">● Ativo</span>
-                            </div>
-                            <div>
-                                <p>Situação</p>
-                                <span class="badge" data-badge-type="common">● Ativo</span>
-                            </div>
-                            <div>
-                                <p>Última Leitura</p>
-                                <span>1min atrás</span>
-                            </div>
-                        </div>
-                        <!-- CHAMBER CONTENT -->
-                        <div class="chamber-content">
-                            <!-- CHAMBER GRAPH -->
-                            <div class="chamber-graph">
-                                <div>
-                                    <h3 class="chamber-graph-title">Variação de Etileno - <span>C-04</span></h3>
-                                    <div class="btn-group">
-                                        <button data-periodo="24h"onclick="atualizarPeriodo('24h')" class="active">24hrs</button>
-                                        <button data-periodo="7d" onclick="atualizarPeriodo('7d')">7 dias</button>
-                                        <button data-periodo="30d"onclick="atualizarPeriodo('30d')">30 dias</button>
-                                    </div>
-                                </div>
-                                <canvas id="c-04-graph"></canvas>
-                            </div>
-
-                            <!-- CHAMBER EXTRA -->
-                            <div class="chamber-extra">
-                                <div class="chamber-card">
-                                    <p class="chamber-card-title">Etileno Atual</p>
-                                    <h3 class="chamber-card-value chamber-card-value--positive">1.2 <span>ppm</span></h3>
-                                </div>
-                                <div class="chamber-card">
-                                    <p class="chamber-card-title">Volume Câmara</p>
-                                    <h3 class="chamber-card-value">48 <span>m³</span></h3>
-                                </div>
-                                <div class="chamber-card">
-                                    <p class="chamber-card-title">Estoque Total</p>
-                                    <h3 class="chamber-card-value">200kg <span>~1.300 maçãs</span></h3>
-                                </div>
-                                <div class="chamber-card">
-                                    <p class="chamber-card-title">Estoque em Risco</p>
-                                    <h3 class="chamber-card-value chamber-card-value--positive">0kg <span>Receita estimada: R$2.700,00</span></h3>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="chamber" id="c-05" data-chamber-card="closed">
-                        <!-- CHAMBER HEADER -->
-                        <div class="chamber-header">
-                            <button class="chamber-toggler" onclick="alternarVisibilidadeCamara('c-05')"><i class="fa-solid fa-chevron-down"></i></button>
-                            <div>
-                                <h3>C-05</h3>
-                                <p>Câmara da ala leste.</p>
-                            </div>
-                            <div>
-                                <p>Status</p>
-                                <span class="badge" data-badge-type="common">● Ativo</span>
-                            </div>
-                            <div>
-                                <p>Situação</p>
-                                <span class="badge" data-badge-type="serious">● Crítico</span>
-                            </div>
-                            <div>
-                                <p>Última Leitura</p>
-                                <span>1min atrás</span>
-                            </div>
-                        </div>
-                        <!-- CHAMBER CONTENT -->
-                        <div class="chamber-content">
-                            <!-- CHAMBER GRAPH -->
-                            <div class="chamber-graph">
-                                <div>
-                                    <h3 class="chamber-graph-title">Variação de Etileno - <span>C-05</span></h3>
-                                    <div class="btn-group">
-                                        <button data-periodo="24h"onclick="atualizarPeriodo('24h')" class="active">24hrs</button>
-                                        <button data-periodo="7d" onclick="atualizarPeriodo('7d')">7 dias</button>
-                                        <button data-periodo="30d"onclick="atualizarPeriodo('30d')">30 dias</button>
-                                    </div>
-                                </div>
-                                <canvas id="c-05-graph"></canvas>
-                            </div>
-
-                            <!-- CHAMBER EXTRA -->
-                            <div class="chamber-extra">
-                                <div class="chamber-card">
-                                    <p class="chamber-card-title">Etileno Atual</p>
-                                    <h3 class="chamber-card-value chamber-card-value--negative">2.0 <span>ppm</span></h3>
-                                </div>
-                                <div class="chamber-card">
-                                    <p class="chamber-card-title">Volume Câmara</p>
-                                    <h3 class="chamber-card-value">48 <span>m³</span></h3>
-                                </div>
-                                <div class="chamber-card">
-                                    <p class="chamber-card-title">Estoque Total</p>
-                                    <h3 class="chamber-card-value">500kg <span>~3.300 maçãs</span></h3>
-                                </div>
-                                <div class="chamber-card">
-                                    <p class="chamber-card-title">Estoque em Risco</p>
-                                    <h3 class="chamber-card-value chamber-card-value--negative">100kg <span>Receita estimada: R$5.400,00</span></h3>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
+                    <!-- CHAMBERS carregadas dinamicamente -->
                 </ul>
             </main>
         </div>
@@ -432,7 +147,6 @@
     document.getElementById("current-date").innerText = formatarDataAtual();
 
     const novaCamaraForm = document.getElementById("new-chamber-form");
-
     function alternarVisibilidadeFormulario() {
         const containerContent = document.querySelector(".chamber-container-content");
         const aberto = novaCamaraForm.dataset.formOpen;
@@ -448,67 +162,234 @@
     }
 
     // Gráficos
-    const datasets = [
-        [1.1, 1.3, 0.9, 1.0, 1.1],
-        [1.0, 0.8, 0.9, 1.1, 1.0],
-        [1.3, 1.2, 1.5, 1.6, 1.8],
-        [1.1, 1.4, 1.0, 1.2, 1.2],
-        [1.5, 1.3, 1.8, 1.8, 2.0]
-    ]
+    const graficos = [];
+    const chartLabels = {
+        '24h': ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00', '23:59'],
+        '7d': ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'],
+        '30d': ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4']
+    }
+    const chambers = [
+        {
+            id: 1,
+            apelido: "C-01",
+            localInstalacao: "Câmara ao lado do frigorífico.",
+            largura: 3, comprimento: 2, profundidade: 8,
+            situacao: "Ativo", status: "Sob Controle", qtdMacas: 500,
+            dataset: {
+                '24h': [1.0, 1.2, 0.9, 1.1, 1.0, 1.2, 0.8, 1.0, 1.1],
+                '7d': [1.2, 1.1, 0.9, 1.0, 1.2, 1.0, 1.1],
+                '30d': [1.0, 1.2, 0.9, 1.1]
+            }
+        },
+        {
+            id: 2,
+            apelido: "C-02",
+            localInstalacao: "Câmara recém-instalada",
+            largura: 3, comprimento: 2, profundidade: 8,
+            situacao: "Ativo", status: "Sob Controle", qtdMacas: 500,
+            dataset: {
+                '24h': [0.9, 0.8, 1.0, 1.1, 0.9, 1.0, 0.8, 1.1, 1.0],
+                '7d': [1.0, 0.8, 0.9, 1.1, 1.0, 0.8, 1.0],
+                '30d': [1.1, 0.9, 1.2, 1.0]
+            }
+        },
+        {
+            id: 3,
+            apelido: "C-03",
+            localInstalacao: "Câmara ala Leste",
+            largura: 3, comprimento: 2, profundidade: 8,
+            situacao: "Ativo", status: "Atenção", qtdMacas: 300,
+            dataset: {
+                '24h': [1.3, 1.2, 1.5, 1.6, 1.4, 1.5, 1.7, 1.6, 1.8],
+                '7d': [1.3, 1.2, 1.5, 1.6, 1.7, 1.4, 1.8],
+                '30d': [1.3, 1.2, 1.5, 1.8]
+            }
+        },
+        {
+            id: 4,
+            apelido: "C-04",
+            localInstalacao: "Câmara ao lado do frigorífico",
+            largura: 3, comprimento: 2, profundidade: 8,
+            situacao: "Ativo", status: "Sob Controle", qtdMacas: 200,
+            dataset: {
+                '24h': [1.1, 1.4, 1.0, 1.2, 1.3, 1.1, 1.0, 1.2, 1.2],
+                '7d': [1.1, 1.4, 1.0, 1.2, 1.1, 1.0, 1.2],
+                '30d': [1.1, 1.4, 1.0, 1.2]
+            }
+        },
+        {
+            id: 5,
+            apelido: "C-05",
+            localInstalacao: "Câmara ala Oeste",
+            largura: 3, comprimento: 2, profundidade: 8,
+            situacao: "Ativo", status: "Crítico", qtdMacas: 500,
+            dataset: {
+                '24h': [1.5, 1.3, 1.8, 1.8, 1.9, 1.7, 2.0, 1.8, 2.0],
+                '7d': [1.5, 1.3, 1.8, 1.8, 1.9, 1.7, 2.0],
+                '30d': [1.5, 1.3, 1.8, 2.0]
+            }
+        }
+    ];
 
-    datasets.forEach((data, idx) => {
-        new Chart(document.getElementById(`c-0${idx+1}-graph`), {
-            type: "line",
-            data: {
-                labels: ['00:00', '06:00', '12:00', '18:00', '23:59'],                
-                datasets: [
-                    {
-                    label: 'Real',
-                    data,                
-                    borderColor: '#7A9B55',                       
-                    backgroundColor: 'rgba(122, 155, 85, 0.2)',   
-                    fill: true,                                     
-                    tension: 0.4,                                   
-                    pointRadius: 4,                                 
-                    borderWidth: 2                                  
-                }]
-            },
-            options: {
-                plugins: {
-                    annotation: {
-                        annotations: {
-                            limiteCritico: {
-                                type: 'line',
-                                yMin: 1.5,
-                                yMax: 1.5,
-                                borderColor: '#B83232',
-                                borderWidth: 3,
-                                label: {
-                                    display: true,
-                                    content: 'Limite Crítico (1.5 ppm)',
-                                    position: 'end',
-                                    backgroundColor: 'rgba(184, 50, 50, 0.8)',
-                                    color: '#fff',
-                                    font: {
-                                        size: 14,
-                                        weight: 'bold'
-                                    },
-                                    padding: 6,
-                                    borderRadius: 4
+    const chambersList = document.querySelector(".chamber-list");
+    function carregarDadosCamaras() {
+        for (let i = 0; i < chambers.length; i++) {
+            const chamber = chambers[i];
+            const chamberId = `c-${String(chamber.id).padStart(2, "0")}`;
+            const chamberCard = document.createElement("li");
+
+
+            chamberCard.classList.add("chamber");
+            chamberCard.id = chamberId;
+            chamberCard.dataset.chamberCard = "closed";
+
+            const volume = Math.round(chamber.comprimento * chamber.profundidade * chamber.largura);
+            const unidadeMacas = Math.round(chamber.qtdMacas / 0.150); // 0.150 = 150g
+
+            const ultimaLeitura = chamber.dataset['24h'][chamber.dataset['24h'].length - 1];
+            const estoqueEmRisco = ultimaLeitura >= 1.5 ? Math.round(chamber.qtdMacas * (ultimaLeitura/10)) : 0; // só aplicamos este cálculo para câmaras acima ou em 1.5ppm
+
+            const tipoBadge = 
+                chamber.status === "Sob Controle" ? "common" :
+                chamber.status === "Atenção" ? "caution" : "serious";
+
+            chamberCard.innerHTML = `
+                <!-- CHAMBER HEADER -->
+                <div class="chamber-header">
+                    <button class="chamber-toggler" onclick="alternarVisibilidadeCamara('${chamberId}')"><i class="fa-solid fa-chevron-down"></i></button>
+                    <div>
+                        <h3>${chamber.apelido}</h3>
+                        <p>${chamber.localInstalacao}</p>
+                    </div>
+                    <div>
+                        <p>Status</p>
+                        <span class="badge" data-badge-type="common">● ${chamber.situacao}</span>
+                    </div>
+                    <div>
+                        <p>Situação</p>
+                        <span class="badge" data-badge-type="${tipoBadge}">● ${chamber.status}</span>
+                    </div>
+                    <div>
+                        <p>Última Leitura</p>
+                        <span>1min atrás</span>
+                    </div>
+                </div>
+                <!-- CHAMBER CONTENT -->
+                <div class="chamber-content">
+                    <!-- CHAMBER GRAPH -->
+                    <div class="chamber-graph">
+                        <div>
+                            <h3 class="chamber-graph-title">Variação de Etileno - <span>${chamber.apelido}</span></h3>
+                            <div class="btn-group btn-group--${chamberId}">
+                                <button data-periodo="24h"onclick="atualizarPeriodo('24h', '${chamberId}')" class="active">24hrs</button>
+                                <button data-periodo="7d" onclick="atualizarPeriodo('7d', '${chamberId}')">7 dias</button>
+                                <button data-periodo="30d"onclick="atualizarPeriodo('30d', '${chamberId}')">30 dias</button>
+                            </div>
+                        </div>
+                        <canvas id="${chamberId}-graph"></canvas>
+                    </div>
+
+                    <!-- CHAMBER EXTRA -->
+                    <div class="chamber-extra">
+                        <div class="chamber-card">
+                            <p class="chamber-card-title">Etileno Atual</p>
+                            <h3 class="chamber-card-value chamber-card-value--${ultimaLeitura >= 1.5 ? "negative" : "positive"}">${Number(ultimaLeitura).toFixed(1)} <span>ppm</span></h3>
+                        </div>
+                        <div class="chamber-card">
+                            <p class="chamber-card-title">Volume Câmara</p>
+                            <h3 class="chamber-card-value">${volume} <span>m³</span></h3>
+                        </div>
+                        <div class="chamber-card">
+                            <p class="chamber-card-title">Estoque Total</p>
+                            <h3 class="chamber-card-value">${chamber.qtdMacas}kg <span>~${Math.round(chamber.qtdMacas / 0.150)} maçãs</span></h3>
+                        </div>
+                        <div class="chamber-card">
+                            <p class="chamber-card-title">Estoque em Risco</p>
+                            <h3 class="chamber-card-value chamber-card-value--${estoqueEmRisco !== 0 ? "negative" : "positive"}">${estoqueEmRisco}kg <span>Receita estimada: ${Number(estoqueEmRisco * 13.5).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</span></h3>
+                        </div>
+                    </div>
+                </div>
+            `;
+            chambersList.appendChild(chamberCard);
+        }
+    }
+
+    function inicializarGraficos() {
+        chambers.forEach(chamber => {
+            const chamberId = `c-${String(chamber.id).padStart(2, "0")}`;
+            const ctx = document.getElementById(`${chamberId}-graph`);
+
+            if (ctx) {
+                graficos[chamberId] = new Chart(ctx, {
+                    type: "line",
+                    data: {
+                        labels: chartLabels['24h'],
+                        datasets: [{
+                            label: 'Etileno (ppm)',
+                            data: chamber.dataset['24h'],
+                            borderColor: '#7A9B55',
+                            backgroundColor: 'rgba(122, 155, 85, 0.2)',
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 4,
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            annotation: {
+                                annotations: {
+                                    limiteCritico: {
+                                        type: 'line',
+                                        yMin: 1.5, yMax: 1.5,
+                                        borderColor: '#B83232',
+                                        borderWidth: 3,
+                                        label: {
+                                            display: true,
+                                            content: 'Limite Crítico (1.5 ppm)',
+                                            position: 'end',
+                                            backgroundColor: 'rgba(184, 50, 50, 0.8)',
+                                            color: '#fff',
+                                            font: { size: 12, weight: 'bold' }
+                                        }
+                                    }
                                 }
                             }
-                        }
+                        },
+                        scales: { y: { min: 0, max: 3 } }
                     }
-                },
-                scales: {
-                    y: {
-                        min: 0,
-                        max: 3
-                    }
-                }
-            },
-        })
-    })
+                });
+            }
+        });
+    }
+
+    function atualizarPeriodo(periodo, idChamber) {
+        const idNumerico = parseInt(idChamber.replace('c-', ''));   // trata id dos cards: "c-01" vira 1
+        const chamber = chambers.find(c => c.id === idNumerico);
+        const grafico = graficos[idChamber];
+
+        if (!grafico || !chamber) return;
+
+        grafico.data.labels = chartLabels[periodo];
+        grafico.data.datasets[0].data = chamber.dataset[periodo];
+        grafico.update();
+
+        const btnGroup = document.querySelectorAll(`.btn-group--${idChamber} button`);
+        btnGroup.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-periodo') === periodo) {
+                btn.classList.add('active');
+            }
+        });
+    }
+
+    // Carrega e inicializa dinamicamente os cards e os gráficos das camaras
+    document.addEventListener("DOMContentLoaded", () => {
+        carregarDadosCamaras();
+        inicializarGraficos();
+    });
+
 </script>
 </body>
 </html>

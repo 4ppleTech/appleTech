@@ -177,21 +177,17 @@
 }
 
 .chamber-graph div {
-    margin-top: 0.4rem;
-    padding: 0 1rem;
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    margin-top: 0.4rem ;
 }
 
 .btn-group {
     background: #FAF3E8;
     border: 1px solid #C8A87A;
     border-radius: 8px;
-    padding: 3px;
     display: flex;
-    gap: 2px;
 }
 
 .btn-group button, .btn-group a {
