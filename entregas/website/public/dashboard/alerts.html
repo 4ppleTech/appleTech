@@ -62,7 +62,7 @@
                         <span id="account-role"></span>
                     </div>
                 </div>
-                <button id="logout-btn">
+                <button id="logout-btn" onclick="limparSessao()">
                     <i class="fa-solid fa-right-from-bracket" style="rotate: 180deg"></i>
                     <span>Sair</span>
                 </button>
@@ -84,27 +84,27 @@
                     <h3>Últimas Notificações</h3>
                     <div class="alert-list">
                         <div class="alert alert--serious">
-                            <p class="alert-content">A <a href="chambers.html">Câmara (ABC)</a> ultrapassou muito os limites ideais. Ação imediata necessária.</p>
-                            <span class="alert-footer">há 8hrs</span>
+                            <p class="alert-content">A <a href="chambers.html">Câmara (C-05)</a> ultrapassou muito os limites ideais. Ação imediata necessária.</p>
+                            <span class="alert-footer">há 1 minuto</span>
                         </div>
                         <div class="alert alert--caution">
-                            <p class="alert-content">A <a href="chambers.html">Câmara (XPTO)</a> saiu dos níveis esperados de Etileno. Ficar em alerta.</p>
-                            <span class="alert-footer">há 1 dia</span>
+                            <p class="alert-content">A <a href="chambers.html">Câmara (C-03)</a> saiu dos níveis esperados de Etileno. Ficar em alerta.</p>
+                            <span class="alert-footer">há 1 minuto</span>
                         </div>
                         <div class="alert alert--common">
-                            <p class="alert-content">A <a href="chambers.html">Câmara (123)</a> retornou aos limites esperados de Etileno.</p>
-                            <span class="alert-footer">há 2 dias</span>
+                            <p class="alert-content">A <a href="chambers.html">Câmara (C-01)</a> retornou aos limites esperados de Etileno.</p>
+                            <span class="alert-footer">há 8 horas</span>
                          </div>
                           <div class="alert alert--common">
-                            <p class="alert-content">A <a href="chambers.html">Câmara (XYZ)</a> retornou aos limites esperados de Etileno.</p>
+                            <p class="alert-content">A <a href="chambers.html">Câmara (C-02)</a> retornou aos limites esperados de Etileno.</p>
                             <span class="alert-footer">há 2 dias</span>
                          </div>
                          <div class="alert alert--serious">
-                            <p class="alert-content">A <a href="chambers.html">Câmara (789)</a> ultrapassou muito os limites ideais. Ação imediata necessária.</p>
+                            <p class="alert-content">A <a href="chambers.html">Câmara (C-05)</a> ultrapassou muito os limites ideais. Ação imediata necessária.</p>
                             <span class="alert-footer">há 3 dias</span>
                          </div>
                           <div class="alert alert--common">
-                            <p class="alert-content">A <a href="chambers.html">Câmara (SPTech)</a> retornou aos limites esperados de Etileno.</p>
+                            <p class="alert-content">A <a href="chambers.html">Câmara (C-04)</a> retornou aos limites esperados de Etileno.</p>
                             <span class="alert-footer">há 4 dias</span>
                          </div>
                             <div>
@@ -117,6 +117,7 @@
             
 <script src="../scripts/utils/mock-user.js"></script>
 <script src="../scripts/utils/formatar-data.js"></script>
+<script src="../scripts/utils/sessao.js"></script>
 <script>
     document.getElementById("current-date").innerText = formatarDataAtual();
 </script>
