@@ -115,23 +115,9 @@
             </div>
             <div class="feedbacks-row">
                 <div class="feedback-cards">
-                    <div class="feedback-card">
-                        <p>Depois que começamos a monitorar o etileno, conseguimos reduzir significativamente
-                            as perdas no armazenamento. A qualidade das maçãs se manteve por muito mais tempo.</p>
-                        <q>Carlos Mendes, Produtor Rural</q>
-                    </div>
-                    <div class="feedback-card">
-                        <p>A solução trouxe um nível de controle que não tínhamos antes. Hoje conseguimos tomar
-                            decisões com base em dados reais, o que fez toda a diferença.</p>
-                        <q>Carlos Mendes, Produtor Rural</q>
-                    </div>
-                    <div class="feedback-card">
-                        <p>O monitoramento em tempo real facilitou muito nossa operação. A precisão dos dados
-                            ajuda a manter o ambiente sempre nas condições ideais.</p>
-                        <q>Rafael Souza, Técnico Agrícola</q>
-                    </div>
+                    <!-- feedbacks carregados no SCRIPT -->
                 </div>
-                <button class="btn-arrow">
+                <button class="btn-arrow" onclick="verOutrosFeedbacks()">
                     <i class="fa-regular fa-circle-right" style="font-size: 48px;"></i>
                 </button>
             </div>
@@ -283,6 +269,72 @@
             <p>Prejuízo total: <strong>R$ ${prejTotalWorst.toFixed(2)}</strong></p>
             <p>Redução do lucro: <strong>${pctReducaoWorst.toFixed(2)}%</strong></p>`;
     }
+
+    // Carrega feedbacks
+    const feedbackList = document.querySelector(".feedback-cards");
+    const feedbacks = [
+        {
+            mensagem: "Depois que começamos a monitorar o etileno, conseguimos reduzir significativamente as perdas no armazenamento. A qualidade das maçãs se manteve por muito mais tempo.",
+            autor: "Carlos Mendes, Produtor Rural"
+        },
+        {
+            mensagem: "O monitoramento em tempo real facilitou muito nossa operação. A precisão dos dados ajuda a manter o ambiente sempre nas condições ideais.",
+            autor: "Rafael Souza, Técnico Agrícola"
+        },
+        {
+            mensagem: "O controle rigoroso do etileno mudou nosso patamar de exportação. Agora conseguimos garantir que o fruto chegue ao destino internacional com o frescor de recém-colhido.",
+            autor: "Juliana Rocha, Gerente de Qualidade"
+        },
+        {
+            mensagem: "Reduzimos o desperdício em 25% logo no primeiro semestre. O sistema se pagou em poucos meses apenas com a economia gerada pela preservação da carga.",
+            autor: "Fernando Lima, Gestor de Logística"
+        },
+        {
+            mensagem: "Receber alertas automáticos nos dá uma tranquilidade enorme. Não precisamos mais de conferências manuais constantes para saber se o ambiente está adequado.",
+            autor: "Beatriz Santos, Engenheira Agrônoma"
+        },
+        {
+            mensagem: "Nossos clientes notaram a diferença nas prateleiras. O tempo de prateleira aumentou e as quebras diminuíram drasticamente desde que implementamos o monitoramento técnico.",
+            autor: "Ricardo Oliveira, Diretor de Hortifruti"
+        },
+        {
+            mensagem: "Para o amadurecimento controlado de frutos climatéricos, a precisão é tudo. O monitoramento constante garante que as maçãs cheguem ao ponto exato exigido pelo varejo.",
+            autor: "Ana Paula Costa, Diretora de Hipermercado"
+        }
+    ]
+    let idxAtual = 0;
+
+    function carregarFeedbacks() {
+        feedbackList.innerHTML = ""; // limpa os cards de feedback
+
+        for (let i = 0; i < 3; i++) {
+            let idxArray = idxAtual + 1; // passa para o próximo feedback
+
+            if(idxArray >= feedbacks.length) {
+                idxArray = idxArray - feedbacks.length;  // retorna para o primeiro feedback
+            }
+
+            const feedback = feedbacks[idxArray];
+            const feedbackCard = document.createElement("div");
+
+            feedbackCard.innerHTML = `<p>${feedback.mensagem}</p><q>${feedback.autor}</q>`;
+
+            feedbackCard.classList.add("feedback-card", `feedback-card--${i+1}`);
+            feedbackList.appendChild(feedbackCard)
+        }
+    };
+
+    function verOutrosFeedbacks() {
+        idxAtual = idxAtual + 3; // próximos outros 3 feedbacks
+        if (idxAtual >= feedbacks.length) {
+            idxAtual = 0; // retorna para o primeiro feedback
+        }
+
+        carregarFeedbacks();
+    }
+
+    document.addEventListener("DOMContentLoaded", carregarFeedbacks)
+
 </script>
 </body>
 </html>
