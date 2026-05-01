@@ -297,3 +297,44 @@ AND
 	e.razao_social = 'Apple Tech Brasil LTDA'
 ORDER BY a.data_criacao
 LIMIT 3;
+
+-- Quais camaras mais geraram alertas criticos
+SELECT 
+    c.apelido AS 'Câmara',
+    c.local_instalacao AS 'Localização',
+    COUNT(a.id_alerta) AS 'Total de Alertas Críticos'
+FROM camara c
+JOIN sensor s ON c.id_camara = s.camara_id
+JOIN leitura l ON s.id_sensor = l.sensor_id
+JOIN alerta a ON l.id_leitura = a.leitura_id
+WHERE a.nivel = 'Crítico'
+GROUP BY c.id_camara
+ORDER BY COUNT(a.id_alerta) DESC;
+
+
+-- visao geral dos usuarios por empresa, util para o administrador
+SELECT 
+    e.nome_fantasia AS 'Empresa',
+    u.nome AS 'Funcionário',
+    u.papel_usuario AS 'Cargo',
+    u.situacao AS 'Status Usuário'
+FROM usuario u
+JOIN empresa e ON u.empresa_id = e.id_empresa
+ORDER BY e.nome_fantasia, u.nome;
+
+-- saber o local que aconteceu um problema
+SELECT 
+    a.nivel,
+    a.mensagem,
+    e.razao_social,
+    CONCAT(en.logradouro, ', ', en.numero, ' - ', en.bairro) AS 'Endereço de emergência',
+    en.cidade,
+    c.local_instalacao AS 'Local exato'
+FROM alerta a
+JOIN leitura l ON a.leitura_id = l.id_leitura
+JOIN sensor s ON l.sensor_id = s.id_sensor
+JOIN camara c ON s.camara_id = c.id_camara
+JOIN empresa e ON c.empresa_id = e.id_empresa
+JOIN endereco en ON e.endereco_id = en.id_endereco
+WHERE a.nivel = 'Crítico'
+ORDER BY a.data_alerta DESC;
