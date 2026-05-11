@@ -47,10 +47,7 @@
                 </div>
                 <div class="nav-section">
                     <h4>Outros</h4>
-                    <a href="./configs.html" class="navitem">
-                        <i class="fa-solid fa-gear"></i>
-                        <span>Configs.</span>
-                    </a>
+
                     <a href="./help.html" class="navitem">
                         <i class="fa-solid fa-ear-listen"></i>
                         <span>Ajuda</span>
@@ -66,7 +63,7 @@
                         <span id="account-role"></span>
                     </div>
                 </div>
-                <button id="logout-btn">
+                <button id="logout-btn" onclick="limparSessao()">
                     <i class="fa-solid fa-right-from-bracket" style="rotate: 180deg"></i>
                     <span>Sair</span>
                 </button>
@@ -78,7 +75,7 @@
             <!-- CONTENT HEADER -->
             <div class="header">
                 <h1>Dashboard - Equipe</h1>
-                <span id="current-date">Seg, 12 abr</span>
+                <span id="current-date"></span>
             </div>
 
             <!-- CONTENT MAIN -->
@@ -106,15 +103,14 @@
                 <ul class="member-list">
                     <div class="member-list-results">
                         <h3>Membros da Equipe</h3>
-                        <span>5</span>
+                        <span>3</span>
                     </div>
                     
                     <li class="member-card">
-                        <img src="../assets/imgs/av2.png" alt="pfp" class="pfp">
                         <div class="member-card-content">
                             <div>
-                                <p class="username">John Doe (você)</p>
-                                <p class="email">john.doe@gmail.com</p>
+                                <p class="username">Batatinha (você)</p>
+                                <p class="email">batatinha@sptech.school</p>
                             </div>
                             <p class="role">Administrador</p>
                         </div>
@@ -127,11 +123,10 @@
                         </div>
                     </li>
                     <li class="member-card">
-                        <img src="../assets/imgs/av1.png" alt="pfp" class="pfp">
                         <div class="member-card-content">
                             <div>
                                 <p class="username">João Romão</p>
-                                <p class="email">johnny.romas@gmail.com</p>
+                                <p class="email">johnny.romao@gmail.com</p>
                             </div>
                             <p class="role">Analista</p>
                         </div>
@@ -144,7 +139,6 @@
                         </div>
                     </li>
                     <li class="member-card">
-                        <img src="../assets/imgs/avatar-pfp.png" alt="pfp" class="pfp">
                         <div class="member-card-content">
                             <div>
                                 <p class="username">Ana Clara</p>
@@ -165,7 +159,9 @@
         </div>
     </div>
 
+<script src="../scripts/utils/formatar-data.js"></script>
 <script>
+    document.getElementById("current-date").innerText = formatarDataAtual();
     function alternar_codigo_companhia() {
         let companyCodeInput = document.getElementById("inCompanyCode");
         let icon = document.querySelector(".code-input button i");
@@ -182,5 +178,6 @@
     }
 </script>
 <script src="../scripts/utils/mock-user.js"></script>
+<script src="../scripts/utils/sessao.js"></script>
 </body>
 </html>

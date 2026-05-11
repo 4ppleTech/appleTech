@@ -13,6 +13,7 @@
     
     <!-- CDNs Chart.JS e FontAwesome -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
@@ -47,10 +48,6 @@
                 </div>
                 <div class="nav-section">
                     <h4>Outros</h4>
-                    <a href="./configs.html" class="navitem">
-                        <i class="fa-solid fa-gear"></i>
-                        <span>Configs.</span>
-                    </a>
                     <a href="./help.html" class="navitem">
                         <i class="fa-solid fa-ear-listen"></i>
                         <span>Ajuda</span>
@@ -78,59 +75,62 @@
             <!-- CONTENT HEADER -->
             <div class="header">
                 <h1>Dashboard - Início</h1>
-                <span id="current-date">Seg, 12 abr</span>
+                <span id="current-date"></span>
             </div>
 
             <!-- CONTENT MAIN -->
             <main class="main">
                 <!-- CONTENT KPIs -->
                 <div class="kpi-list">
-                    <div class="kpi-card">
+                    <div class="kpi-card kpi-card--caution">
                         <div class="kpi-header">
-                            <p>Concentração Atual</p>
-                            <i class="fa-solid fa-chart-simple"></i>
+                            <p>Câmaras em Alerta</p>
+                            <i class="fa-solid fa-triangle-exclamation"></i>
                         </div>
                         <div class="kpi-content">
-                            <h2>2.5ppm</h2>
+                            <h2>2 <span style="font-size: 1rem; color: #7A6A52;">de 5</span></h2>
                         </div>
                         <div class="kpi-footer">
-                            8hrs atrás
+                            Registrado às 14:32 (C-03; C-05)
                         </div>
                     </div>
-                    <div class="kpi-card">
+
+                    <div class="kpi-card kpi-card--negative">
                         <div class="kpi-header">
-                            <p>Status Geral</p>
-                            <i class="fa-solid fa-chart-simple"></i>
+                            <p>Pico de Etileno (24h)</p>
+                            <i class="fa-solid fa-temperature-arrow-up"></i>
                         </div>
                         <div class="kpi-content">
-                            <h2>Sob Controle</h2>
+                            <h2>2.0 ppm</h2>
                         </div>
                         <div class="kpi-footer">
-                            8hrs atrás
+                            Registrado às 14:32 (C-05)
                         </div>
                     </div>
-                    <div class="kpi-card">
+
+                    <div class="kpi-card kpi-card--positive">
                         <div class="kpi-header">
                             <p>Estoque em Risco</p>
-                            <i class="fa-solid fa-chart-simple"></i>
+                            <i class="fa-solid fa-box-open"></i>
                         </div>
                         <div class="kpi-content">
-                            <h2>13%</h2>
+                            <h2>154 kg</h2>
                         </div>
                         <div class="kpi-footer">
-                            equivalente à 320 maçãs
+                            de 2 Toneladas
                         </div>
                     </div>
-                    <div class="kpi-card">
+
+                    <div class="kpi-card kpi-card--caution">
                         <div class="kpi-header">
-                            <p>Percentual de Lucro</p>
-                            <i class="fa-solid fa-chart-simple"></i>
+                            <p>Receita em Risco</p>
+                            <i class="fa-solid fa-sack-dollar"></i>
                         </div>
                         <div class="kpi-content">
-                            <h2>70%</h2>
+                            <h2>R$ 2.079,00</h2>
                         </div>
                         <div class="kpi-footer">
-                            8hrs atrás
+                            Baseado no preço de venda (R$ 13,50/kg)
                         </div>
                     </div>
                 </div>
@@ -142,7 +142,19 @@
                         <!-- CONTENT GRÁFICO LINHAS -->
                         <div class="chart-card">
                             <div class="chart-header">
-                                <h2 class="chart-title">Variação Média de Etileno <span>(ppm)</span></h2>
+                                <h2 class="chart-title">Nível Atual de Etileno por Câmara  <span>(ppm)</span></h2>
+                                <div class="btn-group">
+                                    <a href="./chambers.html">Análise Individual</a>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="column-chart"></canvas>
+                            </div>
+                        </div>
+                        <!-- CONTENT GRÁFICO COLUNAS -->
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h2 class="chart-title">Nível Atual de Etileno por Câmara <span>(ppm)</span></h2>
                                 <div class="btn-group">
                                     <button data-periodo="24h"onclick="atualizarPeriodo('24h')" class="active">24hrs</button>
                                     <button data-periodo="7d" onclick="atualizarPeriodo('7d')">7 dias</button>
@@ -153,18 +165,6 @@
                                 <canvas id="line-chart"></canvas>
                             </div>
                         </div>
-                        <!-- CONTENT GRÁFICO COLUNAS -->
-                        <div class="chart-card">
-                            <div class="chart-header">
-                                <h2 class="chart-title">Variação Etileno Por Câmara <span>(ppm)</span></h2>
-                                <div class="btn-group">
-                                    <a href="./chambers.html">Análise Individual</a>
-                                </div>
-                            </div>
-                            <div class="chart-container">
-                                <canvas id="column-chart"></canvas>
-                            </div>
-                        </div>
                     </div>
                     <!-- CONTENT ASIDE -->
                     <aside class="aside">
@@ -172,28 +172,28 @@
                         <div class="alerts">
                             <h3>Últimas Notificações</h3>
                             <div class="alert-list">
-                                <div class="alert" data-alert-type="alert-serious">
-                                    <p class="alert-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt rerum ad libero quia ab <a href="">recusandae</a></p>
-                                    <span class="alert-footer">há 8hrs</span>
+                                <div class="alert alert--serious">
+                                    <p class="alert-content">Câmara <a href="./alerts.html">C-05</a> está muito acima dos níveis esperados de Etileno.</p>
+                                    <span class="alert-footer">há 1 minuto</span>
                                 </div>
-                                <div class="alert" data-alert-type="alert-caution">
-                                    <p class="alert-content">Lorem ipsum dolor sit. Deserunt rerum ad libero quia ab <a href="">recusandae</a></p>
-                                    <span class="alert-footer">há 1 dia</span>
+                                <div class="alert alert--serious">
+                                    <p class="alert-content">Câmara <a href="./alerts.html">C-03</a> saiu dos níveis esperados de Etileno.</p>
+                                    <span class="alert-footer">há 1 minuto</span>
                                 </div>
-                                <div class="alert" data-alert-type="alert-common">
-                                    <p class="alert-content">.Deserunt rerum ad libero quia ab <a href="">recusandae</a></p>
-                                    <span class="alert-footer">há 2 dias</span>
+                                <div class="alert alert--caution">
+                                    <p class="alert-content">Câmara <a href="./alerts.html">C-03</a> está beirando o limite crítico de 1.5ppm</p>
+                                    <span class="alert-footer">há 8 horas</span>
                                 </div>
 
                                 <a href="./alerts.html" class="view-alerts-btn">Ver Todos</a>
                             </div>
                         </div>
                         <!-- CONTENT STATUS SENSORES -->
-                        <div class="status">
+                        <!-- <div class="status">
                             <h3>Status dos Sensores</h3>
                             <div class="sensor-on" data-sensor-on="9"><span>90% online</span></div>
                             <div class="sensor-off" data-sensor-off="1"><span>10% offline</span></div>
-                        </div>
+                        </div> -->
                     </aside>
                 </div>
             </main>
@@ -203,5 +203,9 @@
 <script src="../scripts/utils/sessao.js"></script>
 <script src="../scripts/utils/mock-user.js"></script>
 <script src="../scripts/dashboard-charts.js"></script>
+<script src="../scripts/utils/formatar-data.js"></script>
+<script>
+    document.getElementById("current-date").innerText = formatarDataAtual();
+</script>
 </body>
 </html>

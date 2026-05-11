@@ -1,6 +1,6 @@
 function alternarVisibilidadeCamara(chamberId) {
-    const chamber = document.querySelector(`.chamber[data-chamber-id=${chamberId}]`);
-    const chevronIcon = document.querySelector(`.chamber[data-chamber-id=${chamberId}] .chamber-toggler i`);
+    const chamber = document.getElementById(chamberId)
+    const chevronIcon = document.querySelector(`#${chamberId} .chamber-toggler i`);
 
     const id = chamber.dataset.chamberId;
     const chamberStatus = chamber.dataset.chamberCard;

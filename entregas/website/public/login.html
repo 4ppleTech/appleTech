@@ -65,7 +65,7 @@
                 </button>
             </div>
 
-            <a class="auth-link auth-link--forgot" href="/">Esqueceu a senha?</a>
+            <!-- <a class="auth-link auth-link--forgot" href="/">Esqueceu a senha?</a> -->
 
             <p id="auth_message" class="auth-message"></p>
 
@@ -86,7 +86,6 @@
 
     function entrar() {
         // aguardar();
-
         var emailVar = ipt_email.value;
         var senhaVar = ipt_senha.value;
 
@@ -99,14 +98,14 @@
             auth_message.style.display = "block";
             auth_message.classList.add("error");
             auth_message.innerHTML = "Formato de e-mail inválido.";
-            return false;
+            return;
         }
 
         if(!senhaRegex.test(senhaVar)) {
             auth_message.style.display = "block";
             auth_message.classList.add("error");
             auth_message.innerHTML = "Senha deve obedecer ao formato: mínimo 6 caracteres | 1 maiúscula | 1 minúscula | 1 caractere especial.";
-            return false;
+            return;
         }
 
         if (emailVar == "" || senhaVar == "") {
@@ -114,7 +113,7 @@
             auth_message.classList.add("error");
             auth_message.innerHTML = "Preencha todos os campos antes de seguir em frente!";
             // finalizarAguardar();
-            return false;
+            return;
         }
         else {
             setInterval(sumirMensagem, 5000)
@@ -128,6 +127,10 @@
             setTimeout(function () {
                 window.location = "./dashboard/home.html";
             }, 1000);
+        } else {
+            auth_message.style.display = "block";
+            auth_message.classList.add("error");
+            auth_message.innerHTML = "Credenciais Inválidas!";
         }
 
 

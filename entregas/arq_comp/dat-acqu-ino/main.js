@@ -8,22 +8,22 @@ const SERIAL_BAUD_RATE = 9600;
 const SERVIDOR_PORTA = 3300;
 
 // habilita ou desabilita a inserção de dados no banco de dados
-const HABILITAR_OPERACAO_INSERIR = false;
+const HABILITAR_OPERACAO_INSERIR = true;
 
 // função para comunicação serial
 const serial = async (
-    valoresPpmEtileno,
-    valoresPercentualEtileno
+    valoresPercentualGas,
+    valoresValorGas,
 ) => {
 
     // conexão com o banco de dados MySQL
     let poolBancoDados = mysql.createPool(
         {
             host: 'localhost',
-            user: 'user_insert',    // user_insert da VM
+            user: 'user_insert',
             password: 'Sptech#2026',
             database: 'appletech',
-            port: 3307              // porta da VM
+            port: 3307
         }
     ).promise();
 
@@ -51,21 +51,22 @@ const serial = async (
     arduino.pipe(new serialport.ReadlineParser({ delimiter: '\r\n' })).on('data', async (data) => {
         console.log(data);
         const valores = data.split(';');
-        const valorPpm = parseInt(valores[0]);
+        const valorGas = parseInt(valores[0]);
+        const percentualGas = parseFloat(valores[1]);
 
         // armazena os valores dos sensores nos arrays correspondentes
-        valoresPpmEtileno.push(valorPpm);
-        valoresPercentualEtileno.push(ppmParaPorcentagem(valorPpm));
+        valoresPercentualGas.push(percentualGas);
+        valoresValorGas.push(valorGas);
 
         // insere os dados no banco de dados (se habilitado)
         if (HABILITAR_OPERACAO_INSERIR) {
 
             // este insert irá inserir os dados na tabela "medida"
             await poolBancoDados.execute(
-                'INSERT INTO leitura (sensor_id, valor_sensor, data_hora) VALUES (1, ?, NOW())',
-                [valorPpm]
+                'INSERT INTO leitura (valor_sensor, sensor_id) VALUES (?, 1)',
+                [valorGas]
             );
-            console.log("Valores Inseridos no Banco: ", valorPpm);
+            console.log("valores inseridos no banco: ", valorGas + ", " + percentualGas);
 
         }
 
@@ -79,8 +80,8 @@ const serial = async (
 
 // função para criar e configurar o servidor web
 const servidor = (
-    valoresPpmEtileno,
-    valoresPercentualEtileno
+    valoresPercentualGas,
+    valoresValorGas
 ) => {
     const app = express();
 
@@ -96,37 +97,30 @@ const servidor = (
         console.log(`API executada com sucesso na porta ${SERVIDOR_PORTA}`);
     });
 
-    app.get('/sensores/ppm', (_, response) => {
-        return response.json(valoresPpmEtileno);
-    });
-
+    // define os endpoints da API para cada tipo de sensor
     app.get('/sensores/percentual', (_, response) => {
-        return response.json(valoresPercentualEtileno);
+        return response.json(valoresPercentualGas);
+    });
+    app.get('/sensores/valor', (_, response) => {
+        return response.json(valoresValorGas);
     });
 }
 
 // função principal assíncrona para iniciar a comunicação serial e o servidor web
 (async () => {
     // arrays para armazenar os valores dos sensores
-    const valoresPpmEtileno = [];
-    const valoresPercentualEtileno = [];
+    const valoresPercentualGas = [];
+    const valoresValorGas = [];
 
     // inicia a comunicação serial
     await serial(
-        valoresPpmEtileno,
-        valoresPercentualEtileno
+        valoresPercentualGas,
+        valoresValorGas
     );
 
     // inicia o servidor web
     servidor(
-        valoresPpmEtileno,
-        valoresPercentualEtileno
+        valoresPercentualGas,
+        valoresValorGas
     );
 })();
-
-function ppmParaPorcentagem(ppm) {
-    const valMin = 100;
-    const valMax = 1000;
-
-    return ((ppm - valMin)/(valMax - valMin)) * 100;
-}
