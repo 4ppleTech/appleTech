@@ -2,32 +2,32 @@
 -- camaras em risco --
 
 CREATE OR REPLACE VIEW vw_camaras_em_risco AS
-SELECT 
-    e.nome_fantasia AS 'nome fantasia',
-    e.razao_social AS 'Razão social',
-    c.apelido AS 'Apelido',
-    c.local_instalacao AS 'Local da câmara',
-    s.modelo AS 'Modelo do sensor',
-    CASE 
-        WHEN l.valor_leitura > 1.5 THEN 'Câmara em risco'
-        ELSE 'Câmara em controle'
-    END AS 'câmaras em risco',
-    c.kg_macas AS 'Quantidade de maçãs',
-    l.data_hora AS 'Data da leitura'
-FROM
-    empresa e
-JOIN camara c ON e.id_empresa = c.empresa_id
-JOIN sensor s ON c.id_camara = s.camara_id
-JOIN leitura l ON s.id_sensor = l.sensor_id
-WHERE
-    s.situacao = 'Ativo'
-AND
-    e.razao_social = 'Apple Tech Brasil LTDA'
-AND
-    l.data_hora LIKE CONCAT('%','2024-05-10','%')
-AND 
-    l.valor_leitura > 1.5
-ORDER BY l.data_hora;
+	SELECT 
+		e.nome_fantasia AS 'nome fantasia',
+		e.razao_social AS 'Razão social',
+		c.apelido AS 'Apelido',
+		c.local_instalacao AS 'Local da câmara',
+		s.modelo AS 'Modelo do sensor',
+		CASE 
+			WHEN l.valor_leitura > 1.5 THEN 'Câmara em risco'
+			ELSE 'Câmara em controle'
+		END AS 'câmaras em risco',
+		c.kg_macas AS 'Quantidade de maçãs',
+		l.data_hora AS 'Data da leitura'
+	FROM
+		empresa e
+	JOIN camara c ON e.id_empresa = c.empresa_id
+	JOIN sensor s ON c.id_camara = s.camara_id
+	JOIN leitura l ON s.id_sensor = l.sensor_id
+	WHERE
+		s.situacao = 'Ativo'
+	AND
+		e.razao_social = 'Apple Tech Brasil LTDA'
+	AND
+		l.data_hora LIKE CONCAT('%','2024-05-10','%')
+	AND 
+		l.valor_leitura > 1.5
+	ORDER BY l.data_hora;
 
 
 -- pico do etileno no geral --
@@ -228,3 +228,168 @@ JOIN leitura l ON s.id_sensor = l.sensor_id
 -- filtra as ultimas 24 horas
 WHERE TIMESTAMPDIFF(HOUR, l.data_hora, NOW()) <= 24
 GROUP BY s.id_sensor;
+
+-- sensor ativo
+CREATE OR REPLACE VIEW vw_sensor_ativo AS
+SELECT 
+	e.nome_fantasia 'nome fantasia',
+    e.razao_social 'Razão social',
+    c.apelido 'Apelido',
+    c.local_instalacao 'Local da câmara',
+    s.modelo 'Modelo do sensor',
+    s.situacao 'Situação'
+FROM
+	empresa e
+JOIN camara c ON e.id_empresa = c.empresa_id
+JOIN sensor s ON c.id_camara = s.camara_id
+WHERE
+	s.situacao = 'Ativo'
+ORDER BY c.apelido;
+
+
+-- sensor inativo
+CREATE OR REPLACE VIEW vw_sensor_inativo AS
+SELECT 
+	e.nome_fantasia 'nome fantasia',
+    e.razao_social 'Razão social',
+    c.apelido 'Apelido',
+    c.local_instalacao 'Local da câmara',
+    s.modelo 'Modelo do sensor',
+    s.situacao 'Situação'
+FROM
+	empresa e
+JOIN camara c ON e.id_empresa = c.empresa_id
+JOIN sensor s ON c.id_camara = s.camara_id
+WHERE
+	s.situacao = 'Inativo'
+ORDER BY c.apelido;
+
+
+-- todos os alertas
+CREATE OR REPLACE VIEW vw_alertas_geral AS
+SELECT 
+	e.nome_fantasia 'nome fantasia',
+    e.razao_social 'Razão social',
+	c.apelido 'Apelido',
+    c.local_instalacao 'Local da câmara',
+    l.valor_leitura,
+    a.nivel,
+    a.mensagem
+FROM
+	empresa e
+JOIN camara c ON e.id_empresa = c.empresa_id
+JOIN sensor s ON c.id_camara = s.camara_id
+JOIN leitura l ON s.id_sensor = l.sensor_id
+JOIN alerta a ON l.id_leitura = a.leitura_id
+WHERE
+	s.situacao = 'Ativo'
+AND
+	e.razao_social = 'Apple Tech Brasil LTDA'
+ORDER BY l.data_hora;
+
+-- verificar matriz
+CREATE OR REPLACE VIEW vw_verificar_matriz AS
+SELECT
+	e.nome_fantasia filial_nome,
+    e.razao_social filial_razao,
+    IFNULL(m.razao_social, 'Essa é a empresa matriz') matriz_razao
+FROM
+	empresa e
+LEFT JOIN empresa m ON m.id_empresa = e.matriz_id;
+
+
+-- verificar endereço
+CREATE OR REPLACE VIEW vw_verificar_endereco AS
+SELECT
+	en.cep,
+    en.numero,
+    en.logradouro,
+    en.bairro,
+    en.cidade,
+    en.estado,
+    en.pais,
+    em.nome_fantasia,
+    em.razao_social,
+    em.cnpj
+FROM
+	endereco en
+JOIN empresa em ON em.endereco_id = en.id_endereco;
+
+
+-- porcentagem leitura
+CREATE OR REPLACE VIEW vw_porcentagem_leitura AS
+SELECT 
+	e.nome_fantasia 'nome fantasia',
+    e.razao_social 'Razão social',
+	c.apelido 'Apelido',
+    c.local_instalacao 'Local da câmara',
+    s.modelo 'Modelo do sensor',
+    l.valor_leitura 'Valor captado',
+        CASE
+		WHEN ((l.valor_leitura - 100) / (1000)) * 100 > 0 
+			THEN CONCAT(ROUND(((l.valor_leitura - 100) / (1000)) * 100, 2), '%')
+		ELSE
+			0
+	END AS porcentagem,
+    l.data_hora 'Data da leitura'
+FROM
+	empresa e
+JOIN camara c ON e.id_empresa = c.empresa_id
+JOIN sensor s ON c.id_camara = s.camara_id
+JOIN leitura l ON s.id_sensor = l.sensor_id
+WHERE
+	s.situacao = 'Ativo'
+AND
+	e.razao_social = 'Apple Tech Brasil LTDA'
+AND
+	l.data_hora LIKE '%2024-05-10%'
+ORDER BY l.data_hora;
+
+-- Média etileno por camara
+CREATE OR REPLACE VIEW vw_media_etileno_camara AS
+SELECT 
+    e.razao_social,
+    e.nome_fantasia,
+    c.apelido AS 'Câmara', -- Adicionado para saber de onde é a média
+    AVG(l.valor_leitura) AS media
+FROM
+    empresa e
+JOIN camara c ON e.id_empresa = c.empresa_id
+JOIN sensor s ON c.id_camara = s.camara_id
+JOIN leitura l ON s.id_sensor = l.sensor_id
+WHERE
+    s.situacao = 'Ativo'
+AND
+    e.razao_social = 'Apple Tech Brasil LTDA'
+AND
+    l.data_hora LIKE CONCAT('%','2024-05-10','%')
+GROUP BY 
+    e.razao_social, 
+    e.nome_fantasia,
+    c.apelido
+ORDER BY 
+    media DESC;
+
+
+-- mostra o maior pico, a media do dia e o status com base nessa media
+CREATE OR REPLACE VIEW vw_status_geral_etileno_camara AS
+SELECT 
+    c.local_instalacao AS 'Câmara',
+    MAX(l.valor_leitura) AS 'maior pico do dia',
+    ROUND(AVG(l.valor_leitura), 2) AS 'média do dia',
+    CASE 
+        WHEN AVG(l.valor_leitura) > 1.5 AND AVG(l.valor_leitura) < 2.0 THEN 'Observação'
+        WHEN AVG(l.valor_leitura) >= 2.0 THEN 'Risco' 
+        ELSE 'Sob Controle'
+    END AS 'Status (por média do dia)'
+FROM empresa e
+JOIN camara c ON e.id_empresa = c.empresa_id
+JOIN sensor s ON c.id_camara = s.camara_id
+JOIN leitura l ON s.id_sensor = l.sensor_id
+WHERE e.razao_social = 'Apple Tech Brasil LTDA'
+  AND l.data_hora LIKE '2024-05-10%'
+  AND s.situacao = 'Ativo'
+GROUP BY 
+    c.local_instalacao
+ORDER BY 
+    MAX(l.valor_leitura) DESC; 
