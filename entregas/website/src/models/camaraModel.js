@@ -9,9 +9,9 @@ function buscarCamarasPorEmpresa(empresaId) {
   return database.executar(instrucaoSql);
 }
 
-function cadastrar(empresaId, observacao, local_instalacao, apelido, comprimento, largura, profundidade, qtd_macas) {
-  var instrucaoSql = `INSERT INTO (observacao, local_instalacao, apelido, comprimento, largura, profundidade, qtd_macas, empresa_id) camara 
-  VALUES ('${observacao}', '${local_instalacao}', '${apelido}', ${comprimento}, ${largura}, ${profundidade}, ${qtd_macas}, ${empresaId})`;
+function cadastrar(empresaId, observacao, local_instalacao, apelido, volume, kg_macas) {
+  var instrucaoSql = `INSERT INTO (observacao, local_instalacao, apelido, comprimento, largura, profundidade, kg_macas, empresa_id) camara 
+  VALUES ('${observacao}', '${local_instalacao}', '${apelido}', ${volume}, ${kg_macas}, ${empresaId})`;
 
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
   return database.executar(instrucaoSql);

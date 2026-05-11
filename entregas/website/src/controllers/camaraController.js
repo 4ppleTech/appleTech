@@ -18,14 +18,12 @@ function buscarCamarasPorEmpresa(req, res) {
 
 
 function cadastrar(req, res) {
-  var empresaId = req.body.empresaId;
-  var observacao = req.body.observacao;
-  var local_instalacao = req.body.local_instalacao;
-  var apelido = req.body.apelido;
-  var comprimento = req.body.comprimento;
-  var largura = req.body.largura;
-  var profundidade = req.body.profundidade;
-  var qtd_macas = req.body.qtd_macas;
+  var empresaId = req.body.idEmpresaServer;
+  var observacao = req.body.oberservacaoServer;
+  var local_instalacao = req.body.localInstalacaoServer;
+  var apelido = req.body.apelidoServer;
+  var volume = req.body.volumeServer;
+  var kg_macas = req.body.kgMacaServer;
   
   if (empresaId == undefined) {
     res.status(400).send("empresaId está undefined!");
@@ -35,17 +33,13 @@ function cadastrar(req, res) {
     res.status(400).send("local_instalacao está undefined!");
   } else if (apelido == undefined) {
     res.status(400).send("apelido está undefined!");
-  } else if (comprimento == undefined) {
-    res.status(400).send("comprimento está undefined!");
-  } else if (largura == undefined) {
-    res.status(400).send("largura está undefined!");
-  } else if (profundidade == undefined) {
+  } else if (volume == undefined) {
     res.status(400).send("profundidade está undefined!");
-  } else if (qtd_macas == undefined) {
-    res.status(400).send("qtd_macas está undefined!");
+  } else if (kg_macas == undefined) {
+    res.status(400).send("kg_macas está undefined!");
   } else {
     
-    camaraModel.cadastrar(empresaId, observacao, local_instalacao, apelido, comprimento, largura, profundidade, qtd_macas)
+    camaraModel.cadastrar(empresaId, observacao, local_instalacao, apelido, volume, kg_macas)
       .then((resultado) => {
         res.status(201).json(resultado);
       }

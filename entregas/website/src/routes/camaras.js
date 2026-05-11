@@ -8,7 +8,7 @@ router.get("/:empresaId", function (req, res) {
 });
 
 router.post("/cadastrar", function (req, res) {
-  camaraController.cadastrar(req, res);
+  camaraController.cadastrar(req, res)
 })
 
 module.exports = router;
