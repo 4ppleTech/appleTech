@@ -215,3 +215,16 @@ JOIN (
     )
 ) l ON s.id_sensor = l.sensor_id
 WHERE s.situacao = 'Ativo';
+
+-- pico etileno por sensor
+CREATE OR REPLACE VIEW vw_pico_etileno_sensor AS
+SELECT 
+    s.numero_sensor AS 'Sensor',
+    c.apelido AS 'Câmara',
+    MAX(l.valor_leitura) AS 'Pico 24h'
+FROM sensor s
+JOIN camara c ON s.camara_id = c.id_camara
+JOIN leitura l ON s.id_sensor = l.sensor_id
+-- filtra as ultimas 24 horas
+WHERE TIMESTAMPDIFF(HOUR, l.data_hora, NOW()) <= 24
+GROUP BY s.id_sensor;
