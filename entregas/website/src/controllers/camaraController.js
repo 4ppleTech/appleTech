@@ -54,7 +54,12 @@ function cadastrar(req, res) {
   }
 }
 
+function buscarCamaraEmRisco(req, res) {
+  
+}
+
 module.exports = {
   buscarCamarasPorEmpresa,
-  cadastrar
+  cadastrar,
+  buscarCamaraEmRisco
 }

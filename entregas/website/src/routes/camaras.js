@@ -11,4 +11,8 @@ router.post("/cadastrar", function (req, res) {
   camaraController.cadastrar(req, res)
 })
 
+router.get("/risco", function (req, res) {
+  camaraController.buscarCamaraEmRisco(req, res)
+})
+
 module.exports = router;

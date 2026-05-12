@@ -31,7 +31,8 @@ function autenticar(req, res) {
                                         senha: resultadoAutenticar[0].senha,
                                         camaras: resultadoCamaras,
                                         papel_usuario: resultadoAutenticar[0].papel_usuario,
-                                        situacao: resultadoAutenticar[0].situacao
+                                        situacao: resultadoAutenticar[0].situacao,
+                                        empresaId: resultadoAutenticar[0].empresaId
                                     });
                                 } else {
                                     res.status(204).json({ camaras: [] });

@@ -17,8 +17,14 @@ function cadastrar(empresaId, observacao, local_instalacao, apelido, volume, kg_
   return database.executar(instrucaoSql);
 }
 
+function buscarCamaraEmRisco(situacao, id_empresa) {
+  var instrucaoSql =
+  `SELECT * FROM vw_kpi_camaras_alerta`
+}
+
 
 module.exports = {
   buscarCamarasPorEmpresa,
-  cadastrar
+  cadastrar,
+  buscarCamaraEmRisco
 }
