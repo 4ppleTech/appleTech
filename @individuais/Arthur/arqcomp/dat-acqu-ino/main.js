@@ -2,6 +2,7 @@
 const serialport = require('serialport');
 const express = require('express');
 const mysql = require('mysql2');
+const path = require("path");
 
 // constantes para configurações
 const SERIAL_BAUD_RATE = 9600;
@@ -83,6 +84,7 @@ const servidor = (
     valoresPercentualEtileno
 ) => {
     const app = express();
+    app.use(express.static(path.join(__dirname, "public")))
 
     // configurações de requisição e resposta
     app.use((request, response, next) => {
