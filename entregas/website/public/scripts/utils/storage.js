@@ -17,5 +17,5 @@ export const storage = {
     },
 };
 
-storage.set("APPLETECH_USER", {nome: 'asdasd', email: 'asdasdads', senha: 'q2123123'})
+
 const user = storage.get("APPLETECH_USER") // {nome: 'asdasd', email: 'asdasdads', senha: 'q2123123'}

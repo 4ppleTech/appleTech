@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,11 +11,14 @@
     <link rel="stylesheet" href="../css/dashboard/shared.css">
     <link rel="stylesheet" href="../css/dashboard/help.css">
     <link rel="shortcut icon" href="../assets/imgs/favicon.ico" type="image/x-icon">
-    
+
     <!-- CDNs Chart.JS e FontAwesome -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
 <body>
     <div class="dashboard-container">
         <!-- SIDEBAR -->
@@ -75,43 +79,45 @@
             <div class="header">
                 <h1>Central de Ajuda</h1>
             </div>
-            <div class="help-wrapper">  
+            <div class="help-wrapper">
                 <div class="content-left">
-                <h2 class="title-help">Ficou Alguma Dúvida? Entre em Contato:</h2>
-                
-                <div class="field-gap">
-                    <label class="field-label" for="nome">Nome</label>
-                    <input class="field-input" type="text" id="nome" placeholder="John Doe" />
+                    <h2 class="title-help">Ficou Alguma Dúvida? Entre em Contato:</h2>
+
+                    <div class="field-gap">
+                        <label class="field-label" for="nome">Nome</label>
+                        <input class="field-input" type="text" id="nome" placeholder="John Doe" />
+                    </div>
+
+                    <div class="field-gap">
+                        <label class="field-label" for="email">E-mail</label>
+                        <input class="field-input" type="email" id="email" placeholder="john.Doe@gmail.com" />
+                    </div>
+
+                    <div class="field-gap">
+                        <label class="field-label" for="assunto">Assunto</label>
+                        <textarea class="field-input tall" type="text" id="assunto"></textarea>
+                    </div>
+
+                    <button class="button-send" onclick="enviarEmail()">Enviar E-mail</button>
                 </div>
-                
-                <div class="field-gap">
-                    <label class="field-label" for="email">E-mail</label>
-                    <input class="field-input" type="email" id="email" placeholder="john.Doe@gmail.com" />
+
+                <div class="content-right">
+                    <img src="../assets/svgs/mailbox.svg" alt="Contate-nos">
                 </div>
-                
-                <div class="field-gap">
-                    <label class="field-label" for="assunto">Assunto</label>
-                    <textarea class="field-input tall" type="text" id="assunto"></textarea>
-                </div>
-                
-                <button class="button-send" onclick="enviarEmail()">Enviar E-mail</button>
-            </div>
-        
-            <div class="content-right">
-                <img src="../assets/svgs/mailbox.svg" alt="Contate-nos">
             </div>
         </div>
     </div>
-</div>
-           
 
-<script src="../scripts/utils/mock-user.js"></script>
-<script src="../scripts/utils/sessao.js"></script>
+
+    <script src="../scripts/utils/sessao.js"></script>
 </body>
+
 </html>
 
-<script>
-    function enviarEmail(){
+<script type="module">
+    import { load_account } from "../scripts/utils/load_account.js"
+    document.addEventListener("DOMContentLoaded", load_account)
+    function enviarEmail() {
         alert("Email enviado com sucesso!")
     }
 </script>

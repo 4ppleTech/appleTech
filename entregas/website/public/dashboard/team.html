@@ -160,7 +160,9 @@
     </div>
 
 <script src="../scripts/utils/formatar-data.js"></script>
-<script>
+<script type="module">
+    import {load_account} from "../scripts/utils/load_account.js"
+    document.addEventListener("DOMContentLoaded", load_account)
     document.getElementById("current-date").innerText = formatarDataAtual();
     function alternar_codigo_companhia() {
         let companyCodeInput = document.getElementById("inCompanyCode");
@@ -177,7 +179,6 @@
         }
     }
 </script>
-<script src="../scripts/utils/mock-user.js"></script>
 <script src="../scripts/utils/sessao.js"></script>
 </body>
 </html>

@@ -10,7 +10,7 @@ function autenticar(req, res) {
         res.status(400).send("Seu email está undefined!");
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está indefinida!");
-    }else {
+    } else {
 
         usuarioModel.autenticar(email, senha)
             .then(
@@ -31,7 +31,8 @@ function autenticar(req, res) {
                                         senha: resultadoAutenticar[0].senha,
                                         camaras: resultadoCamaras,
                                         papel_usuario: resultadoAutenticar[0].papel_usuario,
-                                        situacao: resultadoAutenticar[0].situacao
+                                        situacao: resultadoAutenticar[0].situacao,
+                                        empresaId: resultadoAutenticar[0].empresaId
                                     });
                                 } else {
                                     res.status(204).json({ camaras: [] });
@@ -89,7 +90,61 @@ function cadastrar(req, res) {
     }
 }
 
+function buscarEmpresaPorUsuario(req, res) {
+    var id_empresa = req.params.idEmpresa;
+
+    if (id_empresa == undefined) {
+        res.status(400).send("Empresa id não encontrado");
+    } else {
+        usuarioModel.buscarEmpresaPorUsuario(id_empresa)
+            .then(
+                function (resultado) {
+                    res.json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log(
+                        "\nHouve um erro ao buscar por empresa! Erro: ",
+                        erro.sqlMessage
+                    );
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
+
+function atualizarPapelUsuario(req, res) {
+    var id_usuario = req.params.idUsuario
+    var papel_usuario = req.body.papelUsuarioServer
+
+
+    if (id_usuario == undefined) {
+        res.status(400).send("Id do usuário está undefined!");
+    } else if (papel_usuario == undefined) {
+        res.status(400).send("Papel do usuário está undefined!");
+    } else {
+        usuarioModel.atualizarPapelUsuario(id_usuario, papel_usuario)
+            .then(
+                function (resultado) {
+                    res.json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log(
+                        "\nHouve um erro ao buscar por empresa! Erro: ",
+                        erro.sqlMessage
+                    );
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
+
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrar,
+    buscarEmpresaPorUsuario,
+    atualizarPapelUsuario
 }

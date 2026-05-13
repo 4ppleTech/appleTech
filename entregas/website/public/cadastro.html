@@ -13,8 +13,7 @@
     <!-- CDN FONTAWESOME -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<!-- <body onload="listar()"> -->
-<body>
+<body onload="listar()">
 
     <!-- Botão voltar para a página inicial -->
     <a class="btn-home" href="./index.html" title="Voltar ao início">
@@ -153,12 +152,6 @@
       let senhaRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^\w\s]).{6,}$/;
 
       // === AVISO: DESCOMENTAR PARA A SPRINT 3 === //
-      // if(!listaEmpresasCadastradas.includes(codigoVar)) {
-      //   auth_message.style.display = "block";
-      //   auth_message.classList.add("error");
-      //   auth_message.innerHTML = "O Código de Validação Não existe!";
-      //   return false;
-      // }
 
       if(nomeVar.length < 3) {
         auth_message.style.display = "block";
@@ -200,7 +193,7 @@
       auth_message.classList.add("error");
       auth_message.innerHTML = "Preencha todos os campos antes de seguir em frente!";
 
-    //   finalizarAguardar();
+      finalizarAguardar();
       return false;
     } else {
       setInterval(sumirMensagem, 5000);
@@ -217,62 +210,62 @@
         auth_message.style.display = "block";
         auth_message.classList.add("error");
         auth_message.innerHTML = "(Mensagem de erro para código inválido)";
-        // finalizarAguardar();
+        finalizarAguardar();
       }
     }
 
     // === AVISO: DADOS MOCKADOS PARA SPRINT 2 === //
-    if(codigoVar === DADOS_CONTA_FICTICIA.codigo_ativacao && nomeVar === DADOS_CONTA_FICTICIA.nome && emailVar === DADOS_CONTA_FICTICIA.email && senhaVar === DADOS_CONTA_FICTICIA.senha) {
-      setTimeout(function () {
-          window.location = "./login.html";
-      }, 1000);
-    } else {
-        auth_message.style.display = "block";
-        auth_message.classList.add("error");
-        auth_message.innerHTML = "Credenciais Inválidas!";
-    }
+    // if(codigoVar === DADOS_CONTA_FICTICIA.codigo_ativacao && nomeVar === DADOS_CONTA_FICTICIA.nome && emailVar === DADOS_CONTA_FICTICIA.email && senhaVar === DADOS_CONTA_FICTICIA.senha) {
+    //   setTimeout(function () {
+    //       window.location = "./login.html";
+    //   }, 1000);
+    // } else {
+    //     auth_message.style.display = "block";
+    //     auth_message.classList.add("error");
+    //     auth_message.innerHTML = "Credenciais Inválidas!";
+    // }
 
     // === AVISO: DESCOMENTAR PARA A SPRINT 3 === //
-  //   // Enviando o valor da nova input
-  //   fetch("/usuarios/cadastrar", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       // crie um atributo que recebe o valor recuperado aqui
-  //       // Agora vá para o arquivo routes/usuario.js
-  //       nomeServer: nomeVar,
-  //       emailServer: emailVar,
-  //       senhaServer: senhaVar,
-  //       idEmpresaVincularServer: idEmpresaVincular
-  //     }),
-  //   })
-  //     .then(function (resposta) {
-  //       console.log("resposta: ", resposta);
+    // Enviando o valor da nova input
+    fetch("/usuarios/cadastrar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        // crie um atributo que recebe o valor recuperado aqui
+        // Agora vá para o arquivo routes/usuario.js
+        nomeServer: nomeVar,
+        emailServer: emailVar,
+        senhaServer: senhaVar,
+        idEmpresaVincularServer: idEmpresaVincular
+      }),
+    })
+      .then(function (resposta) {
+        console.log("resposta: ", resposta);
 
-  //       if (resposta.ok) {
-  //         auth_message.style.display = "block";
-  //         auth_message.classList.add("success");
-  //         auth_message.innerHTML =
-  //           "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+        if (resposta.ok) {
+          auth_message.style.display = "block";
+          auth_message.classList.add("success");
+          auth_message.innerHTML =
+            "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
 
-  //         setTimeout(() => {
-  //           window.location = "login.html";
-  //         }, 2000);
+          setTimeout(() => {
+            window.location = "login.html";
+          }, 2000);
 
-  //         limparFormulario();
-  //       //   finalizarAguardar();
-  //       } else {
-  //         throw "Houve um erro ao tentar realizar o cadastro!";
-  //       }
-  //     })
-  //     .catch(function (resposta) {
-  //       console.log(`#ERRO: ${resposta}`);
-  //       // finalizarAguardar();
-  //     });
+          limparFormulario();
+        //   finalizarAguardar();
+        } else {
+          throw "Houve um erro ao tentar realizar o cadastro!";
+        }
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+        // finalizarAguardar();
+      });
 
-  //   return false;
+    return false;
   }
 
   // Listando empresas cadastradas 

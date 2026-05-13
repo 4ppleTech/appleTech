@@ -11,4 +11,8 @@ router.get("/tempo-real/:idAquario", function (req, res) {
     medidaController.buscarMedidasEmTempoReal(req, res);
 })
 
+router.get("/maior-etileno/:idEmpresa", function (req, res) {
+    medidaController.buscarMaiorPicoEtileno(req, res)
+})
+
 module.exports = router;
