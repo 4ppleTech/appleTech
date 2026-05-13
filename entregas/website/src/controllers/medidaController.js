@@ -41,8 +41,29 @@ function buscarMedidasEmTempoReal(req, res) {
     });
 }
 
+function buscarMaiorPicoEtileno(req, res) {
+    var id_empresa = req.params.idEmpresa
+
+    if (id_empresa == undefined) {
+        res.status(400).send("empresaId está undefined!");
+    } else {
+        medidaModel.buscarMaiorPicoEtileno(id_empresa)
+            .then((resultado) => {
+                res.status(201).json(resultado);
+            }
+            ).catch((erro) => {
+                console.log(erro);
+                console.log(
+                    "\nHouve um erro ao realizar o cadastro! Erro: ",
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
 module.exports = {
     buscarUltimasMedidas,
-    buscarMedidasEmTempoReal
-
+    buscarMedidasEmTempoReal,
+    buscarMaiorPicoEtileno
 }

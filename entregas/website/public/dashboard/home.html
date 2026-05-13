@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AppleTech | Início</title>
-    
+
     <!-- ESTILOS DA DASHBOARD -->
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/dashboard/shared.css">
     <link rel="stylesheet" href="../css/dashboard/home.css">
     <link rel="shortcut icon" href="../assets/imgs/favicon.ico" type="image/x-icon">
-    
+
     <!-- CDNs Chart.JS e FontAwesome -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
 <body>
     <div class="dashboard-container">
         <!-- SIDEBAR -->
@@ -134,7 +139,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- CONTENT MÉTRICAS -->
                 <div class="metrics">
                     <!-- CONTENT GRÁFICOS -->
@@ -142,7 +147,7 @@
                         <!-- CONTENT GRÁFICO LINHAS -->
                         <div class="chart-card">
                             <div class="chart-header">
-                                <h2 class="chart-title">Nível Atual de Etileno por Câmara  <span>(ppm)</span></h2>
+                                <h2 class="chart-title">Nível Atual de Etileno por Câmara <span>(ppm)</span></h2>
                                 <div class="btn-group">
                                     <a href="./chambers.html">Análise Individual</a>
                                 </div>
@@ -156,9 +161,10 @@
                             <div class="chart-header">
                                 <h2 class="chart-title">Nível Atual de Etileno por Câmara <span>(ppm)</span></h2>
                                 <div class="btn-group">
-                                    <button data-periodo="24h"onclick="atualizarPeriodo('24h')" class="active">24hrs</button>
+                                    <button data-periodo="24h" onclick="atualizarPeriodo('24h')"
+                                        class="active">24hrs</button>
                                     <button data-periodo="7d" onclick="atualizarPeriodo('7d')">7 dias</button>
-                                    <button data-periodo="30d"onclick="atualizarPeriodo('30d')">30 dias</button>
+                                    <button data-periodo="30d" onclick="atualizarPeriodo('30d')">30 dias</button>
                                 </div>
                             </div>
                             <div class="chart-container">
@@ -173,15 +179,18 @@
                             <h3>Últimas Notificações</h3>
                             <div class="alert-list">
                                 <div class="alert alert--serious">
-                                    <p class="alert-content">Câmara <a href="./alerts.html">C-05</a> está muito acima dos níveis esperados de Etileno.</p>
+                                    <p class="alert-content">Câmara <a href="./alerts.html">C-05</a> está muito acima
+                                        dos níveis esperados de Etileno.</p>
                                     <span class="alert-footer">há 1 minuto</span>
                                 </div>
                                 <div class="alert alert--serious">
-                                    <p class="alert-content">Câmara <a href="./alerts.html">C-03</a> saiu dos níveis esperados de Etileno.</p>
+                                    <p class="alert-content">Câmara <a href="./alerts.html">C-03</a> saiu dos níveis
+                                        esperados de Etileno.</p>
                                     <span class="alert-footer">há 1 minuto</span>
                                 </div>
                                 <div class="alert alert--caution">
-                                    <p class="alert-content">Câmara <a href="./alerts.html">C-03</a> está beirando o limite crítico de 1.5ppm</p>
+                                    <p class="alert-content">Câmara <a href="./alerts.html">C-03</a> está beirando o
+                                        limite crítico de 1.5ppm</p>
                                     <span class="alert-footer">há 8 horas</span>
                                 </div>
 
@@ -200,12 +209,14 @@
         </div>
     </div>
 
-<script src="../scripts/utils/sessao.js"></script>
-<script src="../scripts/utils/mock-user.js"></script>
-<script src="../scripts/dashboard-charts.js"></script>
-<script src="../scripts/utils/formatar-data.js"></script>
-<script>
-    document.getElementById("current-date").innerText = formatarDataAtual();
-</script>
+    <script src="../scripts/utils/sessao.js"></script>
+    <script src="../scripts/dashboard-charts.js"></script>
+    <script src="../scripts/utils/formatar-data.js"></script>
+    <script type="module">
+        import { load_account } from "../scripts/utils/load_account.js"
+        document.addEventListener("DOMContentLoaded", load_account)
+        document.getElementById("current-date").innerText = formatarDataAtual();
+    </script>
 </body>
+
 </html>

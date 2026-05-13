@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,8 +12,10 @@
     <link rel="shortcut icon" href="./assets/imgs/favicon.ico" type="image/x-icon">
 
     <!-- CDN FONTAWESOME -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
 <body>
 
     <!-- Botão voltar para a página inicial -->
@@ -37,30 +40,15 @@
             <!-- E-mail -->
             <div class="input-group">
                 <i class="fa-regular fa-envelope"></i>
-                <input
-                    type="email"
-                    id="ipt_email"
-                    class="auth-input"
-                    placeholder="Email"
-                    autocomplete="email"
-                >
+                <input type="email" id="ipt_email" class="auth-input" placeholder="Email" autocomplete="email">
             </div>
 
             <div class="input-group input-group--password">
                 <i class="fa-solid fa-lock"></i>
-                <input
-                    type="password"
-                    id="ipt_senha"
-                    class="auth-input"
-                    placeholder="Senha"
-                    autocomplete="current-password"
-                >
-                <button
-                    class="passwd-toggle-btn"
-                    type="button"
-                    aria-label="Mostrar senha"
-                    onclick="alternarVisibilidadeSenha('ipt_senha', 'senha-icon')"
-                >
+                <input type="password" id="ipt_senha" class="auth-input" placeholder="Senha"
+                    autocomplete="current-password">
+                <button class="passwd-toggle-btn" type="button" aria-label="Mostrar senha"
+                    onclick="alternarVisibilidadeSenha('ipt_senha', 'senha-icon')">
                     <i id="senha-icon" class="fa-regular fa-eye"></i>
                 </button>
             </div>
@@ -69,7 +57,7 @@
 
             <p id="auth_message" class="auth-message"></p>
 
-            <button class="auth-btn" onclick="entrar()">
+            <button class="auth-btn" id="auth-btn">
                 Entrar
                 <i class="fa-regular fa-circle-up"></i>
             </button>
@@ -78,120 +66,126 @@
         </div>
     </div>
 
-<script src="./scripts/utils/sessao.js"></script>
-<script src="./scripts/toggle-senha.js"></script>
-<script src="./scripts/utils/mock-user.js"></script>
-<script>
+    <script src="./scripts/utils/sessao.js"></script>
+    <script src="./scripts/toggle-senha.js"></script>
+    <script type="module">
+        import { storage } from "./scripts/utils/storage.js"
+        const btn = document.getElementById("auth-btn")
+        btn.addEventListener("click", entrar)
+        function entrar() {
+
+            var emailVar = ipt_email.value;
+            var senhaVar = ipt_senha.value;
 
 
-    function entrar() {
 
-        var emailVar = ipt_email.value;
-        var senhaVar = ipt_senha.value;
+            let emailRegex = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
 
-        let emailRegex = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
+            // mínimo 6 caracteres | 1 maiúscula | 1 minúscula | 1 caractere especial
+            let senhaRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^\w\s]).{6,}$/;
 
-        // mínimo 6 caracteres | 1 maiúscula | 1 minúscula | 1 caractere especial
-        let senhaRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^\w\s]).{6,}$/;
-
-        if(!emailRegex.test(emailVar)) {
-            auth_message.style.display = "block";
-            auth_message.classList.add("error");
-            auth_message.innerHTML = "Formato de e-mail inválido.";
-            return;
-        }
-
-        if(!senhaRegex.test(senhaVar)) {
-            auth_message.style.display = "block";
-            auth_message.classList.add("error");
-            auth_message.innerHTML = "Senha deve obedecer ao formato: mínimo 6 caracteres | 1 maiúscula | 1 minúscula | 1 caractere especial.";
-            return;
-        }
-
-        if (emailVar == "" || senhaVar == "") {
-            auth_message.style.display = "block";
-            auth_message.classList.add("error");
-            auth_message.innerHTML = "Preencha todos os campos antes de seguir em frente!";
-            // finalizarAguardar();
-            return;
-        }
-        else {
-            setInterval(sumirMensagem, 5000)
-        }
-
-        console.log("FORM LOGIN: ", emailVar);
-        console.log("FORM SENHA: ", senhaVar);
-
-        // === AVISO: VALIDAÇÃO MOCKADA PARA SPRINT 2 === //
-        // if(emailVar === DADOS_CONTA_FICTICIA.email && senhaVar === DADOS_CONTA_FICTICIA.senha) {
-        //     setTimeout(function () {
-        //         window.location = "./dashboard/home.html";
-        //     }, 1000);
-        // } else {
-        //     auth_message.style.display = "block";
-        //     auth_message.classList.add("error");
-        //     auth_message.innerHTML = "Credenciais Inválidas!";
-        // }
-
-
-        // === AVISO: DESCOMENTAR NA SPRINT 3 === //
-        fetch("/usuarios/autenticar", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                emailServer: emailVar,
-                senhaServer: senhaVar
-            })
-        }).then(function (resposta) {
-            console.log("ESTOU NO THEN DO entrar()!")
-
-            if (resposta.ok) {
-                console.log(resposta);
-
-                resposta.json().then(json => {
-                    console.log(json);
-                    console.log(JSON.stringify(json));
-                    sessionStorage.EMAIL_USUARIO = json.email;
-                    sessionStorage.NOME_USUARIO = json.nome;
-                    sessionStorage.ID_USUARIO = json.id;
-                    sessionStorage.PAPEL_USUARIO = json.papel_usuario;
-                    sessionStorage.SITUACAO_USUARIO = json.situacao;
-                    sessionStorage.CAMARAS = JSON.stringify(json.camaras)
-                    sessionStorage.ID_EMPRESA = json.empresaId
-
-                    setTimeout(function () {
-                        window.location = "./dashboard/home.html";
-                    }, 1000); // apenas para exibir o loading
-
-                });
-
-            } else {
-
-                console.log("Houve um erro ao tentar realizar o login!");
-
-                resposta.text().then(texto => {
-                    console.error(texto);
-
-                    auth_message.style.display = "block";
-                    auth_message.classList.add("error");
-                    auth_message.innerHTML = texto;
-                    // finalizarAguardar(texto);    
-                });
+            if (!emailRegex.test(emailVar)) {
+                auth_message.style.display = "block";
+                auth_message.classList.add("error");
+                auth_message.innerHTML = "Formato de e-mail inválido.";
+                return;
             }
 
-        }).catch(function (erro) {
-            console.log(erro);
-        })
+            if (!senhaRegex.test(senhaVar)) {
+                auth_message.style.display = "block";
+                auth_message.classList.add("error");
+                auth_message.innerHTML = "Senha deve obedecer ao formato: mínimo 6 caracteres | 1 maiúscula | 1 minúscula | 1 caractere especial.";
+                return;
+            }
 
-        return false;
-    }
+            if (emailVar == "" || senhaVar == "") {
+                auth_message.style.display = "block";
+                auth_message.classList.add("error");
+                auth_message.innerHTML = "Preencha todos os campos antes de seguir em frente!";
+                // finalizarAguardar();
+                return;
+            }
+            else {
+                setInterval(sumirMensagem, 5000)
+            }
 
-    function sumirMensagem() {
-        auth_message.style.display = "none"
-    }
+            console.log("FORM LOGIN: ", emailVar);
+            console.log("FORM SENHA: ", senhaVar);
 
-</script>
+            // === AVISO: VALIDAÇÃO MOCKADA PARA SPRINT 2 === //
+            // if(emailVar === DADOS_CONTA_FICTICIA.email && senhaVar === DADOS_CONTA_FICTICIA.senha) {
+            //     setTimeout(function () {
+            //         window.location = "./dashboard/home.html";
+            //     }, 1000);
+            // } else {
+            //     auth_message.style.display = "block";
+            //     auth_message.classList.add("error");
+            //     auth_message.innerHTML = "Credenciais Inválidas!";
+            // }
+
+
+            // === AVISO: DESCOMENTAR NA SPRINT 3 === //
+            fetch("/usuarios/autenticar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    emailServer: emailVar,
+                    senhaServer: senhaVar
+                })
+            }).then(function (resposta) {
+                console.log("ESTOU NO THEN DO entrar()!")
+
+                if (resposta.ok) {
+                    console.log(resposta);
+
+                    resposta.json().then(json => {
+                        console.log(json);
+                        console.log(JSON.stringify(json));
+                        const { camaras, ...user } = json
+                        storage.set("APPLETECH_USER", user)
+                        storage.set("APPLETECH_CAMARAS", camaras)
+                        // sessionStorage.EMAIL_USUARIO = json.email;
+                        // sessionStorage.NOME_USUARIO = json.nome;
+                        // sessionStorage.ID_USUARIO = json.id;
+                        // sessionStorage.PAPEL_USUARIO = json.papel_usuario;
+                        // sessionStorage.SITUACAO_USUARIO = json.situacao;
+                        // sessionStorage.CAMARAS = JSON.stringify(json.camaras)
+                        // sessionStorage.ID_EMPRESA = json.empresaId
+
+                        setTimeout(function () {
+                            window.location = "./dashboard/home.html";
+                        }, 1000); // apenas para exibir o loading
+
+                    });
+
+                } else {
+
+                    console.log("Houve um erro ao tentar realizar o login!");
+
+                    resposta.text().then(texto => {
+                        console.error(texto);
+
+                        auth_message.style.display = "block";
+                        auth_message.classList.add("error");
+                        auth_message.innerHTML = texto;
+                        // finalizarAguardar(texto);    
+                    });
+                }
+
+            }).catch(function (erro) {
+                console.log(erro);
+            })
+
+            return false;
+        }
+
+        function sumirMensagem() {
+            auth_message.style.display = "none"
+        }
+
+    </script>
 </body>
+
 </html>

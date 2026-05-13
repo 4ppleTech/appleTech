@@ -29,7 +29,21 @@ function buscarMedidasEmTempoReal(idAquario) {
     return database.executar(instrucaoSql);
 }
 
+function buscarMaiorPicoEtileno(id_empresa) {
+    var instrucaoSql = `
+    SELECT 
+        * 
+    FROM 
+        vw_maior_pico_geral 
+    WHERE id_empresa = ${id_empresa};
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarUltimasMedidas,
-    buscarMedidasEmTempoReal
+    buscarMedidasEmTempoReal,
+    buscarMaiorPicoEtileno
 }
