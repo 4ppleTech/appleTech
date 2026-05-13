@@ -15,4 +15,12 @@ router.get("/maior-etileno/:idEmpresa", function (req, res) {
     medidaController.buscarMaiorPicoEtileno(req, res)
 })
 
+router.get("/alertas/:idEmpresa/:idEmpresa", function (req, res) {
+    medidaController.buscarCamaraAlerta(req, res)
+})
+
+router.get("/estoque-risco/:idEmpresa", function (req, res) {
+    
+})
+
 module.exports = router;

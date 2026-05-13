@@ -116,20 +116,38 @@ function buscarEmpresaPorUsuario(req, res) {
 
 function atualizarPapelUsuario(req, res) {
     var id_usuario = req.params.idUsuario
+    var id_usuario_atual = req.body.idUsuarioServer
     var papel_usuario = req.body.papelUsuarioServer
-
 
     if (id_usuario == undefined) {
         res.status(400).send("Id do usuário está undefined!");
     } else if (papel_usuario == undefined) {
         res.status(400).send("Papel do usuário está undefined!");
-    } else {
-        usuarioModel.atualizarPapelUsuario(id_usuario, papel_usuario)
-            .then(
-                function (resultado) {
-                    res.json(resultado);
+    } else if (id_usuario_atual == undefined) {
+        res.status(400).send("Id do usuário atual está undefined")
+    }else {
+        usuarioModel.listarUsuarioPorId(id_usuario_atual)
+            .then((resultado) => {
+                if (resultado[0].papel_usuario != "administrador") {
+                    res.status(403).send("Usuário não tem permissão de editar")
+                } else {
+                    usuarioModel.atualizarPapelUsuario(id_usuario, papel_usuario)
+                        .then(
+                            function (resultado) {
+                                res.json(resultado);
+                            }
+                        ).catch(
+                            function (erro) {
+                                console.log(erro);
+                                console.log(
+                                    "\nHouve um erro ao buscar por empresa! Erro: ",
+                                    erro.sqlMessage
+                                );
+                                res.status(500).json(erro.sqlMessage);
+                            }
+                        );
                 }
-            ).catch(
+            }).catch(
                 function (erro) {
                     console.log(erro);
                     console.log(
@@ -139,6 +157,7 @@ function atualizarPapelUsuario(req, res) {
                     res.status(500).json(erro.sqlMessage);
                 }
             );
+
     }
 }
 

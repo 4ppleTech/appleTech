@@ -53,10 +53,21 @@ function atualizarPapelUsuario(id_usuario, papel_usuario) {
     return database.executar(instrucaoSql);
 }
 
+function listarUsuarioPorId(id_usuario) {
+    var instrucaoSql = `
+    SELECT nome, papel_usuario 
+    FROM usuario
+    WHERE id_usuario = ${id_usuario};
+    `
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 
 module.exports = {
     autenticar,
     cadastrar,
     buscarEmpresaPorUsuario,
-    atualizarPapelUsuario
+    atualizarPapelUsuario,
+    listarUsuarioPorId
 };

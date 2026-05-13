@@ -42,8 +42,26 @@ function buscarMaiorPicoEtileno(id_empresa) {
     return database.executar(instrucaoSql);
 }
 
+function buscarCamaraAlerta(id_empresa) {
+    var instrucaoSql = `
+    
+    `
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function buscarEstoqueEmRisco(id_empresa) {
+    var instrucaoSql = `
+    
+    `
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarUltimasMedidas,
     buscarMedidasEmTempoReal,
-    buscarMaiorPicoEtileno
+    buscarMaiorPicoEtileno,
+    buscarCamaraAlerta
 }

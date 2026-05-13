@@ -62,8 +62,51 @@ function buscarMaiorPicoEtileno(req, res) {
     }
 }
 
+function buscarCamaraAlerta(req, res) {
+    var id_empresa = req.params.idEmpresa
+
+    if (id_empresa == undefined) {
+        res.status(400).send("empresaId está undefined!");
+    } else {
+        medidaModel.buscarCamaraAlerta(id_empresa)
+            .then((resultado) => {
+                res.status(201).json(resultado);
+            }
+            ).catch((erro) => {
+                console.log(erro);
+                console.log(
+                    "\nHouve um erro ao realizar o cadastro! Erro: ",
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
+function buscarCamaraAlerta(req, res) {
+    var id_empresa = req.params.idEmpresa
+
+    if (id_empresa == undefined) {
+        res.status(400).send("empresaId está undefined!");
+    } else {
+        medidaModel.buscarCamaraAlerta(id_empresa)
+            .then((resultado) => {
+                res.status(201).json(resultado);
+            }
+            ).catch((erro) => {
+                console.log(erro);
+                console.log(
+                    "\nHouve um erro ao realizar o cadastro! Erro: ",
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
 module.exports = {
     buscarUltimasMedidas,
     buscarMedidasEmTempoReal,
-    buscarMaiorPicoEtileno
+    buscarMaiorPicoEtileno,
+    buscarCamaraAlerta
 }
