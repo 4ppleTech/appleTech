@@ -15,4 +15,8 @@ router.get("/risco", function (req, res) {
   camaraController.buscarCamaraEmRisco(req, res)
 })
 
+router.put("/atualizar-camara",function(req,res){
+  camaraController.atualizarCamara(req,res)
+})
+
 module.exports = router;

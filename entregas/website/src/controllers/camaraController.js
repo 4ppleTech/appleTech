@@ -24,7 +24,7 @@ function cadastrar(req, res) {
   var apelido = req.body.apelidoServer;
   var volume = req.body.volumeServer;
   var kg_macas = req.body.kgMacaServer;
-  
+
   if (empresaId == undefined) {
     res.status(400).send("empresaId está undefined!");
   } else if (observacao == undefined) {
@@ -38,7 +38,7 @@ function cadastrar(req, res) {
   } else if (kg_macas == undefined) {
     res.status(400).send("kg_macas está undefined!");
   } else {
-    
+
     camaraModel.cadastrar(empresaId, observacao, local_instalacao, apelido, volume, kg_macas)
       .then((resultado) => {
         res.status(201).json(resultado);
@@ -55,11 +55,48 @@ function cadastrar(req, res) {
 }
 
 function buscarCamaraEmRisco(req, res) {
-  
+
 }
+
+function atualizarCamara(req, res) {
+  var apelido = req.body.apelido
+  var volume = req.body.volume
+  var kg_macas = req.body.kg_macas
+  var situacao = req.body.situacao
+  var idCamara = req.body.idCamara
+
+  if (apelido == undefined) {
+    res.status(400).send("apelido está undefined!");
+  } else if (volume == undefined) {
+    res.status(400).send("volume está undefined!");
+  } else if (kg_macas == undefined) {
+    res.status(400).send("kg_macas está undefined!")
+  } else if (situacao == undefined) {
+    res.status(400).send("situacao está undefined!")
+  } else if (volume == undefined) {
+    res.status(400).send("idCamara está undefined!")
+  }
+
+  camaraModel.atualizarCamara(apelido, volume, kg_macas, situacao, idCamara)
+    .then(
+      function (resultado) {
+        res.json(resultado);
+      }
+    ).catch(
+      function (erro) {
+        console.log(erro);
+        console.log(
+          "\nHouve um erro ao buscar por camara! Erro: ",
+          erro.sqlMessage
+        );
+        res.status(500).json(erro.sqlMessage);
+      }
+    );
+  }
 
 module.exports = {
   buscarCamarasPorEmpresa,
   cadastrar,
-  buscarCamaraEmRisco
+  buscarCamaraEmRisco,
+  atualizarCamara
 }

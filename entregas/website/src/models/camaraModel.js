@@ -22,9 +22,21 @@ function buscarCamaraEmRisco(situacao, id_empresa) {
   `SELECT * FROM vw_kpi_camaras_alerta`
 }
 
+function atualizarCamara(apelido, volume, kg_macas, situacao, idCamara){
+    var instrucaoSql = `
+    UPDATE camara
+    SET apelido = '${apelido}',
+	  volume = ${volume},
+    kg_macas = ${kg_macas},
+    situacao = '${situacao}'
+    WHERE id_camara = ${idCamara}`
+    return database.executar(instrucaoSql)
+}
+
 
 module.exports = {
   buscarCamarasPorEmpresa,
   cadastrar,
-  buscarCamaraEmRisco
+  buscarCamaraEmRisco,
+  atualizarCamara
 }
