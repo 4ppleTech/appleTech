@@ -17,5 +17,26 @@ export const storage = {
     },
 };
 
-storage.set("APPLETECH_USER", {nome: 'asdasd', email: 'asdasdads', senha: 'q2123123'})
-const user = storage.get("APPLETECH_USER") // {nome: 'asdasd', email: 'asdasdads', senha: 'q2123123'}
+// USUÁRIO MOCKADOS (DEIXAR DESCOMENTAR PARA TESTES):
+storage.set("APPLETECH_USER", {
+    id: 1,
+    empresaId: 1,
+    codigo_ativacao: "1234ABCD",
+    nome: "batatinha",
+    email: "batatinha@sptech.school",
+    senha: "Sptech#2026",
+    papel_usuario: "administrador",
+    situacao: "Ativo",
+    camaras: [
+        {
+            id_camara: 1,
+            empresa_id: 1,
+            local_instalacao: 'asdasdasdasdasdasd',
+            observacao: "asdasdasd",
+            situacao: "Ativo",
+            apelido: "C-01",
+            volume: 45,
+            kg_macas: 500
+        }
+    ]
+});

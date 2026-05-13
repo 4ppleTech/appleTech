@@ -13,7 +13,7 @@
     
     <!-- CDNs Chart.JS e FontAwesome -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
@@ -81,9 +81,10 @@
             <!-- CONTENT MAIN -->
             <main class="main">
                 <div class="new-chamber-container">
+                    <!-- classe "chamber-container-content" mantida: usada por alternarVisibilidadeFormulario() -->
                     <div class="chamber-container-content">
                         <img src="../assets/svgs/team-work.svg" alt="Nova Câmara">
-                        <button class="new-chamber-btn" onclick="alternarVisibilidadeFormulario()">Nova Câmara<i class="fa-solid fa-plus"></i></button>
+                        <button class="chamber-form-toggler">Nova Câmara<i class="fa-solid fa-plus"></i></button>
                     </div>
                     <form id="new-chamber-form" data-form-open="false" style="display: none;">
                         <div class="form-header"><h2>Adicionar Nova Câmara</h2></div>
@@ -104,45 +105,294 @@
                             </div>
                             <div class="field-group">
                                 <div class="field">
-                                    <label for="ipt-comprimento" class="field-label">Comprimento (m) <span>*</span></label>
-                                    <input id="ipt-comprimento" type="number" class="field-input" required>
+                                    <label for="ipt-volume" class="field-label">Volume (m³) <span>*</span></label>
+                                    <input id="ipt-volume" type="number" class="field-input" placeholder="Ex: 48" required>
                                 </div>
                                 <div class="field">
-                                    <label for="ipt-largura" class="field-label">Largura (m) <span>*</span></label>
-                                    <input id="ipt-largura" type="number" class="field-input" required>
-                                </div>
-                                <div class="field">
-                                    <label for="ipt-profundidade" class="field-label">Profundidade (m) <span>*</span></label>
-                                    <input id="ipt-profundidade" type="number" class="field-input" required>
-                                </div>
-                                <div class="field">
-                                    <label for="ipt-qtd-macas" class="field-label">Quantidade de Maçãs (Kg)<span>*</span></label>
-                                    <input id="ipt-qtd-macas" type="number" class="field-input" required>
+                                    <label for="ipt-kg-macas" class="field-label">Quantidade de Maçãs (Kg)<span>*</span></label>
+                                    <input id="ipt-kg-macas" type="number" class="field-input" placeholder="Ex: 500" required>
                                 </div>
                             </div>
                         </div>
                         <div class="form-footer">
-                            <button type="reset" onclick="alternarVisibilidadeFormulario()">Cancelar</button>
-                            <button type="submit" onclick="adicionarNovaCamara()">Adicionar</button>
+                            <button type="reset" class="chamber-form-toggler">Cancelar</button>
+                            <button type="submit" class="chamber-form-submit-btn">Adicionar</button>
                         </div>
                     </form>
                 </div>
 
                 <div class="chamber-list-results">
                     <h1>Total de Câmaras</h1>
-                    <span>5</span>
+                    <span id="chambers-count">0</span>
                 </div>
 
-                <ul class="chamber-list">
+                <ul id="chamber-list">
                     <!-- CHAMBERS carregadas dinamicamente -->
                 </ul>
             </main>
         </div>
     </div>
 
-<script src="../scripts/utils/mock-user.js"></script>
-<script src="../scripts/toggle-camara.js"></script>
 <script src="../scripts/utils/formatar-data.js"></script>
+<script type="module">
+    import {storage} from "../scripts/utils/storage.js";
+
+    // Carrega a UI e Atribui Eventos
+    document.addEventListener("DOMContentLoaded", () => { // quando o HTML todo carregar
+        // Recupera Dados do sessionStorage e redireciona se não estiver logado
+        const userData = storage.get("APPLETECH_USER");
+        if(!userData) {
+            console.warn("Aviso: Dados de usuário não foram encontrados, redirecionando...");
+            setTimeout(() => {
+                window.location = "../login.html";
+            }, 250);
+        } else {
+            // Preenche dados da sidebar
+            loadSidebarAccountInfo(userData);
+        }
+
+        // Elementos e Funções 
+        // Abrir/Fechar Formulário
+        const chamberFormTogglers = document.querySelectorAll(".chamber-form-toggler");
+        chamberFormTogglers.forEach(el => {
+            el.addEventListener("click", alternarVisibilidadeFormulario);
+        });
+
+        // Criação de Nova Câmara
+        const chamberForm = document.getElementById("new-chamber-form");
+        chamberForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            
+            const observacao = String(document.getElementById("ipt-observacao").value).trim();
+            const local_instalacao = String(document.getElementById("ipt-local-instalacao").value).trim();
+            const apelido = String(document.getElementById("ipt-apelido").value).trim();
+            const volume = Number(document.getElementById("ipt-volume").value);
+            const kg_macas = Number(document.getElementById("ipt-kg-macas").value);
+            
+            const formData = {
+                empresaId: userData.empresaId,
+                observacao,
+                local_instalacao,
+                apelido,
+                volume,
+                kg_macas,
+            };
+
+            fetch("/camaras/cadastrar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            })
+            .then((res) => {
+                if(!res.ok) {
+                    throw new Error("Erro ao Criar Câmara");
+                }
+                console.log("Enviei Formulário! | Dados: ", formData);
+            })
+            .catch((err) => {
+                console.err(err.message);
+            });
+        });
+
+        // Carregar UI
+        const chamberList = document.getElementById("chamber-list");
+        userData.camaras.forEach((camara) => {
+            const {id_camara, empresa_id, local_instalacao, apelido, observacao, volume, kg_macas, situacao} = camara;
+
+            const chamberId = `c-${String(id_camara).padStart(2, "0")}`;
+            const chamberCard = document.createElement("li");
+
+            chamberCard.classList.add("chamber");
+            chamberCard.id = chamberId;
+            chamberCard.dataset.chamberCard = "closed";
+
+            const ultimaLeitura = 2.0 // buscar da API
+            const estoqueEmRisco = ultimaLeitura >= 1.5 ? Math.round(kg_macas * (ultimaLeitura/10)) : 0;
+
+            // buscar 'status' da view
+            const status = "Sob Controle";
+            const tipoBadge = 
+                status === "Sob Controle" ? "common" :
+                status === "Atenção" ? "caution" : "serious";
+
+            chamberCard.innerHTML += `
+                <div class="chamber-header">
+                    <div class="chamber-info">
+                        <input id="chamber-apelido" type="text" value="${apelido}" disabled>
+                        <input id="chamber-local-instalacao" type="text" value="${local_instalacao}" disabled>
+                    </div>
+                    <div class="chamber-status">
+                        <p>● <span id="chamber-situacao">${situacao}</span></p>
+                        <p>● <select id="chamber-status" disabled>
+                            <option value="Ativo">Ativo</option>
+                            <option value="Inativo">Inativo</option>
+                        </select></p>
+                    </div>
+                    <div class="chamber-actions">
+                        <button id="chamber-toggler"><i class="fa-solid fa-chevron-down"></i></button>
+                        <button id="chamber-edit-toggler"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button id="chamber-save-changes" disabled><i class="fa-solid fa-check"></i></button>
+                    </div>
+                </div>
+                <div class="chamber-body">
+                    <ul class="chamber-kpi-list">
+                        <li class="chamber-kpi chamber-kpi--negative">
+                            <p class="chamber-kpi-caption">Etileno Atual (ppm)</p>
+                            <h3 class="chamber-kpi-value">${ultimaLeitura}</h3>
+                        </li>
+                        <li class="chamber-kpi chamber-kpi--positive">
+                            <p class="chamber-kpi-caption">Volume Câmara (m³)</p>
+                            <input type="number" class="chamber-kpi-value" value="${volume}" disabled/>
+                        </li>
+                        <li class="chamber-kpi chamber-kpi--caution">
+                            <p class="chamber-kpi-caption">Estoque Total (Kg)</p>
+                            <input type="number" class="chamber-kpi-value" value="${kg_macas}" disabled/>
+                            <span class="chamber-kpi-footer">~${Math.round(kg_macas / 0.04).toLocaleString('pt-BR')} maçãs</span>
+                        </li>
+                        <li class="chamber-kpi chamber-kpi--caution">
+                            <p class="chamber-kpi-caption">Estoque em Risco (Kg)</p>
+                            <h3 class="chamber-kpi-value">${estoqueEmRisco}kg</h3>
+                            <span class="chamber-kpi-footer">Receita Estimada: R$ ${(estoqueEmRisco * 121.88).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</span>
+                        </li>
+                    </ul>
+                    <div class="chamber-main">
+                        <div class="chamber-chart">
+                            <div class="chart-title">
+                                <h3>Variação de Etileno por Sensor</h3>
+                                <div class="btn-group">
+                                    <button data-periodo="24h" class="active">24hrs</button>
+                                    <button data-periodo="7d">7 dias</button>
+                                    <button data-periodo="30d">30 dias</button>
+                                </div>
+                            </div>
+                            <canvas id="chart-${chamberId}"></canvas>
+                        </div>
+                        <ul class="chamber-sensores">
+                            <button id="add-sensor-btn"><i class="fa-solid fa-plus"></i>Adicionar Sensor</button>
+                            <li class="chamber-sensor">
+                                <div class="sensor-info">
+                                    <input id="sensor-num-serie" type="text" value="[NUMERO SERIE]" disabled>
+                                    <input id="sensor-modelo" type="text" value="[MODELO]" disabled>
+                                </div>
+                                <p>● <select id="sensor-status" disabled>
+                                    <option value="Ativo">Ativo</option>
+                                    <option value="Inativo">Inativo</option>
+                                </select></p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+            chamberList.appendChild(chamberCard);
+
+            // Passa o ID único do canvas: "chart-{chamberId}"
+            loadChamberGraph(`chart-${chamberId}`);
+
+            // Seletor corrigido: .chamber-actions #chamber-toggler (era .chamber-header .chamber-toggler)
+            const chamberToggler = document.querySelector(`#${chamberId} .chamber-actions #chamber-toggler`);
+            chamberToggler.addEventListener("click", () => alternarVisibilidadeCamara(chamberId));
+
+            // Seletor corrigido: .chamber-actions #chamber-edit-toggler (era .chamber-header .edit-chamber-toggler)
+            const chamberEditorToggler = document.querySelector(`#${chamberId} .chamber-actions #chamber-edit-toggler`);
+            chamberEditorToggler.addEventListener("click", () => {
+                // lógica para editar câmara...
+            });
+        });
+    });
+
+    // Funções Utilitárias
+    function alternarVisibilidadeFormulario() {
+        const novaCamaraForm = document.getElementById("new-chamber-form");
+        const containerContent = document.querySelector(".chamber-container-content");
+
+        const aberto = novaCamaraForm.dataset.formOpen;
+        if(aberto === 'true') {
+            novaCamaraForm.style.display = "none";
+            containerContent.style.display = "block";
+            novaCamaraForm.dataset.formOpen = false;
+        } else {
+            novaCamaraForm.style.display = "block";
+            containerContent.style.display = "none";
+            novaCamaraForm.dataset.formOpen = true;
+        }
+    }
+
+    function alternarVisibilidadeCamara(chamberId) {
+        const chamber = document.getElementById(chamberId);
+        const chevronIcon = document.querySelector(`#${chamberId} .chamber-actions #chamber-toggler i`);
+
+        const id = chamber.dataset.chamberId;
+        const chamberStatus = chamber.dataset.chamberCard;
+
+        if(chamberStatus === "open") {
+            chamber.dataset.chamberCard = "closed";
+            chevronIcon.classList.replace("fa-chevron-up", "fa-chevron-down");
+        } else {
+            chamber.dataset.chamberCard = "open";
+            chevronIcon.classList.replace("fa-chevron-down", "fa-chevron-up");
+        }
+    }
+
+    function loadSidebarAccountInfo(userData) {
+        const accountUsernameEl = document.getElementById("account-username");
+        const accountRoleEl = document.getElementById("account-role");
+
+        accountUsernameEl.innerHTML = userData.nome;
+        accountRoleEl.innerHTML = userData.papel_usuario;
+    }
+
+    function loadChamberGraph(canvasId) {
+        // Seletor corrigido: busca pelo id único "chart-{chamberId}" em vez do chamberId direto
+        const ctx = document.getElementById(canvasId);
+
+        const chart = new Chart(ctx, {
+            type: "line",
+            data: {
+                // labels: chartLabels['24h'],
+                labels: ['a', 'b', 'c'],
+                datasets: [{
+                    label: 'Etileno (ppm)',
+                    // data: chamber.dataset['24h'],
+                    data: [1, 2, 3],
+                    borderColor: '#7A9B55',
+                    backgroundColor: 'rgba(122, 155, 85, 0.2)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 4,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    annotation: {
+                        annotations: {
+                            limiteCritico: {
+                                type: 'line',
+                                yMin: 1.5, yMax: 1.5,
+                                borderColor: '#B83232',
+                                borderWidth: 3,
+                                label: {
+                                    display: true,
+                                    content: 'Limite Crítico (1.5 ppm)',
+                                    position: 'end',
+                                    backgroundColor: 'rgba(184, 50, 50, 0.8)',
+                                    color: '#fff',
+                                    font: { size: 12, weight: 'bold' }
+                                }
+                            }
+                        }
+                    }
+                },
+                scales: { y: { min: 0, max: 3 } }
+            }
+        });
+    }
+</script>
+</body>
+</html>
+
+<!-- 
 <script>
     document.getElementById("current-date").innerText = formatarDataAtual();
 
@@ -231,7 +481,7 @@
         }
     ];
 
-    const chambersList = document.querySelector(".chamber-list");
+    const chambersList = document.querySelector("#chamber-list");
     function carregarDadosCamaras() {
         for (let i = 0; i < chambers.length; i++) {
             const chamber = chambers[i];
@@ -254,7 +504,6 @@
                 chamber.status === "Atenção" ? "caution" : "serious";
 
             chamberCard.innerHTML = `
-                <!-- CHAMBER HEADER -->
                 <div class="chamber-header">
                     <button class="chamber-toggler" onclick="alternarVisibilidadeCamara('${chamberId}')"><i class="fa-solid fa-chevron-down"></i></button>
                     <div>
@@ -274,9 +523,7 @@
                         <span>1min atrás</span>
                     </div>
                 </div>
-                <!-- CHAMBER CONTENT -->
                 <div class="chamber-content">
-                    <!-- CHAMBER GRAPH -->
                     <div class="chamber-graph">
                         <div>
                             <h3 class="chamber-graph-title">Variação de Etileno - <span>${chamber.apelido}</span></h3>
@@ -289,7 +536,6 @@
                         <canvas id="${chamberId}-graph"></canvas>
                     </div>
 
-                    <!-- CHAMBER EXTRA -->
                     <div class="chamber-extra">
                         <div class="chamber-card">
                             <p class="chamber-card-title">Etileno Atual</p>
@@ -391,5 +637,4 @@
     });
 
 </script>
-</body>
-</html>
+-->
