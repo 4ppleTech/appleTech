@@ -154,30 +154,40 @@ insert into usuario (empresa_id, nome, email, situacao, papel_usuario, senha) va
 (2, 'Carlos Lima', 'carlos@apple.com', 'Ativo', 'analista', '123456'),
 (3, 'Ana Costa', 'ana@apple.com', 'Inativo', 'analista', '123456');
 
-insert into camara (empresa_id, local_instalacao, observacao, situacao, volume, kg_macas, apelido) values
-(1, 'Câmara 1 - Estoque', 'Produtos congelados', 'Ativo', 60 , 100, 'CO1'),
-(1, 'Câmara 2 - Frios', null, 'Ativo', 39, 800, 'CO2'),
-(2, 'Câmara RJ 1', 'Uso geral', 'Ativo', 72, 120, 'CO3'),
-(3, 'Câmara MG 1', null, 'Inativo', 70, 90, 'CO4');
+INSERT INTO camara (id_camara, empresa_id, local_instalacao, situacao, volume, kg_macas, apelido) VALUES
+(1, 1, 'Câmara ao lado do frigorífico.', 'Ativo', 48, 500, 'C-01'),
+(2, 1, 'Câmara recém-instalada', 'Ativo', 48, 500, 'C-02'),
+(3, 1, 'Câmara ala Leste', 'Ativo', 48, 54, 'C-03'), 
+(4, 1, 'Câmara ao lado do frigorífico', 'Ativo', 48, 200, 'C-04'),
+(5, 1, 'Câmara ala Oeste', 'Ativo', 48, 100, 'C-05');
 
-INSERT INTO sensor (camara_id, modelo, situacao, data_instalacao) VALUES
-(1, 'MQ-2', 'Ativo', '2024-01-01'),
-(1, 'MQ-2', 'Ativo', '2024-01-02'),
-(2, 'MQ-2', 'Ativo', '2024-01-03'),
-(3, 'MQ-2', 'Inativo', '2024-01-04');
+INSERT INTO sensor (id_sensor, camara_id, numero_sensor, modelo, situacao, data_instalacao) VALUES
+(1, 1, 'SN-001', 'MQ-2', 'Ativo', '2024-01-01'),
+(2, 2, 'SN-002', 'MQ-2', 'Ativo', '2024-01-01'),
+(3, 3, 'SN-003', 'MQ-2', 'Ativo', '2024-01-01'),
+(4, 4, 'SN-004', 'MQ-2', 'Ativo', '2024-01-01'),
+(5, 5, 'SN-005', 'MQ-2', 'Ativo', '2024-01-01');
 
-insert into leitura (sensor_id, valor_leitura, data_hora) values 
-(1, 1.4, '2024-05-10 10:00:00'),
-(2, 1.5, '2024-05-10 10:01:00'),
-(4, 0, '2024-05-10 10:02:00'),
-(3, 1.6, '2024-05-10 10:03:00'), 
-(1, 1.7, '2024-05-10 10:05:00'),
-(2, 1.5, '2024-05-10 10:06:00'),
-(4, 1.7, '2024-05-10 10:07:00'),
-(3, 1.1, '2024-05-10 10:08:00');
+INSERT INTO leitura (id_leitura, sensor_id, valor_leitura, data_hora) VALUES
+(1, 5, 1.5, NOW() - INTERVAL 30 DAY),
+(2, 5, 1.7, NOW() - INTERVAL 7 DAY),
+(3, 5, 1.8, NOW() - INTERVAL 5 HOUR),
+(4, 5, 2.0, NOW() - INTERVAL 1 HOUR); 
+
+INSERT INTO leitura (id_leitura, sensor_id, valor_leitura, data_hora) VALUES
+(5, 3, 1.2, NOW() - INTERVAL 7 DAY),
+(6, 3, 1.5, NOW() - INTERVAL 2 HOUR),
+(7, 3, 1.7, NOW() - INTERVAL 30 MINUTE);
+
+
+INSERT INTO leitura (id_leitura, sensor_id, valor_leitura, data_hora) VALUES
+(8, 1, 1.0, NOW() - INTERVAL 10 MINUTE),
+(9, 2, 0.9, NOW() - INTERVAL 15 MINUTE),
+(10, 4, 1.1, NOW() - INTERVAL 20 MINUTE);
 
 INSERT INTO alerta (leitura_id, nivel, mensagem) VALUES
-(1, 'Crítico', 'Nível de etileno está muito alto, passou de 1.5ppm'),
-(2, 'Moderado', 'Nível de etileno está alcançando 1.5ppm'),
-(3, 'Controlado', 'Nível de etileno longe do limite'),
-(8, 'Crítico', 'Nível de etileno está muito alto, passou de 1.5ppm');
+(4, 'Crítico', 'Nível de etileno atingiu 2.0ppm na ala Oeste'),
+(7, 'Moderado', 'Nível de etileno em 1.7ppm na ala Leste'),
+(8, 'Controlado', 'Nível normal'),
+(9, 'Controlado', 'Nível normal'),
+(10, 'Controlado', 'Nível normal');
