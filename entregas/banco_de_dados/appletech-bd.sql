@@ -1,3 +1,4 @@
+
 create database if not exists appletech;
 
 use appletech;
@@ -29,8 +30,7 @@ create table empresa(
 	razao_social 	varchar(150) not null unique,
 	nome_fantasia 	varchar(150) not null,
 	cnpj varchar(14) not null unique,
-	telefone 		varchar(25),
-    email 			varchar(255),
+	
     
 	data_criacao 	datetime default current_timestamp,
 	data_atualizacao datetime default current_timestamp on update current_timestamp,
@@ -74,10 +74,8 @@ create table camara (
     apelido 			varchar(100),
     
     -- calculos futuros
-    comprimento			decimal(10,2),
-    largura				decimal(10,2),
-    profundidade		decimal(10,2),
-    qtd_macas			INT,
+    volume decimal(10, 3),
+    kg_macas			INT,
     
 	data_criacao 		datetime default current_timestamp,
 	data_atualizacao 	datetime default current_timestamp on update current_timestamp,
@@ -89,6 +87,7 @@ create table camara (
 
 create table sensor (
 	id_sensor	int auto_increment,
+    numero_sensor varchar(255) unique,
 	camara_id	int not null,
     
 	modelo	varchar(60) not null,
@@ -111,9 +110,8 @@ create table leitura (
 	id_leitura	int primary key auto_increment,
 	sensor_id int not null,
     
-    valor_sensor float,
+    valor_leitura float,
 	data_hora datetime default current_timestamp,
-    observacao varchar(255),
     
 	data_criacao datetime default current_timestamp,
 	data_atualizacao datetime default current_timestamp on update current_timestamp,
@@ -145,10 +143,10 @@ insert into endereco (cep, numero, complemento, logradouro, bairro, cidade, esta
 
 SELECT * from endereco;
 
-insert into empresa (endereco_id, matriz_id, codigo_ativacao, razao_social, nome_fantasia, cnpj, telefone, email) values
-(1, null, 'A1B2C3', 'Apple Tech Brasil LTDA', 'AppleTech', '12345678000101', '11999999999', 'contato@appletech.com'),
-(2, 1, 'ED145B', 'Apple Tech RJ LTDA', 'AppleTech RJ', '12345678000102', '21999999999', 'rj@appletech.com'),
-(3, 1, 'AZ235D', 'Apple Tech MG LTDA', 'AppleTech MG', '12345678000103', '31999999999', 'mg@appletech.com');
+insert into empresa (endereco_id, matriz_id, codigo_ativacao, razao_social, nome_fantasia, cnpj) values
+(1, null, 'A1B2C3', 'Apple Tech Brasil LTDA', 'AppleTech', '12345678000101'),
+(2, 1, 'ED145B', 'Apple Tech RJ LTDA', 'AppleTech RJ', '12345678000102'),
+(3, 1, 'AZ235D', 'Apple Tech MG LTDA', 'AppleTech MG', '12345678000103');
 
 insert into usuario (empresa_id, nome, email, situacao, papel_usuario, senha) values
 (1, 'João Silva', 'joao@apple.com', 'Ativo', 'administrador', '123456'),
@@ -156,11 +154,11 @@ insert into usuario (empresa_id, nome, email, situacao, papel_usuario, senha) va
 (2, 'Carlos Lima', 'carlos@apple.com', 'Ativo', 'analista', '123456'),
 (3, 'Ana Costa', 'ana@apple.com', 'Inativo', 'analista', '123456');
 
-insert into camara (empresa_id, local_instalacao, observacao, situacao, comprimento, largura, profundidade, qtd_macas, apelido) values
-(1, 'Câmara 1 - Estoque', 'Produtos congelados', 'Ativo', 5.0, 4.0, 3.0, 100, 'CO1'),
-(1, 'Câmara 2 - Frios', null, 'Ativo', 4.0, 3.5, 2.8, 800, 'CO2'),
-(2, 'Câmara RJ 1', 'Uso geral', 'Ativo', 6.0, 4.5, 3.2, 120, 'CO3'),
-(3, 'Câmara MG 1', null, 'Inativo', 5.5, 4.2, 3.1, 90, 'CO4');
+insert into camara (empresa_id, local_instalacao, observacao, situacao, volume, kg_macas, apelido) values
+(1, 'Câmara 1 - Estoque', 'Produtos congelados', 'Ativo', 60 , 100, 'CO1'),
+(1, 'Câmara 2 - Frios', null, 'Ativo', 39, 800, 'CO2'),
+(2, 'Câmara RJ 1', 'Uso geral', 'Ativo', 72, 120, 'CO3'),
+(3, 'Câmara MG 1', null, 'Inativo', 70, 90, 'CO4');
 
 INSERT INTO sensor (camara_id, modelo, situacao, data_instalacao) VALUES
 (1, 'MQ-2', 'Ativo', '2024-01-01'),
@@ -168,7 +166,7 @@ INSERT INTO sensor (camara_id, modelo, situacao, data_instalacao) VALUES
 (2, 'MQ-2', 'Ativo', '2024-01-03'),
 (3, 'MQ-2', 'Inativo', '2024-01-04');
 
-insert into leitura (sensor_id, valor_sensor, data_hora) values 
+insert into leitura (sensor_id, valor_leitura, data_hora) values 
 (1, 1.4, '2024-05-10 10:00:00'),
 (2, 1.5, '2024-05-10 10:01:00'),
 (4, 0, '2024-05-10 10:02:00'),
