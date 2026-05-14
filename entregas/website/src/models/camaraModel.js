@@ -4,8 +4,8 @@ var database = require("../database/config");
 function buscarCamarasPorEmpresa(empresaId) {
 
   var instrucaoSql = `SELECT * FROM camara WHERE empresa_id = ${empresaId}`;
-
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
+  console.log("olaaaaaaaaaaaaaaaaa")
   return database.executar(instrucaoSql);
 }
 
@@ -33,10 +33,16 @@ function atualizarCamara(apelido, volume, kg_macas, situacao, idCamara){
     return database.executar(instrucaoSql)
 }
 
+function mostrarPicoPorCamara(){
+    var instrucaoSql = `SELECT * 
+    FROM vw_pico_etileno_camaras`
+    return database.executar(instrucaoSql)
+}
 
 module.exports = {
   buscarCamarasPorEmpresa,
   cadastrar,
   buscarCamaraEmRisco,
-  atualizarCamara
+  atualizarCamara,
+  mostrarPicoPorCamara
 }
