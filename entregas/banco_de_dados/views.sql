@@ -84,7 +84,7 @@ SELECT
 
 FROM empresa e;
 
-select * from vw_kpis_totais where id_empresa = 1;
+select * from vw_kpis_totais;
 
 -- outra view para especificar quais as camaras em risco
 CREATE OR REPLACE VIEW vw_lista_camaras_risco AS
@@ -117,3 +117,70 @@ ORDER BY l.valor_leitura DESC, l.data_hora DESC
 LIMIT 10;
 
 select * from vw_grafico_etileno_sensor;
+
+-- TELA CAMARAS INDIVIDUAIS --
+-- -------------------------- --
+
+-- camara individual --
+CREATE OR REPLACE VIEW vw_detalhes_individuais_camaras AS
+SELECT 
+    e.id_empresa,
+    c.id_camara,
+    -- aqui se o apelido for nulo ele coloca o local de instalacao
+    IFNULL(c.apelido, c.local_instalacao) AS nome_camara,
+    c.volume AS volume_m3,
+    c.kg_macas AS estoque_total_kg,
+    
+    -- subquery para etileno atual, usando limit 1 para isso
+    (SELECT l.valor_leitura 
+     FROM leitura l 
+     JOIN sensor s ON l.sensor_id = s.id_sensor 
+     WHERE s.camara_id = c.id_camara 
+     ORDER BY l.data_hora DESC LIMIT 1
+    ) AS etileno_atual,
+
+    -- subquery para estoque em risco, se nao tiver um alerta nao tem nada em risco
+    (SELECT CASE 
+        WHEN a.nivel IN ('Crítico', 'Moderado') THEN c.kg_macas 
+        ELSE 0 
+     END
+     FROM alerta a
+     JOIN leitura l ON a.leitura_id = l.id_leitura
+     JOIN sensor s ON l.sensor_id = s.id_sensor
+     WHERE s.camara_id = c.id_camara
+     ORDER BY l.data_hora DESC LIMIT 1
+    ) AS estoque_em_risco_kg,
+    
+    -- subquery para ultima leitura, mudei o formato da data para melhorar o entendimento
+    (SELECT DATE_FORMAT(MAX(data_hora), '%d/%m %H:%i') 
+     FROM leitura l2 
+     JOIN sensor s2 ON l2.sensor_id = s2.id_sensor 
+     WHERE s2.camara_id = c.id_camara
+    ) AS ultima_leitura
+
+FROM camara c
+JOIN empresa e ON c.empresa_id = e.id_empresa;
+
+select * from vw_detalhes_individuais_camaras;
+
+
+-- grafico camara individual --
+CREATE OR REPLACE VIEW vw_graficos_individuais_camaras AS
+SELECT 
+    e.id_empresa,
+    c.id_camara,
+    s.id_sensor,
+    s.numero_sensor, 
+    l.valor_leitura AS etileno,
+    l.data_hora, 
+    DATE_FORMAT(l.data_hora, '%d/%m %H:%i') AS data_formatada 
+FROM leitura l
+JOIN sensor s ON l.sensor_id = s.id_sensor
+JOIN camara c ON s.camara_id = c.id_camara
+JOIN empresa e ON c.empresa_id = e.id_empresa;
+
+-- SELECT etileno, data_formatada 
+-- FROM vw_grafico_etileno 
+-- WHERE id_sensor = ? 
+-- AND data_hora >= NOW() - INTERVAL 1 ou 7 ou 30 DAY
+-- ORDER BY data_hora ASC;
