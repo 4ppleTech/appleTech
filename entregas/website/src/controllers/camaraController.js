@@ -18,12 +18,12 @@ function buscarCamarasPorEmpresa(req, res) {
 
 
 function cadastrar(req, res) {
-  var empresaId = req.body.idEmpresaServer;
-  var observacao = req.body.oberservacaoServer;
-  var local_instalacao = req.body.localInstalacaoServer;
-  var apelido = req.body.apelidoServer;
-  var volume = req.body.volumeServer;
-  var kg_macas = req.body.kgMacaServer;
+  var empresaId = req.body.id_empresa;
+  var observacao = req.body.observacao;
+  var local_instalacao = req.body.local_instalacao;
+  var apelido = req.body.apelido;
+  var volume = req.body.volume;
+  var kg_macas = req.body.kg_macas;
 
   if (empresaId == undefined) {
     res.status(400).send("empresaId está undefined!");
@@ -63,7 +63,9 @@ function atualizarCamara(req, res) {
   var volume = req.body.volume
   var kg_macas = req.body.kg_macas
   var situacao = req.body.situacao
-  var idCamara = req.body.idCamara
+  var idCamara = req.params.id_camara
+  var observacao = req.body.observacao
+  var local_instalacao = req.body.local_instalacao
 
   if (apelido == undefined) {
     res.status(400).send("apelido está undefined!");
@@ -73,11 +75,15 @@ function atualizarCamara(req, res) {
     res.status(400).send("kg_macas está undefined!")
   } else if (situacao == undefined) {
     res.status(400).send("situacao está undefined!")
-  } else if (volume == undefined) {
-    res.status(400).send("idCamara está undefined!")
+  } else if (observacao == undefined) {
+    res.status(400).send("observação está undefined!")
+  } else if (local_instalacao == undefined) {
+    res.status(400).send("local instalação está undefined!")
+  } else if (idCamara == undefined) {
+    res.status(400).send("id camara está undefined!")
   }
 
-  camaraModel.atualizarCamara(apelido, volume, kg_macas, situacao, idCamara)
+  camaraModel.atualizarCamara(apelido, volume, kg_macas, situacao, idCamara, local_instalacao, observacao)
     .then(
       function (resultado) {
         res.json(resultado);

@@ -11,7 +11,7 @@ router.post("/cadastrar", function (req, res) {
   camaraController.cadastrar(req, res)
 })
 
-router.put("/atualizar-camara", function (req, res) {
+router.put("/atualizar/:idCamara", function (req, res) {
   camaraController.atualizarCamara(req, res)
 })
 
