@@ -1,34 +1,5 @@
 var database = require("../database/config");
 
-function buscarUltimasMedidas(idAquario, limite_linhas) {
-
-    var instrucaoSql = `SELECT 
-        dht11_temperatura as temperatura, 
-        dht11_umidade as umidade,
-                        momento,
-                        DATE_FORMAT(momento,'%H:%i:%s') as momento_grafico
-                    FROM medida
-                    WHERE fk_aquario = ${idAquario}
-                    ORDER BY id DESC LIMIT ${limite_linhas}`;
-
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
-}
-
-function buscarMedidasEmTempoReal(idAquario) {
-
-    var instrucaoSql = `SELECT 
-        dht11_temperatura as temperatura, 
-        dht11_umidade as umidade,
-                        DATE_FORMAT(momento,'%H:%i:%s') as momento_grafico, 
-                        fk_aquario 
-                        FROM medida WHERE fk_aquario = ${idAquario} 
-                    ORDER BY id DESC LIMIT 1`;
-
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
-}
-
 function buscarMaiorPicoEtileno(id_empresa) {
     var instrucaoSql = `
     SELECT 
@@ -42,8 +13,80 @@ function buscarMaiorPicoEtileno(id_empresa) {
     return database.executar(instrucaoSql);
 }
 
+function buscarGraficoEtilenoRegistro(interval, idSensor) {
+    var instrucaoSql = `
+    SELECT etileno, data_formatada 
+    FROM vw_graficos_individuais_camaras 
+    WHERE id_sensor = ${idSensor} 
+    AND data_hora >= NOW() - INTERVAL ${interval} DAY'
+    ORDER BY data_hora;
+    `
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function buscarSensoresComMaiorPico(idEmpresa) {
+    var instrucaoSql = `
+    SELECT 
+    sensor, 
+    camara_nome, 
+    etileno_ppm,
+    momento_leitura 
+    FROM vw_grafico_etileno_sensor 
+    WHERE id_empresa = ${idEmpresa}
+    LIMIT 10;
+    `
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function buscarKpisPrincipal(idEmpresa) {
+    var instrucaoSql = `
+    SELECT 
+    qtd_camaras_em_risco AS qtd_alerta, 
+    total_camaras_cadastradas AS total_camaras, 
+    valor_pico_24h AS valor_pico, 
+    camara_pico, 
+    total_estoque_risco_kg AS estoque_risco, 
+    horario_ultima_leitura AS momento,
+    total_estoque_geral as estoque_geral
+    FROM vw_kpis_totais 
+    WHERE id_empresa = ${idEmpresa};
+    `
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function buscarCamaraIndividual(interval, idCamara) {
+    var instrucaoSql = `
+    SELECT *
+    FROM vw_graficos_individuais_camaras 
+    WHERE id_camara = ${idCamara} 
+    AND data_hora >= NOW() - INTERVAL ${interval} DAY
+    ORDER BY data_hora;
+    `
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function buscarCamaraEmRisco(id_empresa) {
+    var instrucaoSql =
+        `SELECT * 
+    FROM vw_lista_camaras_risco 
+    WHERE empresa_id = ${id_empresa};`
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
-    buscarUltimasMedidas,
-    buscarMedidasEmTempoReal,
-    buscarMaiorPicoEtileno
+    buscarMaiorPicoEtileno,
+    buscarGraficoEtilenoRegistro,
+    buscarSensoresComMaiorPico,
+    buscarKpisPrincipal,
+    buscarCamaraIndividual,
+    buscarCamaraEmRisco
 }

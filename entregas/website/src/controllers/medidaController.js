@@ -1,46 +1,5 @@
 var medidaModel = require("../models/medidaModel");
 
-function buscarUltimasMedidas(req, res) {
-
-    const limite_linhas = 7;
-
-    var idAquario = req.params.idAquario;
-
-    console.log(`Recuperando as ultimas ${limite_linhas} medidas`);
-
-    medidaModel.buscarUltimasMedidas(idAquario, limite_linhas).then(function (resultado) {
-        if (resultado.length > 0) {
-            res.status(200).json(resultado);
-        } else {
-            res.status(204).send("Nenhum resultado encontrado!")
-        }
-    }).catch(function (erro) {
-        console.log(erro);
-        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
-}
-
-
-function buscarMedidasEmTempoReal(req, res) {
-
-    var idAquario = req.params.idAquario;
-
-    console.log(`Recuperando medidas em tempo real`);
-
-    medidaModel.buscarMedidasEmTempoReal(idAquario).then(function (resultado) {
-        if (resultado.length > 0) {
-            res.status(200).json(resultado);
-        } else {
-            res.status(204).send("Nenhum resultado encontrado!")
-        }
-    }).catch(function (erro) {
-        console.log(erro);
-        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
-}
-
 function buscarMaiorPicoEtileno(req, res) {
     var id_empresa = req.params.idEmpresa
 
@@ -62,8 +21,124 @@ function buscarMaiorPicoEtileno(req, res) {
     }
 }
 
+function buscarGraficoEtilenoRegistro(req, res) {
+    var id_sensor = req.params.idSensor
+    var interval = req.params.interval
+
+    if (id_sensor == undefined) {
+        res.status(400).send("empresaId está undefined!");
+    } else if (interval == undefined) {
+        res.status(400).send("intervalo está undefined!");
+    } {
+        medidaModel.buscarGraficoEtilenoRegistro(interval, id_sensor)
+            .then((resultado) => {
+                res.status(201).json(resultado);
+            }
+            ).catch((erro) => {
+                console.log(erro);
+                console.log(
+                    "\nHouve um erro ao realizar o cadastro! Erro: ",
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
+
+function buscarSensoresComMaiorPico(req, res) {
+    var id_empresa = req.params.idEmpresa
+
+    if (id_empresa == undefined) {
+        res.status(400).send("empresaId está undefined!");
+    } else {
+        medidaModel.buscarSensoresComMaiorPico(id_empresa)
+            .then((resultado) => {
+                res.status(201).json(resultado);
+            }
+            ).catch((erro) => {
+                console.log(erro);
+                console.log(
+                    "\nHouve um erro ao realizar o cadastro! Erro: ",
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
+
+function buscarKpisPrincipal(req, res) {
+    var id_empresa = req.params.idEmpresa
+
+    if (id_empresa == undefined) {
+        res.status(400).send("empresaId está undefined!");
+    } else {
+        medidaModel.buscarKpisPrincipal(id_empresa)
+            .then((resultado) => {
+                res.status(201).json(resultado);
+            }
+            ).catch((erro) => {
+                console.log(erro);
+                console.log(
+                    "\nHouve um erro ao realizar o cadastro! Erro: ",
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
+function buscarCamaraIndividual(req, res) {
+    var id_camara = req.params.idCamara
+    var interval = req.params.interval
+
+    if (id_camara == undefined) {
+        res.status(400).send("id camara está undefined!");
+    } else if (interval == undefined) {
+        res.status(400).send("interval está undefined!")
+    } else {
+        medidaModel.buscarCamaraIndividual(interval, id_camara)
+            .then((resultado) => {
+                res.status(201).json(resultado);
+            }
+            ).catch((erro) => {
+                console.log(erro);
+                console.log(
+                    "\nHouve um erro ao realizar o cadastro! Erro: ",
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
+function buscarCamaraEmRisco(req, res) {
+    var id_camara = req.params.idCamara
+
+    if (id_camara == undefined) {
+        res.status(400).send("id camara está undefined!");
+    } else {
+        medidaModel.buscarCamaraEmRisco(id_camara)
+            .then((resultado) => {
+                res.status(201).json(resultado);
+            }
+            ).catch((erro) => {
+                console.log(erro);
+                console.log(
+                    "\nHouve um erro ao realizar o cadastro! Erro: ",
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
 module.exports = {
-    buscarUltimasMedidas,
-    buscarMedidasEmTempoReal,
-    buscarMaiorPicoEtileno
+    buscarMaiorPicoEtileno,
+    buscarKpisPrincipal,
+    buscarSensoresComMaiorPico,
+    buscarGraficoEtilenoRegistro,
+    buscarCamaraIndividual,
+    buscarCamaraEmRisco
 }
