@@ -1,6 +1,8 @@
+use appletech;
 -- TELA DASHBOARD INICIAL --
 -- ------------------------------ --
 -- VIEW DE TODOS OS KPIS --
+
 CREATE OR REPLACE VIEW vw_kpis_totais AS
 SELECT 
     e.id_empresa,
@@ -72,6 +74,9 @@ SELECT
          WHERE c8.empresa_id = e.id_empresa AND a8.nivel IN ('Crítico', 'Moderado')
      )
     ) AS total_receita_risco_valor,
+    
+    (SELECT SUM(kg_macas) FROM camara WHERE empresa_id = e.id_empresa) AS total_estoque_geral,
+    
 
     -- subquery pra ultima leitura, pegando o tempo mais recente de leitura
     (SELECT DATE_FORMAT(l9.data_hora, '%H:%i')
@@ -84,7 +89,11 @@ SELECT
 
 FROM empresa e;
 
-select * from vw_kpis_totais;
+select * FROM vw_kpis_totais;
+
+
+
+
 
 -- outra view para especificar quais as camaras em risco
 CREATE OR REPLACE VIEW vw_lista_camaras_risco AS
@@ -103,6 +112,7 @@ select * from vw_lista_camaras_risco;
 -- VIEW DOS GRÁFICOS --
 CREATE OR REPLACE VIEW vw_grafico_etileno_sensor AS
 SELECT 
+    s.id_sensor, 
     e.id_empresa,
     s.numero_sensor,
     IFNULL(c.apelido, c.local_instalacao) AS nome_camara,
@@ -179,8 +189,12 @@ JOIN sensor s ON l.sensor_id = s.id_sensor
 JOIN camara c ON s.camara_id = c.id_camara
 JOIN empresa e ON c.empresa_id = e.id_empresa;
 
+select * from vw_graficos_individuais_camaras;
+
 -- SELECT etileno, data_formatada 
 -- FROM vw_grafico_etileno 
 -- WHERE id_sensor = ? 
 -- AND data_hora >= NOW() - INTERVAL 1 ou 7 ou 30 DAY
 -- ORDER BY data_hora ASC;
+
+select * from vw_graficos_individuais_camaras where id_sensor = 1;
