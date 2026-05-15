@@ -27,16 +27,17 @@ storage.set("APPLETECH_USER", {
     senha: "Sptech#2026",
     papel_usuario: "administrador",
     situacao: "Ativo",
-    camaras: [
-        {
-            id_camara: 1,
-            empresa_id: 1,
-            local_instalacao: 'asdasdasdasdasdasd',
-            observacao: "asdasdasd",
-            situacao: "Ativo",
-            apelido: "C-01",
-            volume: 45,
-            kg_macas: 500
-        }
-    ]
 });
+
+storage.set("APPLETECH_CAMARAS", [
+    {
+        id_camara: 1,
+        empresa_id: 1,
+        local_instalacao: 'asdasdasdasdasdasd',
+        observacao: "asdasdasd",
+        situacao: "Ativo",
+        apelido: "C-01",
+        volume: 45,
+        kg_macas: 500
+    }
+]);
