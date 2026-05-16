@@ -250,7 +250,7 @@
             
             chamberList.appendChild(card);
             carregarListaKPI(chamberId);
-            carregarGraficoCamara(chamberId);
+            carregarGraficoCamara(chamberId, '1');
 
             // Configura Sensores (Cadastro/Edição) para Câmara
             const sensorFormId = `sensor-form-${idCamaraNumerico}`;
@@ -407,7 +407,7 @@
         };
 
         console.log(`Formulário de Sensor (${isEdicao ? "Edição" : "Cadastro"}) na câmara ${idCamara}:`, dados);
-        fetch(`/sensores/${ isEdicao ? `/atualizar/${idCamara}/${editId}` : "/cadastrar" }`, {
+        fetch(`/sensores/${ isEdicao ? `/atualizar/${editId}/${idCamara}` : "/cadastrar" }`, {
             method: isEdicao ? "PUT" : "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(dados)
@@ -497,14 +497,32 @@
     // === KPIs CÂMARA === //
     function carregarListaKPI(chamberId) {
         const kpiList = document.querySelector(`#${chamberId} .chamber-kpi-list`);
+        const idCamaraNumerico = parseInt(chamberId.replace("c-", ""));
 
-        // Aviso: buscar KPIs reais da API
         const kpis = {
-            ultimaLeitura: 2.00,
-            volume: 45,
-            kg_macas: 500,
-            estoque_em_risco: 2000,
-        };
+            id_empresa: 1,
+            id_camara: 1,
+            nome_camara: "CO1",
+            volume_m3: 60.000,
+            estoque_total_kg: 100,
+            etileno_atual: 2.1,
+            estoque_em_risco_kg: 100,
+            ultima_leitura: "15/05 19:00"
+        }
+
+        fetch(`/medidas/buscar-detalhes-camaras/${idCamaraNumerico}`)
+            .then((res) => {
+                if(!res.ok) {
+                    throw new Error("Não foi Possível carregar os KPIs da Câmara");
+                }
+                return res.json()
+            })
+            .then((kpis) => {
+
+            })
+            .catch((error) => {
+                console.error(error);
+            })
 
         kpiList.innerHTML = `
             <li class="chamber-kpi chamber-kpi--negative">
