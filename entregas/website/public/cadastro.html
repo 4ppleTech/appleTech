@@ -226,6 +226,10 @@
 
     // === AVISO: DESCOMENTAR PARA A SPRINT 3 === //
     // Enviando o valor da nova input
+    console.log(
+
+
+    )
     fetch("/usuarios/cadastrar", {
       method: "POST",
       headers: {
@@ -234,10 +238,10 @@
       body: JSON.stringify({
         // crie um atributo que recebe o valor recuperado aqui
         // Agora vá para o arquivo routes/usuario.js
-        nomeServer: nomeVar,
-        emailServer: emailVar,
-        senhaServer: senhaVar,
-        idEmpresaVincularServer: idEmpresaVincular
+        nome: nomeVar,
+        email: emailVar,
+        senha: senhaVar,
+        id_empresa: idEmpresaVincular
       }),
     })
       .then(function (resposta) {
