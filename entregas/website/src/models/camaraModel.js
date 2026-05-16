@@ -22,10 +22,10 @@ function atualizarCamara(apelido, volume, kg_macas, situacao, idCamara, local_in
     SET apelido = '${apelido}',
 	  volume = ${volume},
     kg_macas = ${kg_macas},
-    situacao = '${situacao}'
-    local_instalacao = '${local_instalacao}'
+    situacao = '${situacao}',
+    local_instalacao = '${local_instalacao}',
     observacao = '${observacao}'
-    WHERE id_camara = ${idCamara}`
+    WHERE id_camara = ${idCamara} `
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
   return database.executar(instrucaoSql)
 

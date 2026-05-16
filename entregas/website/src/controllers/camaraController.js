@@ -41,7 +41,13 @@ function cadastrar(req, res) {
 
     camaraModel.cadastrar(empresaId, observacao, local_instalacao, apelido, volume, kg_macas)
       .then((resultado) => {
-        res.status(201).json(resultado);
+        camaraModel.buscarCamarasPorEmpresa(empresaId)
+          .then((camaras) => {
+            res.status(201).json(camaras)
+          }).catch((error) => {
+            console.log("ERROR")
+            res.status(500).json(error.sqlMessage)
+          })
       }
       ).catch((erro) => {
         console.log(erro);
@@ -54,11 +60,8 @@ function cadastrar(req, res) {
   }
 }
 
-function buscarCamaraEmRisco(req, res) {
-
-}
-
 function atualizarCamara(req, res) {
+  var empresaId = req.body.id_empresa
   var apelido = req.body.apelido
   var volume = req.body.volume
   var kg_macas = req.body.kg_macas
@@ -84,10 +87,15 @@ function atualizarCamara(req, res) {
   }
 
   camaraModel.atualizarCamara(apelido, volume, kg_macas, situacao, idCamara, local_instalacao, observacao)
-    .then(
-      function (resultado) {
-        res.json(resultado);
-      }
+    .then(function (resultado) {
+      camaraModel.buscarCamarasPorEmpresa(empresaId)
+        .then((camaras) => {
+          res.status(201).json(camaras)
+        }).catch((error) => {
+          console.log("ERROR")
+          res.status(500).json(error.sqlMessage)
+        })
+    }
     ).catch(
       function (erro) {
         console.log(erro);
@@ -119,7 +127,6 @@ function mostrarPicoPorCamara(req, res) {
 module.exports = {
   buscarCamarasPorEmpresa,
   cadastrar,
-  buscarCamaraEmRisco,
   atualizarCamara,
   mostrarPicoPorCamara
 }

@@ -12,11 +12,11 @@ router.post("/autenticar", function (req, res) {
     usuarioController.autenticar(req, res);
 });
 
-router.get("/buscar-empresa/:idEmpresa", function (req, res) {
+router.get("/buscar-empresa/:id_empresa", function (req, res) {
     usuarioController.buscarEmpresaPorUsuario(req, res)
 })
 
-router.put("/alterar-permissao/:idUsuario", function (req, res) {
+router.put("/alterar-permissao/:id_usuario", function (req, res) {
     usuarioController.atualizarPapelUsuario(req, res) 
 })
 

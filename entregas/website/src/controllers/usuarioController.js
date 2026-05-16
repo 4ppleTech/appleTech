@@ -3,8 +3,8 @@ var camaraModel = require("../models/camaraModel");
 
 function autenticar(req, res) {
     console.log(req)
-    var email = req.body.emailServer;
-    var senha = req.body.senhaServer;
+    var email = req.body.email;
+    var senha = req.body.senha;
 
     if (email == undefined) {
         res.status(400).send("Seu email está undefined!");
@@ -56,10 +56,10 @@ function autenticar(req, res) {
 }
 
 function cadastrar(req, res) {
-    var nome = req.body.nomeServer;
-    var email = req.body.emailServer;
-    var senha = req.body.senhaServer;
-    var empresaId = req.body.idEmpresaVincularServer;
+    var nome = req.body.nome;
+    var email = req.body.email;
+    var senha = req.body.senha;
+    var empresaId = req.body.id_empresa;
 
     // Faça as validações dos valores
     if (nome == undefined) {
@@ -91,7 +91,7 @@ function cadastrar(req, res) {
 }
 
 function buscarEmpresaPorUsuario(req, res) {
-    var id_empresa = req.params.idEmpresa;
+    var id_empresa = req.params.id_empresa;
 
     if (id_empresa == undefined) {
         res.status(400).send("Empresa id não encontrado");
@@ -115,8 +115,8 @@ function buscarEmpresaPorUsuario(req, res) {
 }
 
 function atualizarPapelUsuario(req, res) {
-    var id_usuario = req.params.idUsuario
-    var papel_usuario = req.body.papelUsuarioServer
+    var id_usuario = req.params.id_usuario
+    var papel_usuario = req.body.papel_usuario
 
 
     if (id_usuario == undefined) {

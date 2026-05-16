@@ -82,11 +82,25 @@ function buscarCamaraEmRisco(id_empresa) {
     return database.executar(instrucaoSql);
 }
 
+function buscarDetalhesIndividuaisCamaras(id_camara) {
+    var instrucaoSql = `
+    SELECT
+        *
+    FROM
+        vw_detalhes_individuais_camaras
+    WHERE id_camara = ${id_camara}
+    `
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarMaiorPicoEtileno,
     buscarGraficoEtilenoRegistro,
     buscarSensoresComMaiorPico,
     buscarKpisPrincipal,
     buscarCamaraIndividual,
-    buscarCamaraEmRisco
+    buscarCamaraEmRisco,
+    buscarDetalhesIndividuaisCamaras
 }

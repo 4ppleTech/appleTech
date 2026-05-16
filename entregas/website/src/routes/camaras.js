@@ -11,11 +11,11 @@ router.post("/cadastrar", function (req, res) {
   camaraController.cadastrar(req, res)
 })
 
-router.put("/atualizar/:idCamara", function (req, res) {
+router.put("/atualizar/:id_camara", function (req, res) {
   camaraController.atualizarCamara(req, res)
 })
 
-router.get("/:empresaId", function (req, res) {
+router.get("/:id_empresa", function (req, res) {
   camaraController.buscarCamarasPorEmpresa(req, res);
 });
 

@@ -7,8 +7,12 @@ router.post("/cadastrar", function (req, res) {
   sensorController.cadastrar(req, res)
 })
 
-router.put("/atualizar-sensor", function (req,res){
+router.put("/atualizar/:id_sensor/:id_camara", function (req,res){
   sensorController.atualizarSensor(req,res)
+})
+
+router.get("/listar/:id_camara", function (req, res) {
+  sensorController.listarSensorPorCamara(req, res) 
 })
 
 module.exports = router;
