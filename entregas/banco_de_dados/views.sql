@@ -211,13 +211,14 @@ select * from vw_graficos_individuais_camaras;
 
 select * from vw_graficos_individuais_camaras where id_sensor = 1;
 
-  -- todos os alertas
+   -- todos os alertas
     CREATE OR REPLACE VIEW vw_alertas_geral AS
     SELECT 
-        e.nome_fantasia 'nome fantasia',
-        e.razao_social 'Razão social',
-        c.apelido 'Apelido',
-        c.local_instalacao 'Local da câmara',
+		e.id_empresa,
+        e.nome_fantasia 'nome_fantasia',
+        e.razao_social 'razao_social',
+        c.apelido 'apelido',
+        c.local_instalacao 'local_camara',
         l.valor_leitura,
         a.nivel,
         a.mensagem
