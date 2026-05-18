@@ -122,21 +122,26 @@ select * from vw_lista_camaras_risco;
 
 
 -- VIEW DOS GRÁFICOS --
-CREATE OR REPLACE VIEW vw_grafico_etileno_sensor AS
-SELECT 
-    s.id_sensor, 
+ CREATE OR REPLACE VIEW vw_grafico_etileno_sensor AS
+    SELECT 
     e.id_empresa,
-    s.numero_sensor,
-    IFNULL(c.apelido, c.local_instalacao) AS nome_camara,
-    l.valor_leitura AS nivel_etileno,
-    DATE_FORMAT(l.data_hora, '%d/%m/%Y %H:%i:%s') AS momento_registro
-FROM leitura l
-JOIN sensor s ON l.sensor_id = s.id_sensor
-JOIN camara c ON s.camara_id = c.id_camara
-JOIN empresa e ON c.empresa_id = e.id_empresa
-WHERE l.data_hora >= NOW() - INTERVAL 1 DAY
-ORDER BY l.valor_leitura DESC, l.data_hora DESC
-LIMIT 10;
+    c.apelido as nome_camara,
+    s.numero_sensor ,
+    l.valor_leitura as nivel_etileno,
+    l.data_hora
+    FROM empresa e
+    JOIN camara c ON e.id_empresa = c.empresa_id
+    JOIN sensor s ON c.id_camara = s.camara_id
+    JOIN (
+    SELECT sensor_id, valor_leitura, data_hora
+    FROM leitura
+    WHERE (sensor_id, data_hora) IN (
+        SELECT sensor_id, MAX(data_hora)
+        FROM leitura
+        GROUP BY sensor_id
+    )
+    ) l ON s.id_sensor = l.sensor_id
+    ORDER BY l.valor_leitura DESC;
 
 select * from vw_grafico_etileno_sensor;
 
