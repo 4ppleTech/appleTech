@@ -13,12 +13,12 @@ function buscarMaiorPicoEtileno(id_empresa) {
     return database.executar(instrucaoSql);
 }
 
-function buscarGraficoEtilenoRegistro(interval, idSensor) {
+function buscarGraficoEtilenoRegistro(interval, idEmpresa) {
     var instrucaoSql = `
-    SELECT etileno, data_formatada 
+    SELECT etileno, data_formatada, apelido
     FROM vw_graficos_individuais_camaras 
-    WHERE id_sensor = ${idSensor} 
-    AND data_hora >= NOW() - INTERVAL ${interval} DAY'
+    WHERE id_empresa = ${idEmpresa} 
+    AND data_hora >= NOW() - INTERVAL ${interval} DAY
     ORDER BY data_hora;
     `
 

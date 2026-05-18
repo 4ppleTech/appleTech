@@ -15,7 +15,7 @@ router.get("/buscar-sensores-maior-pico/:id_empresa", function (req, res) {
     medidaController.buscarSensoresComMaiorPico(req, res)
 })
 
-router.get("/buscar-etileno-registro/:idSensor/:interval", function (req, res) {
+router.get("/buscar-etileno-registro/:idEmpresa/:interval", function (req, res) {
     medidaController.buscarGraficoEtilenoRegistro(req, res)
 })
 

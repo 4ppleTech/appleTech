@@ -22,7 +22,7 @@ function buscarMaiorPicoEtileno(req, res) {
 }
 
 function buscarGraficoEtilenoRegistro(req, res) {
-    var id_sensor = req.params.id_sensor
+    var id_sensor = req.params.idEmpresa
     var interval = req.params.interval
 
     if (id_sensor == undefined) {

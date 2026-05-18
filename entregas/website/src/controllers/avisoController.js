@@ -1,7 +1,7 @@
 var avisoModel = require("../models/avisoModel");
 
 function listar(req, res) {
-    var id_empresa = req.params.idEmpresa
+    var id_empresa = req.params.id_empresa
 
     if (id_empresa == undefined) {
         console.log("id_empresa está undefined")
@@ -21,7 +21,7 @@ function listar(req, res) {
 }
 
 function listarUltimosAlertas(req, res) {
-    var id_empresa = req.params.idEmpresa
+    var id_empresa = req.params.id_empresa
 
     if (id_empresa == undefined) {
         console.log("id_empresa está undefined")
