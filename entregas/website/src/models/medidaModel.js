@@ -29,10 +29,7 @@ function buscarGraficoEtilenoRegistro(interval, idEmpresa) {
 function buscarSensoresComMaiorPico(idEmpresa) {
     var instrucaoSql = `
     SELECT 
-    sensor, 
-    camara_nome, 
-    etileno_ppm,
-    momento_leitura 
+    *
     FROM vw_grafico_etileno_sensor 
     WHERE id_empresa = ${idEmpresa}
     LIMIT 10;

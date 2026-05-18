@@ -28,9 +28,9 @@ function buscarranking(periodo) {
     fetch(`/medidas/buscar-sensores-maior-pico/${idEmpresa}`).then((resposta) => {
         if(resposta.ok) {
             resposta.json().then((dados) => {
-                let labelsbarras = dados.map((valor) => `${valor.camara_nome} (${valor.sensor})`);
-                let valoresbarras = dados.map((valor) => valor.etileno_ppm);
-                let coresbarras = dados.map(valor => valor.etileno_ppm > 1.5 ? '#B83232' : '#7A9B55');
+                let labelsbarras = dados.map((valor) => `${valor.nome_camara} (${valor.numero_sensor})`);
+                let valoresbarras = dados.map((valor) => valor.nivel_etileno);
+                let coresbarras = dados.map(valor => valor.nivel_etileno > 1.5 ? '#B83232' : '#7A9B55');
                 console.log(labelsbarras)
 
                 plotarbarras(labelsbarras, valoresbarras, coresbarras);

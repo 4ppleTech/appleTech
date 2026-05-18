@@ -24,6 +24,7 @@ export function carregarGraficoCamara(chamberId, interval) {
         .then((dados) => {
             const chartLabels = dados.map((d) => d.data_formatada);
             const chartDatasets = dados.map((d) => {
+                console.log(dados)
                 return {
                     label: d.numero_sensor,
                     data: d.etileno,
