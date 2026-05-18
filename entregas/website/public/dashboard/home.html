@@ -93,10 +93,10 @@
                             <i class="fa-solid fa-triangle-exclamation"></i>
                         </div>
                         <div class="kpi-content">
-                            <h2>2 <span style="font-size: 1rem; color: #7A6A52;">de 5</span></h2>
+                            <h2 id="kpi_camaras_alerta">0 <span style="font-size: 1rem; color: #7A6A52;">de 0</span></h2>
                         </div>
-                        <div class="kpi-footer">
-                            Registrado às 14:32 (C-03; C-05)
+                        <div class="kpi-footer" id="footer_camaras_alerta">
+                            Carregando...
                         </div>
                     </div>
 
@@ -106,10 +106,10 @@
                             <i class="fa-solid fa-temperature-arrow-up"></i>
                         </div>
                         <div class="kpi-content">
-                            <h2>2.0 ppm</h2>
+                            <h2 id="kpi_pico_etileno">0 ppm</h2>
                         </div>
-                        <div class="kpi-footer">
-                            Registrado às 14:32 (C-05)
+                        <div class="kpi-footer" id="footer_pico_etileno">
+                            Carregando...
                         </div>
                     </div>
 
@@ -119,10 +119,10 @@
                             <i class="fa-solid fa-box-open"></i>
                         </div>
                         <div class="kpi-content">
-                            <h2>154 kg</h2>
+                            <h2 id="kpi_estoque_risco">0 kg</h2>
                         </div>
-                        <div class="kpi-footer">
-                            de 2 Toneladas
+                        <div class="kpi-footer" id="footer_estoque_risco">
+                            Carregando
                         </div>
                     </div>
 
@@ -132,10 +132,10 @@
                             <i class="fa-solid fa-sack-dollar"></i>
                         </div>
                         <div class="kpi-content">
-                            <h2>R$ 2.079,00</h2>
+                            <h2 id="kpi_receita_risco">R$ 0</h2>
                         </div>
                         <div class="kpi-footer">
-                            Baseado no preço de venda (R$ 13,50/kg)
+                            preço da venda (R$ 13,50/kg)
                         </div>
                     </div>
                 </div>
@@ -147,7 +147,7 @@
                         <!-- CONTENT GRÁFICO LINHAS -->
                         <div class="chart-card">
                             <div class="chart-header">
-                                <h2 class="chart-title">Nível Atual de Etileno por Câmara <span>(ppm)</span></h2>
+                                <h2 class="chart-title">Maiores picos de etileno <span></span></h2>
                                 <div class="btn-group">
                                     <a href="./chambers.html">Análise Individual</a>
                                 </div>
@@ -161,10 +161,10 @@
                             <div class="chart-header">
                                 <h2 class="chart-title">Nível Atual de Etileno por Câmara <span>(ppm)</span></h2>
                                 <div class="btn-group">
-                                    <button data-periodo="24h" onclick="atualizarPeriodo('24h')"
+                                    <button data-periodo="1" onclick="atualizarPeriodo('1')"
                                         class="active">24hrs</button>
-                                    <button data-periodo="7d" onclick="atualizarPeriodo('7d')">7 dias</button>
-                                    <button data-periodo="30d" onclick="atualizarPeriodo('30d')">30 dias</button>
+                                    <button data-periodo="7" onclick="atualizarPeriodo('7')">7 dias</button>
+                                    <button data-periodo="30" onclick="atualizarPeriodo('30')">30 dias</button>
                                 </div>
                             </div>
                             <div class="chart-container">
@@ -177,32 +177,14 @@
                         <!-- CONTENT LISTA DE ALERTAS -->
                         <div class="alerts">
                             <h3>Últimas Notificações</h3>
-                            <div class="alert-list">
-                                <div class="alert alert--serious">
-                                    <p class="alert-content">Câmara <a href="./alerts.html">C-05</a> está muito acima
-                                        dos níveis esperados de Etileno.</p>
-                                    <span class="alert-footer">há 1 minuto</span>
-                                </div>
-                                <div class="alert alert--serious">
-                                    <p class="alert-content">Câmara <a href="./alerts.html">C-03</a> saiu dos níveis
-                                        esperados de Etileno.</p>
-                                    <span class="alert-footer">há 1 minuto</span>
-                                </div>
-                                <div class="alert alert--caution">
-                                    <p class="alert-content">Câmara <a href="./alerts.html">C-03</a> está beirando o
-                                        limite crítico de 1.5ppm</p>
-                                    <span class="alert-footer">há 8 horas</span>
+                            <div class="alert-list" id="alert_list">
+                                
+                                 <p style="text-align: center; padding: 20px; color: #7A6A52;">Buscando notificações...</p>
                                 </div>
 
-                                <a href="./alerts.html" class="view-alerts-btn">Ver Todos</a>
+                                <!-- <a href="./alerts.html" class="view-alerts-btn">Ver Todos</a> -->
                             </div>
                         </div>
-                        <!-- CONTENT STATUS SENSORES -->
-                        <!-- <div class="status">
-                            <h3>Status dos Sensores</h3>
-                            <div class="sensor-on" data-sensor-on="9"><span>90% online</span></div>
-                            <div class="sensor-off" data-sensor-off="1"><span>10% offline</span></div>
-                        </div> -->
                     </aside>
                 </div>
             </main>
@@ -220,3 +202,111 @@
 </body>
 
 </html>
+<script>
+
+    window.onload = () => {
+        buscarkpi();
+        atualizarnotificacoes();
+          atualizarPeriodo('1')
+    }
+
+    function buscarkpi (){
+    let sessaousuario = sessionStorage.getItem("APPLETECH_USER");
+    let dadousuario = JSON.parse(sessaousuario);
+    let idEmpresa = dadousuario.empresaId;
+
+    if (idEmpresa == undefined) {
+        console.error("ID da Empresa não encontrado no sessionStorage");
+        return;
+    }
+        fetch(`/medidas/buscar-kpis/${idEmpresa}`).then((resposta) => {
+            if(resposta.ok){
+                resposta.json().then((dados) => {
+                    let valor = dados[0]
+                    // KPI 1 (camaras em risco)
+                    document.getElementById("kpi_camaras_alerta").innerHTML = `${valor.qtd_alerta} <span style="font-size: 1rem; color: #7A6A52;"> de ${valor.total_camaras}</span>`;
+                
+
+                    // kpi 2 (pico de etileno)
+
+                    document.getElementById("kpi_pico_etileno").innerHTML = `${valor.valor_pico} ppm`
+                    document.getElementById("footer_pico_etileno").innerHTML = `Registrado ás ${valor.momento}`
+
+                    // kpi 3 (estoque em risco)
+
+                    document.getElementById("kpi_estoque_risco").innerHTML = `${valor.estoque_risco} kg`;
+                    document.getElementById("footer_estoque_risco").innerHTML = `${valor.estoque_geral} kg`;
+
+                    // kpi 4 (receita em risco)
+
+                    let receitatotal = valor.estoque_risco * 13.5;
+                    document.getElementById("kpi_receita_risco").innerHTML = ` R$ ${receitatotal.toFixed(2)} `
+               fetch(`/medidas/buscar-camara-risco/${idEmpresa}`).then((resultado) => {
+                        if (resultado.ok) {
+                            resultado.json().then((listanomes) => {
+                                
+                                let textonome = "";
+                                let limite = 4;
+
+                          
+                                if (listanomes.length > 0) {
+                                    for (let i = 0; i < listanomes.length; i++) {
+                                       
+                                        textonome += listanomes[i].nome_camara_risco;
+                                        
+                                        if (i < listanomes.length - 1) {
+                                            textonome += ", ";
+                                        }
+                                    }
+                                    if (listanomes.length > limite) {
+                                        textonome = "...";
+                                    }
+                                } else {
+                                    textonome = "Nenhuma";
+                                }
+                                document.getElementById("footer_camaras_alerta").innerHTML = `Registrado ás ${valor.momento} (${textonome})`;
+                            });
+                        }
+                    });
+                })
+            }
+        }).catch((erro) => {
+            console.error("Erro nas KPIs:", erro);
+        });
+    }
+
+    function atualizarnotificacoes (){
+        let sessaousuario = sessionStorage.getItem("APPLETECH_USER");
+        let dadousuario = JSON.parse(sessaousuario);
+        let idEmpresa = dadousuario.empresaId;
+
+        fetch(`/avisos/listar/${idEmpresa}`).then((resposta) => {
+            if(resposta.ok) {
+        
+                resposta.json().then((dados) => {
+                    alert_list.innerHTML = "";
+                    let contador = 0
+                    for(let i = dados.length - 1 ; i >= 0; i--){
+                        let alerta = dados[i];
+                        let estilo = alerta.valor_leitura > 1.8 ? 'alert--serious' : 'alert--caution';
+
+                        if(alerta.valor_leitura > 1.5 && contador <= 3){
+                            
+                            alert_list.innerHTML += `<div class = "alert ${estilo}"><p class = "alert-content"> Câmara: <b class = "${estilo}">${alerta.apelido}</b> - ${alerta.mensagem}</p>
+                                <span class = "alert-footer"> Nível: ${alerta.nivel}</span></div>`;
+                            contador++
+                        }
+                    }
+                     alert_list.innerHTML +=  ` <a href="./alerts.html" class="view-alerts-btn">Ver Todos</a>`;
+                })
+                          
+            }
+
+        })
+
+    }
+
+
+
+   
+</script>
