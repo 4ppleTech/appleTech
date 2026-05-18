@@ -16,6 +16,3 @@ export const storage = {
         sessionStorage.clear();
     },
 };
-
-
-const user = storage.get("APPLETECH_USER") // {nome: 'asdasd', email: 'asdasdads', senha: 'q2123123'}

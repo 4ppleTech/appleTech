@@ -6,31 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AppleTech | Câmaras</title>
 
-    <!-- ESTILOS DA DASHBOARD -->
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/dashboard/shared.css">
     <link rel="stylesheet" href="../css/dashboard/chambers.css">
     <link rel="shortcut icon" href="../assets/imgs/favicon.ico" type="image/x-icon">
 
-    <!-- CDNs Chart.JS e FontAwesome -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script
-        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
     <div class="dashboard-container">
         <!-- SIDEBAR -->
         <div class="sidebar">
-            <!-- SIDEBAR HEADER -->
             <div class="header">
                 <img src="../assets/svgs/logo-recolored.svg" alt="AppleTech Logo" class="logo">
             </div>
 
-            <!-- SIDEBAR NAVLIST -->
             <nav class="navlist">
                 <div class="nav-section">
                     <h4>Menu</h4>
@@ -60,7 +53,6 @@
                 </div>
             </nav>
 
-            <!-- SIDEBAR FOOTER -->
             <div class="footer">
                 <div class="logged-account">
                     <div>
@@ -77,23 +69,23 @@
 
         <!-- CONTENT -->
         <div class="content">
-            <!-- CONTENT HEADER -->
             <div class="header">
                 <h1>Dashboard - Câmaras</h1>
                 <span id="current-date"></span>
             </div>
 
-            <!-- CONTENT MAIN -->
             <main class="main">
+                <!-- FORMULÁRIO DE CÂMARA -->
                 <div class="new-chamber-container">
                     <div class="chamber-container-content">
                         <img src="../assets/svgs/team-work.svg" alt="Nova Câmara">
-                        <button class="new-chamber-btn" onclick="alternarVisibilidadeFormulario()">Nova Câmara<i
-                                class="fa-solid fa-plus"></i></button>
+                        <button class="chamber-form-toggler">
+                            Nova Câmara <i class="fa-solid fa-plus"></i>
+                        </button>
                     </div>
-                    <form id="new-chamber-form" data-form-open="false" style="display: none;">
+                    <form id="new-chamber-form" data-form-open="false" data-edit-id="" style="display: none;">
                         <div class="form-header">
-                            <h2>Adicionar Nova Câmara</h2>
+                            <h2 id="form-title">Adicionar Nova Câmara</h2>
                         </div>
                         <div class="form-body">
                             <div class="field-group">
@@ -116,297 +108,482 @@
                             </div>
                             <div class="field-group">
                                 <div class="field">
-                                    <label for="ipt-comprimento" class="field-label">Comprimento (m)
-                                        <span>*</span></label>
-                                    <input id="ipt-comprimento" type="number" class="field-input" required>
+                                    <label for="ipt-volume" class="field-label">Volume (m³) <span>*</span></label>
+                                    <input id="ipt-volume" type="number" class="field-input" placeholder="Ex: 48" required>
                                 </div>
                                 <div class="field">
-                                    <label for="ipt-largura" class="field-label">Largura (m) <span>*</span></label>
-                                    <input id="ipt-largura" type="number" class="field-input" required>
+                                    <label for="ipt-kg-macas" class="field-label">Quantidade de Maçãs (Kg) <span>*</span></label>
+                                    <input id="ipt-kg-macas" type="number" class="field-input" placeholder="Ex: 500" required>
                                 </div>
                                 <div class="field">
-                                    <label for="ipt-profundidade" class="field-label">Profundidade (m)
-                                        <span>*</span></label>
-                                    <input id="ipt-profundidade" type="number" class="field-input" required>
-                                </div>
-                                <div class="field">
-                                    <label for="ipt-qtd-macas" class="field-label">Quantidade de Maçãs
-                                        (Kg)<span>*</span></label>
-                                    <input id="ipt-qtd-macas" type="number" class="field-input" required>
+                                    <label for="ipt-situacao" class="field-label">Situação <span>*</span></label>
+                                    <select id="ipt-situacao" class="field-input">
+                                        <option value="Ativo" default>Ativo</option>
+                                        <option value="Inativo">Inativo</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
                         <div class="form-footer">
-                            <button type="reset" onclick="alternarVisibilidadeFormulario()">Cancelar</button>
-                            <button type="submit" onclick="adicionarNovaCamara()">Adicionar</button>
+                            <button type="reset" class="chamber-form-toggler" id="btn-cancel-form">Cancelar</button>
+                            <button type="submit" class="chamber-form-submit-btn" id="btn-submit-form">Adicionar</button>
                         </div>
                     </form>
                 </div>
 
+                <!-- LISTA DE CÂMARAS -->
                 <div class="chamber-list-results">
                     <h1>Total de Câmaras</h1>
-                    <span>5</span>
+                    <span id="chambers-count">0</span>
                 </div>
 
-                <ul class="chamber-list">
-                    <!-- CHAMBERS carregadas dinamicamente -->
+                <ul id="chamber-list">
+                    <!-- Câmaras carregadas dinamicamente -->
                 </ul>
             </main>
         </div>
     </div>
 
-    <script src="../scripts/toggle-camara.js"></script>
-    <script src="../scripts/utils/formatar-data.js"></script>
-    <script type="module">
-        import { load_account } from "../scripts/utils/load_account.js"
-        document.addEventListener("DOMContentLoaded", load_account)
-        document.getElementById("current-date").innerText = formatarDataAtual();
+<script src="../scripts/utils/formatar-data.js"></script>
+<script type="module">
+    import { storage } from "../scripts/utils/storage.js";
+    import { carregarInfoSidebar } from "../scripts/carregar-sidebar.js";
+    import { carregarGraficoCamara, atualizarGraficoCamara } from "../scripts/carregar-grafico-camaras.js";
 
-        const novaCamaraForm = document.getElementById("new-chamber-form");
-        function alternarVisibilidadeFormulario() {
-            const containerContent = document.querySelector(".chamber-container-content");
-            const aberto = novaCamaraForm.dataset.formOpen;
-            if (aberto === 'true') {
-                novaCamaraForm.style.display = "none";
-                containerContent.style.display = "block";
-                novaCamaraForm.dataset.formOpen = false;
-            } else {
-                novaCamaraForm.style.display = "block";
-                containerContent.style.display = "none";
-                novaCamaraForm.dataset.formOpen = true;
-            }
-        }
+    document.addEventListener("DOMContentLoaded", () => {
+        const userData = storage.get("APPLETECH_USER");
+        const camarasData = storage.get("APPLETECH_CAMARAS");
 
-        // Gráficos
-        const graficos = [];
-        const chartLabels = {
-            '24h': ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00', '23:59'],
-            '7d': ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'],
-            '30d': ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4']
-        }
-        const chambers = [
-            {
-                id: 1,
-                apelido: "C-01",
-                localInstalacao: "Câmara ao lado do frigorífico.",
-                largura: 3, comprimento: 2, profundidade: 8,
-                situacao: "Ativo", status: "Sob Controle", qtdMacas: 500,
-                dataset: {
-                    '24h': [1.0, 1.2, 0.9, 1.1, 1.0, 1.2, 0.8, 1.0, 1.1],
-                    '7d': [1.2, 1.1, 0.9, 1.0, 1.2, 1.0, 1.1],
-                    '30d': [1.0, 1.2, 0.9, 1.1]
-                }
-            },
-            {
-                id: 2,
-                apelido: "C-02",
-                localInstalacao: "Câmara recém-instalada",
-                largura: 3, comprimento: 2, profundidade: 8,
-                situacao: "Ativo", status: "Sob Controle", qtdMacas: 500,
-                dataset: {
-                    '24h': [0.9, 0.8, 1.0, 1.1, 0.9, 1.0, 0.8, 1.1, 1.0],
-                    '7d': [1.0, 0.8, 0.9, 1.1, 1.0, 0.8, 1.0],
-                    '30d': [1.1, 0.9, 1.2, 1.0]
-                }
-            },
-            {
-                id: 3,
-                apelido: "C-03",
-                localInstalacao: "Câmara ala Leste",
-                largura: 3, comprimento: 2, profundidade: 8,
-                situacao: "Ativo", status: "Atenção", qtdMacas: 300,
-                dataset: {
-                    '24h': [1.3, 1.2, 1.5, 1.6, 1.4, 1.5, 1.7, 1.6, 1.8],
-                    '7d': [1.3, 1.2, 1.5, 1.6, 1.7, 1.4, 1.8],
-                    '30d': [1.3, 1.2, 1.5, 1.8]
-                }
-            },
-            {
-                id: 4,
-                apelido: "C-04",
-                localInstalacao: "Câmara ao lado do frigorífico",
-                largura: 3, comprimento: 2, profundidade: 8,
-                situacao: "Ativo", status: "Sob Controle", qtdMacas: 200,
-                dataset: {
-                    '24h': [1.1, 1.4, 1.0, 1.2, 1.3, 1.1, 1.0, 1.2, 1.2],
-                    '7d': [1.1, 1.4, 1.0, 1.2, 1.1, 1.0, 1.2],
-                    '30d': [1.1, 1.4, 1.0, 1.2]
-                }
-            },
-            {
-                id: 5,
-                apelido: "C-05",
-                localInstalacao: "Câmara ala Oeste",
-                largura: 3, comprimento: 2, profundidade: 8,
-                situacao: "Ativo", status: "Crítico", qtdMacas: 500,
-                dataset: {
-                    '24h': [1.5, 1.3, 1.8, 1.8, 1.9, 1.7, 2.0, 1.8, 2.0],
-                    '7d': [1.5, 1.3, 1.8, 1.8, 1.9, 1.7, 2.0],
-                    '30d': [1.5, 1.3, 1.8, 2.0]
-                }
-            }
-        ];
+        if (!userData) {
+            console.warn("Aviso: Dados de usuário não encontrados. Redirecionando...");
+            setTimeout(() => { window.location = "../login.html"; }, 250);
+            return;
+        };
 
-        const chambersList = document.querySelector(".chamber-list");
-        function carregarDadosCamaras() {
-            for (let i = 0; i < chambers.length; i++) {
-                const chamber = chambers[i];
-                const chamberId = `c-${String(chamber.id).padStart(2, "0")}`;
-                const chamberCard = document.createElement("li");
+        carregarInfoSidebar();
+        configurarFormularioCamara(userData);
+        carregarCamaras(camarasData);
+    });
 
+    // === FORMULÁRIO CÂMARA (CADASTRO/EDIÇÃO) === //
+    function configurarFormularioCamara(userData) {
+        const form = document.getElementById("new-chamber-form");
 
-                chamberCard.classList.add("chamber");
-                chamberCard.id = chamberId;
-                chamberCard.dataset.chamberCard = "closed";
-
-                const volume = Math.round(chamber.comprimento * chamber.profundidade * chamber.largura);
-                const unidadeMacas = Math.round(chamber.qtdMacas / 0.150); // 0.150 = 150g
-
-                const ultimaLeitura = chamber.dataset['24h'][chamber.dataset['24h'].length - 1];
-                const estoqueEmRisco = ultimaLeitura >= 1.5 ? Math.round(chamber.qtdMacas * (ultimaLeitura / 10)) : 0; // só aplicamos este cálculo para câmaras acima ou em 1.5ppm
-
-                const tipoBadge =
-                    chamber.status === "Sob Controle" ? "common" :
-                        chamber.status === "Atenção" ? "caution" : "serious";
-
-                chamberCard.innerHTML = `
-                <!-- CHAMBER HEADER -->
-                <div class="chamber-header">
-                    <button class="chamber-toggler" onclick="alternarVisibilidadeCamara('${chamberId}')"><i class="fa-solid fa-chevron-down"></i></button>
-                    <div>
-                        <h3>${chamber.apelido}</h3>
-                        <p>${chamber.localInstalacao}</p>
-                    </div>
-                    <div>
-                        <p>Status</p>
-                        <span class="badge" data-badge-type="common">● ${chamber.situacao}</span>
-                    </div>
-                    <div>
-                        <p>Situação</p>
-                        <span class="badge" data-badge-type="${tipoBadge}">● ${chamber.status}</span>
-                    </div>
-                    <div>
-                        <p>Última Leitura</p>
-                        <span>1min atrás</span>
-                    </div>
-                </div>
-                <!-- CHAMBER CONTENT -->
-                <div class="chamber-content">
-                    <!-- CHAMBER GRAPH -->
-                    <div class="chamber-graph">
-                        <div>
-                            <h3 class="chamber-graph-title">Variação de Etileno - <span>${chamber.apelido}</span></h3>
-                            <div class="btn-group btn-group--${chamberId}">
-                                <button data-periodo="24h"onclick="atualizarPeriodo('24h', '${chamberId}')" class="active">24hrs</button>
-                                <button data-periodo="7d" onclick="atualizarPeriodo('7d', '${chamberId}')">7 dias</button>
-                                <button data-periodo="30d"onclick="atualizarPeriodo('30d', '${chamberId}')">30 dias</button>
-                            </div>
-                        </div>
-                        <canvas id="${chamberId}-graph"></canvas>
-                    </div>
-
-                    <!-- CHAMBER EXTRA -->
-                    <div class="chamber-extra">
-                        <div class="chamber-card">
-                            <p class="chamber-card-title">Etileno Atual</p>
-                            <h3 class="chamber-card-value chamber-card-value--${ultimaLeitura >= 1.5 ? "negative" : "positive"}">${Number(ultimaLeitura).toFixed(1)} <span>ppm</span></h3>
-                        </div>
-                        <div class="chamber-card">
-                            <p class="chamber-card-title">Volume Câmara</p>
-                            <h3 class="chamber-card-value">${volume} <span>m³</span></h3>
-                        </div>
-                        <div class="chamber-card">
-                            <p class="chamber-card-title">Estoque Total</p>
-                            <h3 class="chamber-card-value">${chamber.qtdMacas}kg <span>~${Math.round(chamber.qtdMacas / 0.150)} maçãs</span></h3>
-                        </div>
-                        <div class="chamber-card">
-                            <p class="chamber-card-title">Estoque em Risco</p>
-                            <h3 class="chamber-card-value chamber-card-value--${estoqueEmRisco !== 0 ? "negative" : "positive"}">${estoqueEmRisco}kg <span>Receita estimada: ${Number(estoqueEmRisco * 13.5).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span></h3>
-                        </div>
-                    </div>
-                </div>
-            `;
-                chambersList.appendChild(chamberCard);
-            }
-        }
-
-        function inicializarGraficos() {
-            chambers.forEach(chamber => {
-                const chamberId = `c-${String(chamber.id).padStart(2, "0")}`;
-                const ctx = document.getElementById(`${chamberId}-graph`);
-
-                if (ctx) {
-                    graficos[chamberId] = new Chart(ctx, {
-                        type: "line",
-                        data: {
-                            labels: chartLabels['24h'],
-                            datasets: [{
-                                label: 'Etileno (ppm)',
-                                data: chamber.dataset['24h'],
-                                borderColor: '#7A9B55',
-                                backgroundColor: 'rgba(122, 155, 85, 0.2)',
-                                fill: true,
-                                tension: 0.4,
-                                pointRadius: 4,
-                                borderWidth: 2
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                annotation: {
-                                    annotations: {
-                                        limiteCritico: {
-                                            type: 'line',
-                                            yMin: 1.5, yMax: 1.5,
-                                            borderColor: '#B83232',
-                                            borderWidth: 3,
-                                            label: {
-                                                display: true,
-                                                content: 'Limite Crítico (1.5 ppm)',
-                                                position: 'end',
-                                                backgroundColor: 'rgba(184, 50, 50, 0.8)',
-                                                color: '#fff',
-                                                font: { size: 12, weight: 'bold' }
-                                            }
-                                        }
-                                    }
-                                }
-                            },
-                            scales: { y: { min: 0, max: 3 } }
-                        }
-                    });
-                }
-            });
-        }
-
-        function atualizarPeriodo(periodo, idChamber) {
-            const idNumerico = parseInt(idChamber.replace('c-', ''));   // trata id dos cards: "c-01" vira 1
-            const chamber = chambers.find(c => c.id === idNumerico);
-            const grafico = graficos[idChamber];
-
-            if (!grafico || !chamber) return;
-
-            grafico.data.labels = chartLabels[periodo];
-            grafico.data.datasets[0].data = chamber.dataset[periodo];
-            grafico.update();
-
-            const btnGroup = document.querySelectorAll(`.btn-group--${idChamber} button`);
-            btnGroup.forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.getAttribute('data-periodo') === periodo) {
-                    btn.classList.add('active');
-                }
-            });
-        }
-
-        // Carrega e inicializa dinamicamente os cards e os gráficos das camaras
-        document.addEventListener("DOMContentLoaded", () => {
-            carregarDadosCamaras();
-            inicializarGraficos();
+        // Abrir/Fechar Formulário
+        document.querySelectorAll(".chamber-form-toggler").forEach(btn => {
+            btn.addEventListener("click", alternarFormularioCamara);
         });
 
-    </script>
+        // Muda estado para "cadastro" ao resetar formulário
+        form.addEventListener("reset", () => {
+            form.dataset.editId = "";
+            definirModoFormularioCamara("cadastro");
+        });
+
+        // Adiciona Função de Envio
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            enviarFormularioCamara(form, userData);
+        });
+    }
+
+    function definirModoFormularioCamara(modo, apelido = "") {
+        const titulo = document.getElementById("form-title");
+        const btnSubmit = document.getElementById("btn-submit-form");
+
+        if (modo === "edicao") {
+            titulo.innerText = `Editar Câmara: ${apelido}`;
+            btnSubmit.innerText = "Salvar Alterações";
+        } else {
+            titulo.innerText = "Adicionar Nova Câmara";
+            btnSubmit.innerText = "Adicionar";
+        }
+    }
+
+    function enviarFormularioCamara(form, userData) {
+        const editId = form.dataset.editId;
+        const isEdicao = !!editId;
+        const dados = { 
+            empresa_id: userData.empresaId,
+            local_instalacao: document.getElementById("ipt-local-instalacao").value.trim(),
+            observacao: document.getElementById("ipt-observacao").value.trim(),
+            apelido: document.getElementById("ipt-apelido").value.trim(),
+            volume: Number(document.getElementById("ipt-volume").value),
+            kg_macas: Number(document.getElementById("ipt-kg-macas").value),
+            situacao: document.getElementById("ipt-situacao").value
+        };
+
+        console.log(`Formulário de câmara (${isEdicao ? "Edição" : "Cadastro"}):`, dados);
+        fetch(`/camaras/${ isEdicao ? `/atualizar/${editId}` : "/cadastrar" }`, {
+            method: isEdicao ? "PUT" : "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(dados)
+        })
+        .then((res) => {
+            if(!res.ok) {
+                throw new Error("Erro ao Cadastrar Câmara!");
+            }
+            return res.json();
+        })
+        .then((camaras) => {
+            // Fecha Formulário e Reseta Inputs
+            alternarFormularioCamara();
+            form.reset();
+            
+            // Recarrego lista de Câmaras
+            carregarCamaras(camaras);
+        })
+        .catch((error) => {
+            console.error(error);
+            // mostrar alguma mensagem...
+        });
+    }
+
+    // === LISTA DE CÂMARAS === // 
+    function carregarCamaras(camaras) {
+        const chamberList = document.getElementById("chamber-list");
+        document.getElementById("chambers-count").innerText = camaras.length;
+
+        chamberList.innerHTML = "";
+        camaras.forEach(camara => {
+            const { card, chamberId } = criarCardCamara(camara);
+            const idCamaraNumerico = parseInt(chamberId.replace("c-", ""));
+            
+            card.querySelector("#chamber-toggler")
+                .addEventListener("click", () => alternarVisibilidadeCamara(chamberId));
+            card.querySelector("#chamber-edit-toggler")
+                .addEventListener("click", () => abrirEdicaoCamara(camara));
+            
+            chamberList.appendChild(card);
+            carregarListaKPI(chamberId);
+            carregarGraficoCamara(chamberId, '1');
+
+            // Configura Sensores (Cadastro/Edição) para Câmara
+            const sensorFormId = `sensor-form-${idCamaraNumerico}`;
+            const sensorForm = document.getElementById(sensorFormId);
+
+            card.querySelector(".add-sensor-btn").addEventListener("click", () => {
+                sensorForm.reset();
+                sensorForm.dataset.editId = "";
+                sensorForm.querySelector(".sensor-form-title").innerText = "Cadastrar Novo Sensor";
+                alternarFormularioSensor(idCamaraNumerico);
+            });
+
+            // Cancelar
+            sensorForm.querySelector(".btn-cancel-sensor")
+                .addEventListener("click", () => alternarFormularioSensor(idCamaraNumerico));
+
+            // Enviar
+            sensorForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                enviarFormularioSensor(sensorForm, idCamaraNumerico, chamberId);
+            });
+
+            carregarListaSensores(chamberId);
+        });
+    }
+
+    function criarCardCamara(camara) {
+        const { id_camara, local_instalacao, apelido, situacao } = camara;
+        const chamberId = `c-${String(id_camara).padStart(2, "0")}`;
+        const sensorFormId = `sensor-form-${id_camara}`;
+
+        // TODO: buscar status real da API
+        const status = "Sob Controle";
+
+        const card = document.createElement("li");
+        card.classList.add("chamber");
+        card.id = chamberId;
+        card.dataset.chamberCard = "closed";
+        card.innerHTML = gerarHTMLCard(chamberId, apelido, local_instalacao, situacao, status, id_camara, sensorFormId);
+
+        return { card, chamberId };
+    }
+
+    function gerarHTMLCard(chamberId, apelido, localInstalacao, situacao, status, idCamara, sensorFormId) {
+        return `
+            <div class="chamber-header">
+                <div class="chamber-info">
+                    <p class="chamber-apelido">${apelido}</p>
+                    <p class="chamber-local-instalacao">${localInstalacao}</p>
+                </div>
+                <div class="chamber-status">
+                    <p>● <span class="chamber-situacao">${situacao}</span></p>
+                    <p>● <span class="chamber-status">${status}</span></p>
+                </div>
+                <div class="chamber-actions">
+                    <button id="chamber-toggler"><i class="fa-solid fa-chevron-down"></i></button>
+                    <button id="chamber-edit-toggler" class="edit-chamber-btn" title="Editar Câmara">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="chamber-body">
+                <ul class="chamber-kpi-list"></ul>
+
+                <div class="chamber-main">
+                    <div class="chamber-chart">
+                        <div class="chart-title">
+                            <h3>Variação de Etileno por Sensor</h3>
+                            <div class="btn-group">
+                                <button data-periodo="24h" class="active">24hrs</button>
+                                <button data-periodo="7d">7 dias</button>
+                                <button data-periodo="30d">30 dias</button>
+                            </div>
+                        </div>
+                        <canvas id="chart-${chamberId}"></canvas>
+                    </div>
+
+                    <div class="chamber-sensores-container">
+                        <div class="sensores-header" style="margin-bottom: 10px;">
+                            <button class="add-sensor-btn" data-chamber-id="${idCamara}">
+                                <i class="fa-solid fa-plus"></i> Adicionar Sensor
+                            </button>
+                        </div>
+
+                        <form id="${sensorFormId}" class="mini-sensor-form" style="display: none;" data-edit-id="" data-form-open="false">
+                            <h4 class="sensor-form-title">Cadastrar Novo Sensor</h4>
+                            <div class="sensor-form-fields" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
+                                <div class="field">
+                                    <label>Nº de Série</label>
+                                    <input type="text" class="ipt-sensor-num-serie" placeholder="Ex: SN-1234" required>
+                                </div>
+                                <div class="field">
+                                    <label>Modelo</label>
+                                    <input type="text" class="ipt-sensor-modelo" placeholder="Ex: MQ-3" required>
+                                </div>
+                                <div class="field">
+                                    <label>Data Instalação</label>
+                                    <input type="date" class="ipt-sensor-data-instalacao" required>
+                                </div>
+                                <div class="field">
+                                    <label>Situação</label>
+                                    <select class="ipt-sensor-situacao" required>
+                                        <option value="Ativo">Ativo</option>
+                                        <option value="Inativo">Inativo</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="sensor-form-actions" style="display: flex; gap: 10px;">
+                                <button type="button" class="btn-cancel-sensor">Cancelar</button>
+                                <button type="submit" class="btn-submit-sensor">Salvar</button>
+                            </div>
+                        </form>
+
+                        <ul class="chamber-sensores" id="sensor-list-${idCamara}"></ul>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+
+    function abrirEdicaoCamara(camara) {
+        const form = document.getElementById("new-chamber-form");
+
+        // Preenche Inputs com dados da Câmara
+        document.getElementById("ipt-local-instalacao").value = camara.local_instalacao;
+        document.getElementById("ipt-observacao").value = camara.observacao || "";
+        document.getElementById("ipt-apelido").value = camara.apelido;
+        document.getElementById("ipt-volume").value = camara.volume;
+        document.getElementById("ipt-kg-macas").value = camara.kg_macas;
+        document.getElementById("ipt-situacao").value = camara.situacao;
+        
+        // Muda formulário para modo "edicao"
+        form.dataset.editId = camara.id_camara;
+        definirModoFormularioCamara("edicao", camara.apelido);
+
+        if (form.dataset.formOpen === "false") {
+            alternarFormularioCamara();
+        }
+
+        form.scrollIntoView({ behavior: "smooth" });
+    }
+
+    // === FORMULÁRIO SENSOR (CADASTRO/EDIÇÃO) === //
+    function enviarFormularioSensor(form, idCamara, chamberId) {
+        const editId = form.dataset.editId;
+        const isEdicao = !!editId;
+        const dados = {
+            numero_serie: form.querySelector(".ipt-sensor-num-serie").value,
+            modelo: form.querySelector(".ipt-sensor-modelo").value,
+            situacao: form.querySelector(".ipt-sensor-situacao").value,
+            data_instalacao: form.querySelector(".ipt-sensor-data-instalacao").value
+        };
+
+        console.log(`Formulário de Sensor (${isEdicao ? "Edição" : "Cadastro"}) na câmara ${idCamara}:`, dados);
+        fetch(`/sensores/${ isEdicao ? `/atualizar/${editId}/${idCamara}` : "/cadastrar" }`, {
+            method: isEdicao ? "PUT" : "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(dados)
+        })
+        .then((res) => {
+            if(!res.ok) {
+                throw new Error(`Erro ao Cadastrar Sensor na Câmara ${idCamara}!`);
+            }
+
+            // Fecha Formulário e Reseta Inputs
+            alternarFormularioSensor(idCamara);
+            form.reset();
+            
+            // Recarrego lista de Sensores na Câmara em específico
+            carregarListaSensores(chamberId);
+        })
+        .catch((error) => {
+            console.error(error);
+            // mostrar alguma mensagem...
+        });
+    }
+
+    // === LISTA SENSORES === //
+    function carregarListaSensores(chamberId) {
+        const idCamara = parseInt(chamberId.replace("c-", ""));
+        const sensorList = document.querySelector(`#${chamberId} .chamber-sensores`);
+
+        sensorList.innerHTML = "";
+        fetch(`/sensores/listar/${idCamara}`)
+            .then((res) => {
+                if(!res.ok) {
+                    throw new Error(`Erro ao Carregar Sensores da Câmara ${idCamara}`);
+                }
+                return res.json();
+            })
+            .then((sensores) => {
+                sensores.forEach(sensor => {
+                    const sensorCard = criarItemSensor(sensor, idCamara);
+                    sensorList.appendChild(sensorCard);
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+                // mostrar mensagem de erro...
+            })
+    }
+
+    function criarItemSensor(sensor, idCamara) {
+        const sensorItem = document.createElement("li");
+        sensorItem.className = "chamber-sensor";
+        sensorItem.innerHTML = `
+            <div class="sensor-info">
+                <p class="sensor-num-serie"><strong>N/S:</strong> ${sensor.numero_sensor}</p>
+                <p class="sensor-modelo"><strong>Modelo:</strong> ${sensor.modelo}</p>
+            </div>
+            <div class="sensor-status-group">
+                <p>● <span class="sensor-situacao">${sensor.situacao}</span></p>
+                <button class="sensor-edit-btn" title="Editar Sensor">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+            </div>
+        `;
+
+        sensorItem.querySelector(".sensor-edit-btn")
+            .addEventListener("click", () => abrirEdicaoSensor(sensor, idCamara));
+
+        return sensorItem;
+    }
+
+    function abrirEdicaoSensor(sensor, idCamara) {
+        const form = document.getElementById(`sensor-form-${idCamara}`);
+
+        form.querySelector(".ipt-sensor-num-serie").value = sensor.numero_sensor;
+        form.querySelector(".ipt-sensor-modelo").value = sensor.modelo;
+        form.querySelector(".ipt-sensor-situacao").value = sensor.situacao;
+        form.querySelector(".ipt-sensor-data-instalacao").value = sensor.data_instalacao;
+        form.dataset.editId = sensor.id;
+        form.querySelector(".sensor-form-title").innerText = `Editar Sensor: ${sensor.numero_sensor}`;
+
+        if (form.dataset.formOpen === "false") {
+            alternarFormularioSensor(idCamara);
+        }
+
+        form.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    // === KPIs CÂMARA === //
+    function carregarListaKPI(chamberId) {
+        const kpiList = document.querySelector(`#${chamberId} .chamber-kpi-list`);
+        const idCamaraNumerico = parseInt(chamberId.replace("c-", ""));
+
+        const kpis = {
+            id_empresa: 1,
+            id_camara: 1,
+            nome_camara: "CO1",
+            volume_m3: 60.000,
+            estoque_total_kg: 100,
+            etileno_atual: 2.1,
+            estoque_em_risco_kg: 100,
+            ultima_leitura: "15/05 19:00"
+        }
+
+        fetch(`/medidas/buscar-detalhes-camaras/${idCamaraNumerico}`)
+            .then((res) => {
+                if(!res.ok) {
+                    throw new Error("Não foi Possível carregar os KPIs da Câmara");
+                }
+                return res.json()
+            })
+            .then((kpis) => {
+
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+
+        kpiList.innerHTML = `
+            <li class="chamber-kpi chamber-kpi--negative">
+                <p class="chamber-kpi-caption">Etileno Atual (ppm)</p>
+                <h3 class="chamber-kpi-value">${kpis.ultimaLeitura.toFixed(2)}</h3>
+            </li>
+            <li class="chamber-kpi chamber-kpi--positive">
+                <p class="chamber-kpi-caption">Volume Câmara (m³)</p>
+                <h3 class="chamber-kpi-value">${kpis.volume}</h3>
+            </li>
+            <li class="chamber-kpi chamber-kpi--caution">
+                <p class="chamber-kpi-caption">Estoque Total (Kg)</p>
+                <h3 class="chamber-kpi-value">${kpis.kg_macas}</h3>
+                <span class="chamber-kpi-footer">~${Math.round(kpis.kg_macas / 0.04)} maçãs</span>
+            </li>
+            <li class="chamber-kpi chamber-kpi--caution">
+                <p class="chamber-kpi-caption">Estoque em Risco (Kg)</p>
+                <h3 class="chamber-kpi-value">${kpis.estoque_em_risco}</h3>
+                <span class="chamber-kpi-footer">Receita Estimada: R$ ${kpis.estoque_em_risco * 13.5}</span>
+            </li>
+        `;
+    }
+
+    // === FUNÇÕES TOGGLER === //
+    function alternarFormularioCamara() {
+        const form = document.getElementById("new-chamber-form");
+        const containerContent = document.querySelector(".chamber-container-content");
+        const estaAberto = form.dataset.formOpen === "true";
+
+        form.style.display = estaAberto ? "none" : "block";
+        containerContent.style.display = estaAberto ? "block" : "none";
+        form.dataset.formOpen = estaAberto ? "false" : "true";
+    }
+
+    function alternarVisibilidadeCamara(chamberId) {
+        const card = document.getElementById(chamberId);
+        const chevron = card.querySelector(".chamber-actions #chamber-toggler i");
+        const estaAberto = card.dataset.chamberCard === "open";
+
+        card.dataset.chamberCard = estaAberto ? "closed" : "open";
+        chevron.classList.replace(
+            estaAberto ? "fa-chevron-up" : "fa-chevron-down",
+            estaAberto ? "fa-chevron-down" : "fa-chevron-up"
+        );
+    }
+
+    function alternarFormularioSensor(idCamara) {
+        const form = document.getElementById(`sensor-form-${idCamara}`);
+        const estaAberto = form.dataset.formOpen === "true";
+
+        form.style.display = estaAberto ? "none" : "block";
+        form.dataset.formOpen = estaAberto ? "false" : "true";
+    }
+
+</script>
 </body>
 
 </html>
