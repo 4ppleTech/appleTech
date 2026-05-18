@@ -9,13 +9,13 @@
     data_hora: 2026-05-15T22:00:48.000Z,
     data_formatada: '15/05 19:00'
   }
-*/ 
+*/
 export function carregarGraficoCamara(chamberId, interval) {
     const ctx = document.getElementById(`chart-${chamberId}`);
-
+    const idCamaraNumerico = parseInt(chamberId.replace("c-", ""));
     fetch(`/medidas/buscar-camara-individual/${idCamaraNumerico}/${interval}`)
         .then((res) => {
-            if(!res.ok) {
+            if (!res.ok) {
                 throw new Error(`Não foi possível carregar gráficos da Câmara: ${chamberId}`)
             }
 
@@ -33,7 +33,7 @@ export function carregarGraficoCamara(chamberId, interval) {
                     tension: 0.4,
                     pointRadius: 4,
                     borderWidth: 2,
-                };        
+                };
             });
 
             new Chart(ctx, {
@@ -75,5 +75,5 @@ export function carregarGraficoCamara(chamberId, interval) {
 }
 
 export function atualizarGraficoCamara(chamberId) {
-    
+
 }
