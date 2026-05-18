@@ -31,6 +31,17 @@ SELECT
      ORDER BY l2.valor_leitura DESC LIMIT 1
     ) AS valor_pico_24h,
 
+    -- subquery pra qual o horario desse pico em específico
+
+    (SELECT DATE_FORMAT(l_pico.data_hora, '%H:%i')
+     FROM leitura l_pico
+     JOIN sensor s_pico ON l_pico.sensor_id = s_pico.id_sensor
+     JOIN camara c_pico ON s_pico.camara_id = c_pico.id_camara
+     WHERE c_pico.empresa_id = e.id_empresa 
+       AND l_pico.data_hora >= NOW() - INTERVAL 1 DAY
+     ORDER BY l_pico.valor_leitura DESC LIMIT 1 
+    ) AS horario_pico_24h,
+
     --  subquery pra qual sensor e qual camara registrou esse pico de etileno
     (SELECT s3.numero_sensor
      FROM leitura l3
@@ -74,7 +85,8 @@ SELECT
          WHERE c8.empresa_id = e.id_empresa AND a8.nivel IN ('Crítico', 'Moderado')
      )
     ) AS total_receita_risco_valor,
-    
+
+    -- estoque geral
     (SELECT SUM(kg_macas) FROM camara WHERE empresa_id = e.id_empresa) AS total_estoque_geral,
     
 
@@ -175,10 +187,12 @@ select * from vw_detalhes_individuais_camaras;
 
 
 -- grafico camara individual --
-CREATE OR REPLACE VIEW vw_graficos_individuais_camaras AS
+ 
+    CREATE OR REPLACE VIEW vw_graficos_individuais_camaras AS
 SELECT 
     e.id_empresa,
     c.id_camara,
+    c.apelido,
     s.id_sensor,
     s.numero_sensor, 
     l.valor_leitura AS etileno,
@@ -198,3 +212,26 @@ select * from vw_graficos_individuais_camaras;
 -- ORDER BY data_hora ASC;
 
 select * from vw_graficos_individuais_camaras where id_sensor = 1;
+
+   -- todos os alertas
+    CREATE OR REPLACE VIEW vw_alertas_geral AS
+    SELECT 
+		e.id_empresa,
+        e.nome_fantasia 'nome_fantasia',
+        e.razao_social 'razao_social',
+        c.apelido 'apelido',
+        c.local_instalacao 'local_camara',
+        l.valor_leitura,
+        a.nivel,
+        a.mensagem
+    FROM
+        empresa e
+    JOIN camara c ON e.id_empresa = c.empresa_id
+    JOIN sensor s ON c.id_camara = s.camara_id
+    JOIN leitura l ON s.id_sensor = l.sensor_id
+    JOIN alerta a ON l.id_leitura = a.leitura_id
+    WHERE
+        s.situacao = 'Ativo'
+    AND
+        e.razao_social = 'Apple Tech Brasil LTDA'
+    ORDER BY l.data_hora;
