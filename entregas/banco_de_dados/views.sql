@@ -187,10 +187,12 @@ select * from vw_detalhes_individuais_camaras;
 
 
 -- grafico camara individual --
-CREATE OR REPLACE VIEW vw_graficos_individuais_camaras AS
+ 
+    CREATE OR REPLACE VIEW vw_graficos_individuais_camaras AS
 SELECT 
     e.id_empresa,
     c.id_camara,
+    c.apelido,
     s.id_sensor,
     s.numero_sensor, 
     l.valor_leitura AS etileno,
