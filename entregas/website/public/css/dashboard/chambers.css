@@ -73,6 +73,7 @@
     transition: border-color 150ms ease-in-out, background 150ms ease-in-out;
 }
 
+.chamber-metrics,
 .chamber-status {
     display: flex;
     flex-direction: row;
@@ -80,16 +81,31 @@
     column-gap: 1rem;
     flex-shrink: 0;
 }
+.chamber-status--positive { 
+    background-color: #EAF0DC;
+    border-color: #7A9B55;
+    color: #7A9B55; 
+}
 
-.chamber-status p {
+.chamber-status--caution {
+    background-color: #fde5b5;
+    border-color: #f7ba41;
+    color: #d18b00; 
+}
+.chamber-status--negative { 
+    background-color: #F0B8B8;
+    border-color: #B83232;
+    color: #8C1F1F; 
+}
+
+.chamber-metrics p {
     display: flex;
     align-items: center;
     column-gap: 0.4rem;
     font-size: 0.85rem;
     font-weight: 500;
-    color: #7A6A52;
-    background: #FAF3E8;
-    border: 1px solid #C8A87A;
+    border-width: 1px;
+    border-style: solid;
     border-radius: 6px;
     padding: 0.35rem 0.9rem;
     white-space: nowrap;

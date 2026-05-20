@@ -1,33 +1,33 @@
-// 1, 7, 30
-/*
-{
-    id_empresa: 1,
-    id_camara: 1,
-    id_sensor: 5,
-    numero_sensor: '12AbD',
-    etileno: 2.1,
-    data_hora: 2026-05-15T22:00:48.000Z,
-    data_formatada: '15/05 19:00'
-  }
-*/
+
+const instanciasGraficos = {};
+
 export function carregarGraficoCamara(chamberId, interval) {
     const ctx = document.getElementById(`chart-${chamberId}`);
+    if(!ctx) return;
+
+    if(instanciasGraficos[chamberId]) {
+        instanciasGraficos[chamberId].destroy();
+    }
+
     const idCamaraNumerico = parseInt(chamberId.replace("c-", ""));
     fetch(`/medidas/buscar-camara-individual/${idCamaraNumerico}/${interval}`)
         .then((res) => {
             if (!res.ok) {
                 throw new Error(`Não foi possível carregar gráficos da Câmara: ${chamberId}`)
             }
-
             return res.json();
         })
         .then((dados) => {
             const chartLabels = dados.map((d) => d.data_formatada);
-            const chartDatasets = dados.map((d) => {
-                console.log(dados)
+
+            const listaIdSensores = [];
+            dados.forEach((d) => !listaIdSensores.includes(d.id_sensor) && listaIdSensores.push(d.id_sensor));
+
+            const chartDatasets = listaIdSensores.map((sensorId) => {
+                const leiturasDoSensor = dados.filter((d) => d.id_sensor === sensorId);
                 return {
-                    label: d.numero_sensor,
-                    data: d.etileno,
+                    label: leiturasDoSensor[0].numero_sensor,
+                    data: leiturasDoSensor.map((leitura) => ({x: leitura.data_formatada, y: leitura.etileno})),
                     borderColor: "#7A9B55",
                     backgroundColor: "rgba(122, 155, 85, 0.2)",
                     fill: true,
@@ -35,9 +35,9 @@ export function carregarGraficoCamara(chamberId, interval) {
                     pointRadius: 4,
                     borderWidth: 2,
                 };
-            });
+            })
 
-            new Chart(ctx, {
+            instanciasGraficos[chamberId] = new Chart(ctx, {
                 type: "line",
                 data: {
                     labels: chartLabels,
@@ -76,5 +76,53 @@ export function carregarGraficoCamara(chamberId, interval) {
 }
 
 export function atualizarGraficoCamara(chamberId) {
+    const chart = instanciasGraficos[chamberId];
+    if (!chart) {
+        console.warn(`[atualizarGraficoCamara] Gráfico da câmara ${chamberId} não foi inicializado ainda.`);
+        return;
+    }
 
+    const idCamaraNumerico = parseInt(chamberId.replace("c-", ""));
+    fetch(`/medidas/buscar-camara-individual/${idCamaraNumerico}/1`)
+        .then((res) => {
+            if (!res.ok) throw new Error(`Erro ao atualizar dados da Câmara: ${chamberId}`);
+            return res.json();
+        })
+        .then((dados) => {
+            const chartLabels = dados.map((d) => d.data_formatada);
+            chart.data.labels = chartLabels;
+
+            const listaIdSensores = [];
+            dados.forEach((d) => !listaIdSensores.includes(d.id_sensor) && listaIdSensores.push(d.id_sensor));
+
+            listaIdSensores.forEach((sensorId) => {
+                const leiturasDoSensor = dados.filter((d) => d.id_sensor === sensorId);
+
+                let dataset = chart.data.datasets.find((ds) => ds.label === leiturasDoSensor[0].numero_sensor);
+                const novosDados = leiturasDoSensor.map((leitura) => ({x: leitura.data_formatada, y: leitura.etileno}));
+
+                // se dataset já existe
+                if(dataset) {
+                    dataset.data = novosDados
+                } else {
+                // se outro dataset apareceu
+                    chart.data.datasets.push({
+                        label: leiturasDoSensor[0].numero_sensor,
+                        data: novosDadoss,
+                        borderColor: "#7A9B55",
+                        backgroundColor: "rgba(122, 155, 85, 0.2)",
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        borderWidth: 2,
+                    });
+                }  
+            })
+
+            chart.update();
+            console.log(`[atualizarGraficoCamara] Atualizei Gráfico [chart-${chamberId}]`)
+        })
+        .catch((error) => {
+            console.error(`Erro no update do gráfico ${chamberId}:`, error);
+        });
 }

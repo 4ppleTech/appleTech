@@ -156,6 +156,7 @@
         import { storage } from "../scripts/utils/storage.js";
         import { carregarInfoSidebar } from "../scripts/carregar-sidebar.js";
         import { carregarGraficoCamara, atualizarGraficoCamara } from "../scripts/carregar-grafico-camaras.js";
+        const PRECO_VENDA_MACA = 13.5;
 
         document.addEventListener("DOMContentLoaded", () => {
             const userData = storage.get("APPLETECH_USER");
@@ -264,7 +265,16 @@
 
                 chamberList.appendChild(card);
                 carregarListaKPI(chamberId);
+                
+                // Carrega Gráfico, Inicia Intervalo de Leitura
                 carregarGraficoCamara(chamberId, '1');
+                const chamberTimer = setInterval(() => {
+                    if(document.getElementById(chamberId).dataset.chamberCard === 'open') {
+                        atualizarGraficoCamara(chamberId);
+                    }
+                }, 1000);
+                document.getElementById(`chart-${chamberId}`).dataset.timerId = chamberTimer;
+
 
                 // Configura Sensores (Cadastro/Edição) para Câmara
                 const sensorFormId = `sensor-form-${idCamaraNumerico}`;
@@ -296,9 +306,6 @@
             const chamberId = `c-${String(id_camara).padStart(2, "0")}`;
             const sensorFormId = `sensor-form-${id_camara}`;
 
-            // TODO: buscar status real da API
-            const status = "Sob Controle";
-
             const card = document.createElement("li");
             card.classList.add("chamber");
             card.id = chamberId;
@@ -315,9 +322,9 @@
                     <p class="chamber-apelido">${apelido}</p>
                     <p class="chamber-local-instalacao">${localInstalacao}</p>
                 </div>
-                <div class="chamber-status">
-                    <p>● <span class="chamber-situacao">${situacao}</span></p>
-                    <p>● <span class="chamber-status">${status}</span></p>
+                <div class="chamber-metrics">
+                    <p class="chamber-situacao">● <span>${situacao}</span></p>
+                    <p class="chamber-status">● <span></span></p>
                 </div>
                 <div class="chamber-actions">
                     <button id="chamber-toggler"><i class="fa-solid fa-chevron-down"></i></button>
@@ -515,17 +522,6 @@
             const kpiList = document.querySelector(`#${chamberId} .chamber-kpi-list`);
             const idCamaraNumerico = parseInt(chamberId.replace("c-", ""));
 
-            // const kpis = {
-            //     id_empresa: 1,
-            //     id_camara: 1,
-            //     nome_camara: "CO1",
-            //     volume_m3: 60.000,
-            //     estoque_total_kg: 100,
-            //     etileno_atual: 2.1,
-            //     estoque_em_risco_kg: 100,
-            //     ultima_leitura: "15/05 19:00"
-            // }
-
             fetch(`/medidas/buscar-detalhes-camaras/${idCamaraNumerico}`)
                 .then((res) => {
                     if (!res.ok) {
@@ -534,24 +530,60 @@
                     return res.json()
                 })
                 .then((kpis) => {
+                    const {etileno_atual, volume_m3, estoque_total_kg, estoque_em_risco_kg, ultima_leitura} = kpis;
+
+                    const etilenoTratado = Number(etileno_atual).toFixed(1) || "Sem dados";
+                    const volumeTratado = Number(volume_m3).toFixed(1) || "Sem dados";
+                    const estoqueEmRiscoTratado = Number(estoque_em_risco_kg) || 0;
+
+                    const estoqueEmUnidadesMacas = Math.round(estoque_total_kg / 0.15); // em média, maçãs gala pesam 150g cada
+                    const receitaEstimadaCamara = 
+                        Number(((estoque_total_kg - estoqueEmRiscoTratado) * PRECO_VENDA_MACA) || 0).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+
+                    const statusCamara = etilenoTratado >= 2.0 
+                        ? "Crítico" 
+                        : etilenoTratado >= 1.5 
+                            ? "Atenção" 
+                            : "Sob Controle";
+
+                    const etilenoAtualKPICor = etilenoTratado >= 2.0 
+                        ? "negative" 
+                        : etilenoTratado >= 1.5 
+                            ? "caution" 
+                            : "positive";
+
+                    const estoqueEmRiscoKPICor = estoqueEmRiscoTratado >= (estoque_total_kg * 0.10) 
+                        ? "negative" 
+                        : estoqueEmRiscoTratado >= (estoque_total_kg * 0.05) 
+                            ? "caution" 
+                            : "positive";
+
+                    // configura status da câmara
+                    const camaraStatusDiv = document.querySelector(`#${chamberId} .chamber-status`);
+                    if(camaraStatusDiv) {
+                        camaraStatusDiv.textContent = statusCamara;
+                        camaraStatusDiv.classList.add(`chamber-status--${etilenoAtualKPICor}`);
+                    }
+
                     kpiList.innerHTML = `
-                    <li class="chamber-kpi chamber-kpi--negative">
+                    <li class="chamber-kpi chamber-kpi--${etilenoAtualKPICor}">
                         <p class="chamber-kpi-caption">Etileno Atual (ppm)</p>
-                        <h3 class="chamber-kpi-value">${kpis.etileno_atual || "Sem dados" }</h3>
+                        <h3 class="chamber-kpi-value">${etilenoTratado}</h3>
+                        <span class="chamber-kpi-footer">última leitura: ${ultima_leitura}</span>
                     </li>
                     <li class="chamber-kpi chamber-kpi--positive">
                         <p class="chamber-kpi-caption">Volume Câmara (m³)</p>
-                        <h3 class="chamber-kpi-value">${kpis.volume_m3}</h3>
+                        <h3 class="chamber-kpi-value">${volumeTratado}</h3>
                     </li>
-                    <li class="chamber-kpi chamber-kpi--caution">
+                    <li class="chamber-kpi chamber-kpi--${estoque_total_kg > 0 ? "positive" : "negative"}">
                         <p class="chamber-kpi-caption">Estoque Total (Kg)</p>
-                        <h3 class="chamber-kpi-value">${kpis.estoque_total_kg}</h3>
-                        <span class="chamber-kpi-footer">~${Math.round(kpis.estoque_total_kg / 0.04)} maçãs</span>
+                        <h3 class="chamber-kpi-value">${estoque_total_kg}</h3>
+                        <span class="chamber-kpi-footer">~${estoqueEmUnidadesMacas} maçãs</span>
                     </li>
-                    <li class="chamber-kpi chamber-kpi--caution">
+                    <li class="chamber-kpi chamber-kpi--${estoqueEmRiscoKPICor}">
                         <p class="chamber-kpi-caption">Estoque em Risco (Kg)</p>
-                        <h3 class="chamber-kpi-value">${kpis.estoque_em_risco_kg || 0}</h3>
-                        <span class="chamber-kpi-footer">Receita Estimada: R$ ${kpis.estoque_em_risco_kg * 13.5 || 0}</span>
+                        <h3 class="chamber-kpi-value">${estoqueEmRiscoTratado}</h3>
+                        <span class="chamber-kpi-footer">Receita Estimada: ${receitaEstimadaCamara}</span>
                     </li>`;
                 })
                 .catch((error) => {
