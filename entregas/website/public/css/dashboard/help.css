@@ -2,6 +2,27 @@
   max-width: 900px;
   padding-top: 10rem;
   width: 70%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 1rem;
+}
+.content-left p {
+  text-align: justify;
+}
+.content-left span {
+  color: #B83232;
+  font-weight: bold;
+}
+
+.jira-btn {
+  background-color: #B83232;
+  color: #EDE3D0;
+  font-weight: bold;
+  padding: 0.6rem 2.4rem;
+  border-radius: 1rem;
 }
 
 .title-help {
@@ -81,23 +102,18 @@
 
 .content-right {
   width: 500px;
-  flex-shrink: 0;
 }
 
 .content-right img {
-  padding-top: 250px;
   width: 700px;
   height: auto;
 }
 
 .chat-wrapper {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
 }
 
 .chat-toggler {
@@ -181,11 +197,18 @@
 }
 
 .bob-message {
-  align-self: flex-end;
+  /* align-self: flex-start; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .user-message {
-  align-self: flex-start;
+  /* align-self: flex-end; */
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+
 }
 
 .user-message,
@@ -202,7 +225,7 @@
   border-radius: 50%;
 }
 
-.chat-form {
+#chat-form {
   border-top: 1px solid black;
   height: 100px;
   width: 100%;
@@ -213,17 +236,16 @@
   gap: 1rem;
 }
 
-.chat-form textarea {
-  width: 80%;
+#chat-form textarea {
+  width: 100%;
   border: none;
-  border-radius: 10px;
+  border-radius: 1rem;
   padding: 1rem;
-  background-color: #1A568F;
-  color: #FFF;
+  border: 2px solid #1A568F;
   font-size: 1rem;
 }
 
-.chat-form button {
+#chat-form button {
   padding: 1rem;
   border: none;
   background-color: #1A568F;
@@ -231,5 +253,32 @@
   cursor: pointer;
   color: #FFF;
   font-weight: bold;
+  transition: background 0.2s, color 0.2s;
+}
+#chat-form button:disabled {
+  background-color: #B5A98F;
+  cursor: default;
 }
 
+.message-empty {
+  display: grid;
+  place-content: center;
+  height: 100%;
+
+  font-family: 1.2rem;
+}
+
+
+.fa-spinner {
+  display: inline-block;
+  animation: girar 1s linear infinite;
+}
+
+@keyframes girar {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

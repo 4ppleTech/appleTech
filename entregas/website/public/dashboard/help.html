@@ -81,83 +81,137 @@
             </div>
             <div class="help-wrapper">
                 <div class="content-left">
-                    <h2 class="title-help">Quer relatar um incidente ou abrir um chamado?</h2>
-                    <p>Você pode entrar em contato com suporte da appletech através da nossa ferramenta de ia no canto
-                        inferior direito ou se necessário, acessar a nossa central de suporte, clicando no link abaixo
+                    <h2 class="title-help">Quer Relatar um Incidente ou abrir um Chamado?</h2>
+                    <p>Você pode entrar em contato com suporte da <span>AppleTech</span> através da nossa ferramenta de I.A no canto inferior direito, ou, se necessário, acessar a nossa central de suporte, clicando no link abaixo.
                     </p>
-                    <a href="">Jira - Help Desk</a>
+                    <a href="https://www.atlassian.com" target="_blank" class="jira-btn">Jira - Help Desk</a>
                 </div>
-
                 <div class="content-right">
                     <img src="../assets/svgs/mailbox.svg" alt="Contate-nos">
                 </div>
             </div>
         </div>
 
-        <div class="chat-wrapper" id="bob-chat" data-form="closed">
-            <div class="chat-toggler btn-toggle-chat" id="chat-toggler">
+    </div>
+
+    <div class="chat-wrapper" id="bob-chat" data-form="closed">
+        <div class="chat-toggler btn-toggle-chat" id="chat-toggler"></div>
+        <div class="chat-message-wrapper" id="chat-message-wrapper">
+            <div class="chat-message-header">
+                <h4>AI Atendimento - Apple Tech</h4>
+                <button class="btn-closed btn-toggle-chat" id="btn-toggle-chat"><i class="fa fa-x"></i></button>
             </div>
-            <div class="chat-message-wrapper" id="chat-message-wrapper">
-                <div class="chat-message-header">
-                    <h4>AI Atendimento - Apple Tech</h4>
-                    <button class="btn-closed btn-toggle-chat" id="btn-toggle-chat"><i class="fa fa-x"></i></button>
-                </div>
-                <div class="chat-messages">
-                    <div class="user-message">
-                        <img src="https://cdn-icons-png.flaticon.com/512/17/17004.png" alt="">
-                        <p>Oi</p>
-                    </div>
-                    <div class="bob-message">
-                        <p>Eu não sei</p>
-                        <img src="../assets/imgs/favicon.ico" alt="">
-                    </div>
-                    <div class="user-message">
-                        <img src="https://cdn-icons-png.flaticon.com/512/17/17004.png" alt="">
-                        <p>Oi</p>
-                    </div>
-                    <div class="bob-message">
-                        <p>Eu não sei</p>
-                        <img src="../assets/imgs/favicon.ico" alt="">
-                    </div>
-                    <div class="user-message">
-                        <img src="https://cdn-icons-png.flaticon.com/512/17/17004.png" alt="">
-                        <p>Oi</p>
-                    </div>
-                    <div class="bob-message">
-                        <p>Eu não sei</p>
-                        <img src="../assets/imgs/favicon.ico" alt="">
-                    </div>
-                </div>
-                <form class="chat-form" id="form-submit">
-                    <textarea id="ipt-message"></textarea>
-                    <button type="submit" id="btn-submit-form">Enviar</button>
-                </form>
-            </div>
+            <div class="chat-messages" data-first-load="true"></div>
+            <form id="chat-form">
+                <textarea id="ipt-message" placeholder="Pergunte qualquer coisa..."></textarea>
+                <button type="submit" id="btn-submit-form" disabled><i class="fa-solid fa-paper-plane"></i></button>
+            </form>
         </div>
+    </div>
 
-
-        <script src="../scripts/utils/sessao.js"></script>
-</body>
-
-</html>
-
+<script src="../scripts/utils/sessao.js"></script>
 <script type="module">
-    import { load_account } from "../scripts/utils/load_account.js"
-    document.addEventListener("DOMContentLoaded", load_account)
-    document.querySelectorAll(".btn-toggle-chat").forEach(value => {
-        value.addEventListener("click", toggleChat)
-    })
+    import { load_account } from "../scripts/utils/load_account.js";
 
-    // document.getElementById("form-submit").addEventListener("submit",)
+    document.addEventListener("DOMContentLoaded", () => {
+        load_account();
+        
+        // Elementos
+        const chatMessageList = document.querySelector(".chat-messages");
+        const submitFormBtn = document.getElementById("btn-submit-form");
 
+        chatMessageList.innerHTML = "<p class='message-empty'>Meio vazio por aqui...</p>";
+
+        // Eventos HTML
+        document.querySelectorAll(".btn-toggle-chat").forEach(element => {
+            element.addEventListener("click", toggleChat);
+        });
+
+        const chartForm = document.getElementById("chat-form");
+        if(!chartForm) return;
+        chartForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const pergunta = String(document.getElementById("ipt-message").value).trim();
+            if(!pergunta) return;
+
+            // Envia Pergunta (Front)
+            if(chatMessageList.dataset.firstLoad == "true") {
+                chatMessageList.innerHTML = "";
+                chatMessageList.dataset.firstLoad = "false";
+            }
+            chatMessageList.innerHTML += gerarHTMLMensagem(pergunta, 'user');
+
+            submitFormBtn.disabled = true;
+            submitFormBtn.innerHTML = "<i class='fa-solid fa-spinner'></i>";
+            
+            // Envia Pergunta (Back)
+            fetch(`http://localhost:3000/perguntar`, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({pergunta})
+            })
+            .then((response) => {
+                if(!response.ok) {
+                    throw new Error("Ocorreu um erro ao comunicar com o BobIA");
+                }    
+                return response.json();
+            })
+            .then((data) => {
+                const {resultado} = data;
+                
+                chatMessageList.innerHTML += gerarHTMLMensagem(resultado, 'bob');
+            })
+            .catch((error) => {
+                console.log("Erro: ", error.message || error);
+                chatMessageList.innerHTML += gerarHTMLMensagem(
+                    error.message || 'Uh oh... parece que nosso serviço está passando por problemas inesperados. Tente novamente mais tarde', 
+                    'bob'
+                );
+            })
+            .finally(() => {
+                // Limpa formulário
+                chartForm.reset();
+                submitFormBtn.disabled = false;
+                submitFormBtn.innerHTML = "<i class='fa-solid fa-paper-plane'></i>";
+            });
+        });
+
+        document.getElementById("ipt-message").addEventListener("input", (e) => {
+            const value = e.target.value;
+            if(value.trim() === "") {
+                submitFormBtn.disabled = true;
+                return;
+            }
+            submitFormBtn.disabled = false;
+        });
+
+    });
+       
+    // Funções Utilitárias //
     function toggleChat() {
-        const bob_chat = document.getElementById("bob-chat")
-        const data = bob_chat.dataset.form
-        console.log(data)
-        if (data === "closed") {
+        const bob_chat = document.getElementById("bob-chat");
+        if (bob_chat.dataset.form === "closed") {
             bob_chat.dataset.form = "open"
         } else {
             bob_chat.dataset.form = "closed"
         }
     }
+
+    // from pode ser igual "bob" ou "user"
+    function gerarHTMLMensagem(mensagem = "", from = "user") {
+        const imgPath = from === "user"
+            ? "user-pfp.png"
+            : "favicon.ico";
+
+        return `
+            <div class="${from}-message">
+                <img src="../assets/imgs/${imgPath}" alt="${from} pfp">
+                <p>${mensagem}</p>
+            </div>
+        `;
+    }
 </script>
+</body>
+</html>
+    
