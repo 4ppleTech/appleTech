@@ -95,22 +95,48 @@
         </div>
 
         <div class="chat-wrapper" id="bob-chat" data-form="closed">
-            <div class="chat-toggler btn-toggle-chat">
+            <div class="chat-toggler btn-toggle-chat" id="chat-toggler">
             </div>
-            <div class="chat-message-wrapper">
-                <button class="btn-toggle-chat" id="btn-toggle-chat"><i class="fa fa-x"></i></button>
-                <div class="chat-messages">
+            <div class="chat-message-wrapper" id="chat-message-wrapper">
+                <div class="chat-message-header">
+                    <h4>AI Atendimento - Apple Tech</h4>
+                    <button class="btn-closed btn-toggle-chat" id="btn-toggle-chat"><i class="fa fa-x"></i></button>
                 </div>
-                <form action="" class="chat-form">
+                <div class="chat-messages">
+                    <div class="user-message">
+                        <img src="https://cdn-icons-png.flaticon.com/512/17/17004.png" alt="">
+                        <p>Oi</p>
+                    </div>
+                    <div class="bob-message">
+                        <p>Eu não sei</p>
+                        <img src="../assets/imgs/favicon.ico" alt="">
+                    </div>
+                    <div class="user-message">
+                        <img src="https://cdn-icons-png.flaticon.com/512/17/17004.png" alt="">
+                        <p>Oi</p>
+                    </div>
+                    <div class="bob-message">
+                        <p>Eu não sei</p>
+                        <img src="../assets/imgs/favicon.ico" alt="">
+                    </div>
+                    <div class="user-message">
+                        <img src="https://cdn-icons-png.flaticon.com/512/17/17004.png" alt="">
+                        <p>Oi</p>
+                    </div>
+                    <div class="bob-message">
+                        <p>Eu não sei</p>
+                        <img src="../assets/imgs/favicon.ico" alt="">
+                    </div>
+                </div>
+                <form class="chat-form" id="form-submit">
                     <textarea id="ipt-message"></textarea>
                     <button type="submit" id="btn-submit-form">Enviar</button>
                 </form>
             </div>
         </div>
-    </div>
 
 
-    <script src="../scripts/utils/sessao.js"></script>
+        <script src="../scripts/utils/sessao.js"></script>
 </body>
 
 </html>
@@ -122,13 +148,14 @@
         value.addEventListener("click", toggleChat)
     })
 
-    
+    // document.getElementById("form-submit").addEventListener("submit",)
+
     function toggleChat() {
         const bob_chat = document.getElementById("bob-chat")
         const data = bob_chat.dataset.form
         console.log(data)
         if (data === "closed") {
-            bob_chat.dataset.form = "open"           
+            bob_chat.dataset.form = "open"
         } else {
             bob_chat.dataset.form = "closed"
         }
