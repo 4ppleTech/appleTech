@@ -168,7 +168,7 @@ SELECT
 
     -- subquery para estoque em risco, se nao tiver um alerta nao tem nada em risco
     (SELECT CASE 
-        WHEN a.nivel IN ('Crítico', 'Moderado') THEN c.kg_macas 
+        WHEN a.nivel IN ('Crítico', 'Moderado') THEN TRUNCATE(c.kg_macas * (etileno_atual/10), 0) 
         ELSE 0 
      END
      FROM alerta a
