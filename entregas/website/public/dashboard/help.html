@@ -82,13 +82,29 @@
             <div class="help-wrapper">
                 <div class="content-left">
                     <h2 class="title-help">Quer relatar um incidente ou abrir um chamado?</h2>
-                    <p>Você pode entrar em contato com suporte da appletech através da nossa ferramenta de ia no canto inferior direito ou se necessário, acessar a nossa central de suporte, clicando no link abaixo</p>
+                    <p>Você pode entrar em contato com suporte da appletech através da nossa ferramenta de ia no canto
+                        inferior direito ou se necessário, acessar a nossa central de suporte, clicando no link abaixo
+                    </p>
                     <a href="">Jira - Help Desk</a>
                 </div>
 
                 <div class="content-right">
                     <img src="../assets/svgs/mailbox.svg" alt="Contate-nos">
                 </div>
+            </div>
+        </div>
+
+        <div class="chat-wrapper" id="bob-chat" data-form="closed">
+            <div class="chat-toggler btn-toggle-chat">
+            </div>
+            <div class="chat-message-wrapper">
+                <button class="btn-toggle-chat" id="btn-toggle-chat"><i class="fa fa-x"></i></button>
+                <div class="chat-messages">
+                </div>
+                <form action="" class="chat-form">
+                    <textarea id="ipt-message"></textarea>
+                    <button type="submit" id="btn-submit-form">Enviar</button>
+                </form>
             </div>
         </div>
     </div>
@@ -102,7 +118,19 @@
 <script type="module">
     import { load_account } from "../scripts/utils/load_account.js"
     document.addEventListener("DOMContentLoaded", load_account)
-    function enviarEmail() {
-        alert("Email enviado com sucesso!")
+    document.querySelectorAll(".btn-toggle-chat").forEach(value => {
+        value.addEventListener("click", toggleChat)
+    })
+
+    
+    function toggleChat() {
+        const bob_chat = document.getElementById("bob-chat")
+        const data = bob_chat.dataset.form
+        console.log(data)
+        if (data === "closed") {
+            bob_chat.dataset.form = "open"           
+        } else {
+            bob_chat.dataset.form = "closed"
+        }
     }
 </script>
