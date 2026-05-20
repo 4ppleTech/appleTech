@@ -66,7 +66,7 @@
                         <span id="account-role"></span>
                     </div>
                 </div>
-                <button id="logout-btn" onclick="limparSessao()">
+                <button id="logout-btn">
                     <i class="fa-solid fa-right-from-bracket" style="rotate: 180deg"></i>
                     <span>Sair</span>
                 </button>
@@ -87,7 +87,7 @@
                 <div class="alerts">
                     <h3>Últimas Notificações</h3>
                     <div class="alert-list">
-                        <div class="alert alert--serious">
+                        <!-- <div class="alert alert--serious">
                             <p class="alert-content">A <a href="chambers.html">Câmara (C-05)</a> ultrapassou muito os
                                 limites ideais. Ação imediata necessária.</p>
                             <span class="alert-footer">há 1 minuto</span>
@@ -116,10 +116,10 @@
                             <p class="alert-content">A <a href="chambers.html">Câmara (C-04)</a> retornou aos limites
                                 esperados de Etileno.</p>
                             <span class="alert-footer">há 4 dias</span>
-                        </div>
-                        <div>
-                            <button class="show-all-button" onclick="verMaisAlertas()">Ver mais</button>
-                        </div>
+                        </div> -->
+                </div>
+                    <div>
+                        <button id="btn-show" class="show-all-button">Ver mais</button>
                     </div>
             </main>
         </div>
@@ -127,11 +127,19 @@
 
     <script src="../scripts/utils/formatar-data.js"></script>
     <script src="../scripts/utils/sessao.js"></script>
+
     <script type="module">
+
+        import { exibirAlerta } from "../scripts/exibir-alertas.js"
         import { load_account } from "../scripts/utils/load_account.js"
+
         document.addEventListener("DOMContentLoaded", load_account)
+        document.addEventListener("DOMContentLoaded", exibirAlerta)
         document.getElementById("current-date").innerText = formatarDataAtual();
+        document.getElementById("btn-show").addEventListener("click", exibirAlerta)
+
     </script>
+     
 </body>
 
 </html>
