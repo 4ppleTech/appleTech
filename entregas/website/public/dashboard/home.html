@@ -292,7 +292,7 @@
                         let estilo = alerta.valor_leitura > 1.8 ? 'alert--serious' : 'alert--caution';
 
                         if(alerta.valor_leitura > 1.3 && contador < 3){
-                            alert_list.innerHTML += `<div class = "alert ${estilo}"><p class = "alert-content"> Câmara: <b class = "${estilo}">${alerta.Apelido}</b> - ${alerta.mensagem}</p>
+                            alert_list.innerHTML += `<div class = "alert ${estilo}"><p class = "alert-content"> Câmara: <b class = "${estilo}">${alerta.apelido}</b> - ${alerta.mensagem}</p>
                                 <span class = "alert-footer"> Nível: ${alerta.nivel}</span></div>`;
                             contador++
                         }
