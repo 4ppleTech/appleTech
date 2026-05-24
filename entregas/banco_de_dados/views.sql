@@ -7,13 +7,17 @@ CREATE OR REPLACE VIEW vw_kpis_totais AS
 SELECT 
     e.id_empresa,
     -- subquery pro primeiro kpi, pegando quantas camaras em alerta e o total geral (deixei especificado as camaras em outra view)
-    (SELECT COUNT(DISTINCT c1.id_camara)
+      (SELECT COUNT(DISTINCT c1.id_camara)
      FROM camara c1
      JOIN sensor s1 ON s1.camara_id = c1.id_camara
      JOIN leitura l1 ON l1.sensor_id = s1.id_sensor
-     JOIN alerta a1 ON a1.leitura_id = l1.id_leitura
      WHERE c1.empresa_id = e.id_empresa 
-       AND a1.nivel IN ('Crítico', 'Moderado')
+       AND l1.valor_leitura > 1.5
+       AND l1.id_leitura = (
+           SELECT MAX(id_leitura) 
+           FROM leitura 
+           WHERE sensor_id = s1.id_sensor
+       )
     ) AS qtd_camaras_em_risco,
 -- subquery para total de camaras
     (SELECT COUNT(id_camara) 
@@ -114,9 +118,12 @@ SELECT DISTINCT
     IFNULL(c.apelido, c.local_instalacao) AS nome_camara_risco
 FROM camara c
 JOIN sensor s ON s.camara_id = c.id_camara
-JOIN leitura l ON l.sensor_id = s.id_sensor
-JOIN alerta a ON a.leitura_id = l.id_leitura
-WHERE a.nivel IN ('Crítico', 'Moderado');
+JOIN leitura l ON l.id_leitura = (
+    SELECT MAX(id_leitura) 
+    FROM leitura 
+    WHERE sensor_id = s.id_sensor
+)
+WHERE l.valor_leitura > 1.5;
 
 select * from vw_lista_camaras_risco;
 
