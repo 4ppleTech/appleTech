@@ -90,7 +90,7 @@ function atualizarCamara(req, res) {
     .then(function (resultado) {
       camaraModel.buscarCamarasPorEmpresa(empresaId)
         .then((camaras) => {
-          res.status(201).json(camaras)
+          res.status(200).json(camaras)
         }).catch((error) => {
           console.log("ERROR")
           res.status(500).json(error.sqlMessage)
