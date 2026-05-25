@@ -93,8 +93,7 @@
                             <i class="fa-solid fa-triangle-exclamation"></i>
                         </div>
                         <div class="kpi-content">
-                            <h2 id="kpi_camaras_alerta">0 <span style="font-size: 1rem; color: #7A6A52;">de 0</span>
-                            </h2>
+                            <h2 id="kpi_camaras_alerta">0 <span style="font-size: 1rem; color: #7A6A52;">de 0</span></h2>
                         </div>
                         <div class="kpi-footer" id="footer_camaras_alerta">
                             Carregando...
@@ -179,18 +178,17 @@
                         <div class="alerts">
                             <h3>Últimas Notificações</h3>
                             <div class="alert-list" id="alert_list">
+                                
+                                 <p style="text-align: center; padding: 20px; color: #7A6A52;">Buscando notificações...</p>
+                                </div>
 
-                                <p style="text-align: center; padding: 20px; color: #7A6A52;">Buscando notificações...
-                                </p>
+                                <!-- <a href="./alerts.html" class="view-alerts-btn">Ver Todos</a> -->
                             </div>
-
-                            <!-- <a href="./alerts.html" class="view-alerts-btn">Ver Todos</a> -->
                         </div>
+                    </aside>
                 </div>
-                </aside>
+            </main>
         </div>
-        </main>
-    </div>
     </div>
 
     <script src="../scripts/utils/sessao.js"></script>
@@ -212,26 +210,26 @@
         atualizarPeriodo('1')
     }
 
-    function buscarkpi() {
-        let sessaousuario = sessionStorage.getItem("APPLETECH_USER");
-        let dadousuario = JSON.parse(sessaousuario);
-        let idEmpresa = dadousuario.empresaId;
+    function buscarkpi (){
+    let sessaousuario = sessionStorage.getItem("APPLETECH_USER");
+    let dadousuario = JSON.parse(sessaousuario);
+    let idEmpresa = dadousuario.empresaId;
 
-        if (idEmpresa == undefined) {
-            console.error("ID da Empresa não encontrado no sessionStorage");
-            return;
-        }
+    if (idEmpresa == undefined) {
+        console.error("ID da Empresa não encontrado no sessionStorage");
+        return;
+    }
         fetch(`/medidas/buscar-kpis/${idEmpresa}`).then((resposta) => {
-            if (resposta.ok) {
+            if(resposta.ok){
                 resposta.json().then((dados) => {
                     let valor = dados[0]
                     // KPI 1 (camaras em risco)
                     document.getElementById("kpi_camaras_alerta").innerHTML = `${valor.qtd_alerta} <span style="font-size: 1rem; color: #7A6A52;"> de ${valor.total_camaras}</span>`;
-
+                
 
                     // kpi 2 (pico de etileno)
 
-                    document.getElementById("kpi_pico_etileno").innerHTML = valor.valor_pico ? `${valor.valor_pico} ppm` : "Sem valores"
+                    document.getElementById("kpi_pico_etileno").innerHTML = valor.valor_pico ? `${valor.valor_pico} ppm` : "Sem valores" 
                     document.getElementById("footer_pico_etileno").innerHTML = `Registrado ás ${valor.momento}`
 
                     // kpi 3 (estoque em risco)
@@ -243,19 +241,19 @@
 
                     let receitatotal = valor.estoque_risco * 13.5;
                     document.getElementById("kpi_receita_risco").innerHTML = ` R$ ${receitatotal.toFixed(2)} `
-                    fetch(`/medidas/buscar-camara-risco/${idEmpresa}`).then((resultado) => {
+               fetch(`/medidas/buscar-camara-risco/${idEmpresa}`).then((resultado) => {
                         if (resultado.ok) {
                             resultado.json().then((listanomes) => {
-
+                                
                                 let textonome = "";
                                 let limite = 4;
 
-
+                          
                                 if (listanomes.length > 0) {
                                     for (let i = 0; i < listanomes.length; i++) {
-
+                                       
                                         textonome += listanomes[i].nome_camara_risco;
-
+                                        
                                         if (i < listanomes.length - 1) {
                                             textonome += ", ";
                                         }
@@ -277,31 +275,31 @@
         });
     }
 
-    function atualizarnotificacoes() {
+    function atualizarnotificacoes (){
         let sessaousuario = sessionStorage.getItem("APPLETECH_USER");
         let dadousuario = JSON.parse(sessaousuario);
         let idEmpresa = dadousuario.empresaId;
 
         fetch(`/avisos/listar/${idEmpresa}`).then((resposta) => {
-            if (resposta.ok) {
-
+            if(resposta.ok) {
+                
                 resposta.json().then((dados) => {
-
+                    
                     alert_list.innerHTML = "";
                     let contador = 0
-                    for (let i = 0; i < dados.length; i++) {
+                    for(let i = dados.length - 1 ; i >= 0; i--){
                         let alerta = dados[i];
-                        let estilo = alerta.valor_leitura > 2.0 ? 'alert--serious' : 'alert--caution';
+                        let estilo = alerta.valor_leitura > 1.8 ? 'alert--serious' : 'alert--caution';
 
-                        if (alerta.valor_leitura > 1.3 && contador < 3) {
+                        if(alerta.valor_leitura > 1.3 && contador < 3){
                             alert_list.innerHTML += `<div class = "alert ${estilo}"><p class = "alert-content"> Câmara: <b class = "${estilo}">${alerta.apelido}</b> - ${alerta.mensagem}</p>
                                 <span class = "alert-footer"> Nível: ${alerta.nivel}</span></div>`;
                             contador++
                         }
                     }
-                    alert_list.innerHTML += ` <a href="./alerts.html" class="view-alerts-btn">Ver Todos</a>`;
+                     alert_list.innerHTML +=  ` <a href="./alerts.html" class="view-alerts-btn">Ver Todos</a>`;
                 })
-
+                          
             }
 
         })
@@ -310,5 +308,5 @@
 
 
 
-
+   
 </script>
