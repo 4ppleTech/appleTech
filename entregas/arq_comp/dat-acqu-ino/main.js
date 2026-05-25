@@ -13,7 +13,7 @@ const HABILITAR_OPERACAO_INSERIR = true;
 
 // função para comunicação serial
 const serial = async (
-    valoresPercentualGas,
+    // valoresPercentualGas,
     valoresValorGas,
 ) => {
 
@@ -51,12 +51,12 @@ const serial = async (
     // processa os dados recebidos do Arduino
     arduino.pipe(new serialport.ReadlineParser({ delimiter: '\r\n' })).on('data', async (data) => {
         console.log(data);
-        const valores = data.split(';');
-        const valorGas = parseInt(valores[0]);
-        const percentualGas = parseFloat(valores[1]);
+        // const valores = data.split(';');
+        const valorGas = parseFloat(data);
+        // const percentualGas = parseFloat(valores[1]);
 
         // armazena os valores dos sensores nos arrays correspondentes
-        valoresPercentualGas.push(percentualGas);
+        // valoresPercentualGas.push(percentualGas);
         valoresValorGas.push(valorGas);
 
         // insere os dados no banco de dados (se habilitado)
@@ -67,7 +67,8 @@ const serial = async (
                 'INSERT INTO leitura (valor_leitura, sensor_id) VALUES (?, 1)',
                 [valorGas]
             );
-            console.log("valores inseridos no banco: ", valorGas + ", " + percentualGas);
+            // console.log("valores inseridos no banco: ", valorGas + ", " + percentualGas);
+            console.log("valores inseridos no banco: ", valorGas);
 
             if (valorGas >= 1.5) {
                 let id = response[0].insertId
@@ -89,7 +90,7 @@ const serial = async (
 
 // função para criar e configurar o servidor web
 const servidor = (
-    valoresPercentualGas,
+    // valoresPercentualGas,
     valoresValorGas
 ) => {
     const app = express();
@@ -108,9 +109,9 @@ const servidor = (
     });
 
     // define os endpoints da API para cada tipo de sensor
-    app.get('/sensores/percentual', (_, response) => {
-        return response.json(valoresPercentualGas);
-    });
+    // app.get('/sensores/percentual', (_, response) => {
+        // return response.json(valoresPercentualGas);
+    // });
     app.get('/sensores/valor', (_, response) => {
         return response.json(valoresValorGas);
     });
@@ -119,18 +120,18 @@ const servidor = (
 // função principal assíncrona para iniciar a comunicação serial e o servidor web
 (async () => {
     // arrays para armazenar os valores dos sensores
-    const valoresPercentualGas = [];
+    // const valoresPercentualGas = [];
     const valoresValorGas = [];
 
     // inicia a comunicação serial
     await serial(
-        valoresPercentualGas,
+        // valoresPercentualGas,
         valoresValorGas
     );
 
     // inicia o servidor web
     servidor(
-        valoresPercentualGas,
+        // valoresPercentualGas,
         valoresValorGas
     );
 })();
