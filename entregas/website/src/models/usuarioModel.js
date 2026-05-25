@@ -30,6 +30,7 @@ function buscarEmpresaPorUsuario(id_empresa) {
     var instrucaoSql = `
     SELECT 
 	u.nome,
+    u.id_usuario,
     u.papel_usuario,
     u.email
     FROM 
