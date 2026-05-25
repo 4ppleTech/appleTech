@@ -263,6 +263,14 @@
                 card.querySelector("#chamber-edit-toggler")
                     .addEventListener("click", () => abrirEdicaoCamara(camara));
 
+                const chamberBtnGroup = card.querySelectorAll(".btn-group button");
+                chamberBtnGroup.forEach((btn) => {
+                    btn.addEventListener("click", () => {
+                        chamberBtnGroup.forEach((btn) => btn.classList.remove("active"));
+                        btn.classList.add("active");
+                    });
+                });
+
                 chamberList.appendChild(card);
                 carregarListaKPI(chamberId);
                 
@@ -271,6 +279,7 @@
                 const chamberTimer = setInterval(() => {
                     if(document.getElementById(chamberId).dataset.chamberCard === 'open') {
                         atualizarGraficoCamara(chamberId);
+                        carregarListaKPI(chamberId);
                     }
                 }, 1000);
                 document.getElementById(`chart-${chamberId}`).dataset.timerId = chamberTimer;
@@ -280,12 +289,20 @@
                 const sensorFormId = `sensor-form-${idCamaraNumerico}`;
                 const sensorForm = document.getElementById(sensorFormId);
 
-                card.querySelector(".add-sensor-btn").addEventListener("click", () => {
-                    sensorForm.reset();
-                    sensorForm.dataset.editId = "";
-                    sensorForm.querySelector(".sensor-form-title").innerText = "Cadastrar Novo Sensor";
-                    alternarFormularioSensor(idCamaraNumerico);
+                const adicionarSensorBtn = card.querySelector(".add-sensor-btn")
+                adicionarSensorBtn.addEventListener("click", () => {
+                    const listaSensores = document.querySelectorAll(`#sensor-list-${idCamaraNumerico} .chamber-sensor`); 
+                    if(listaSensores.length >= 5) {
+                        adicionarSensorBtn.disabled = true;
+                    } else {
+                        adicionarSensorBtn.disabled = false;
+                        sensorForm.reset();
+                        sensorForm.dataset.editId = "";
+                        sensorForm.querySelector(".sensor-form-title").innerText = "Cadastrar Novo Sensor";
+                        alternarFormularioSensor(idCamaraNumerico);
+                    }
                 });
+
 
                 // Cancelar
                 sensorForm.querySelector(".btn-cancel-sensor")
@@ -342,9 +359,9 @@
                         <div class="chart-title">
                             <h3>Variação de Etileno por Sensor</h3>
                             <div class="btn-group">
-                                <button data-periodo="24h" class="active">24hrs</button>
-                                <button data-periodo="7d">7 dias</button>
-                                <button data-periodo="30d">30 dias</button>
+                                <button data-periodo="1" class="active">24hrs</button>
+                                <button data-periodo="7">7 dias</button>
+                                <button data-periodo="30">30 dias</button>
                             </div>
                         </div>
                         <canvas id="chart-${chamberId}"></canvas>
@@ -621,7 +638,6 @@
             form.style.display = estaAberto ? "none" : "block";
             form.dataset.formOpen = estaAberto ? "false" : "true";
         }
-
     </script>
 </body>
 

@@ -82,8 +82,14 @@ export function atualizarGraficoCamara(chamberId) {
         return;
     }
 
+    let interval = '1';
+    const activeBtn = document.querySelector(`#${chamberId} .btn-group button.active`);
+    if(activeBtn) {
+        interval = activeBtn.dataset.periodo;
+    }
+
     const idCamaraNumerico = parseInt(chamberId.replace("c-", ""));
-    fetch(`/medidas/buscar-camara-individual/${idCamaraNumerico}/1`)
+    fetch(`/medidas/buscar-camara-individual/${idCamaraNumerico}/${interval}`)
         .then((res) => {
             if (!res.ok) throw new Error(`Erro ao atualizar dados da Câmara: ${chamberId}`);
             return res.json();
@@ -108,7 +114,7 @@ export function atualizarGraficoCamara(chamberId) {
                 // se outro dataset apareceu
                     chart.data.datasets.push({
                         label: leiturasDoSensor[0].numero_sensor,
-                        data: novosDadoss,
+                        data: novosDados,
                         borderColor: "#7A9B55",
                         backgroundColor: "rgba(122, 155, 85, 0.2)",
                         fill: true,
