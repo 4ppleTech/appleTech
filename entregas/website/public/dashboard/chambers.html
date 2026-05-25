@@ -160,7 +160,6 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             const userData = storage.get("APPLETECH_USER");
-            const camarasData = storage.get("APPLETECH_CAMARAS");
 
             if (!userData) {
                 console.warn("Aviso: Dados de usuário não encontrados. Redirecionando...");
@@ -170,7 +169,16 @@
 
             carregarInfoSidebar();
             configurarFormularioCamara(userData);
-            carregarCamaras(camarasData);
+            
+            fetch(`/camaras/${userData.empresaId}`)
+            .then((response) => response.json())
+            .then((data) => {
+                storage.set("APPLETECH_CAMARAS", data);
+                carregarCamaras(data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
         });
 
         // === FORMULÁRIO CÂMARA (CADASTRO/EDIÇÃO) === //
