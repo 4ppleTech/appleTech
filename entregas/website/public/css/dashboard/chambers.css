@@ -356,10 +356,17 @@ input.chamber-kpi-value:disabled {
     transition: all 150ms ease-in-out;
 }
 
-.add-sensor-btn:hover {
+.add-sensor-btn:disabled {
+    background-color: #B5A98F;
+    color: #7A6A52;
+    cursor: default;
+}
+
+.add-sensor-btn:not(:disabled):hover {
     background-color: #9c2929;
     box-shadow: 0 2px 8px rgba(184,50,50,0.25);
 }
+
 
 /* --- Formulário de Sensor (Mini) --- */
 .mini-sensor-form {
