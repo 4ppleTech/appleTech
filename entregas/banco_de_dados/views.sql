@@ -235,7 +235,8 @@ select * from vw_graficos_individuais_camaras where id_sensor = 1;
         c.local_instalacao 'local_camara',
         l.valor_leitura,
         a.nivel,
-        a.mensagem
+        a.mensagem,
+        a.data_alerta
     FROM
         empresa e
     JOIN camara c ON e.id_empresa = c.empresa_id
@@ -247,3 +248,10 @@ select * from vw_graficos_individuais_camaras where id_sensor = 1;
     AND
         e.razao_social = 'Apple Tech Brasil LTDA'
     ORDER BY l.data_hora;
+
+
+
+
+SELECT HOUR(data_alerta) AS hora, MIN(data_alerta) AS data_alerta
+FROM vw_alertas_geral
+GROUP BY HOUR(data_alerta);
