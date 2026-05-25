@@ -63,14 +63,22 @@ const serial = async (
         if (HABILITAR_OPERACAO_INSERIR) {
 
             // este insert irá inserir os dados na tabela "medida"
-            await poolBancoDados.execute(
-                'INSERT INTO leitura (valor_sensor, sensor_id) VALUES (?, 1)',
+            let response = await poolBancoDados.execute(
+                'INSERT INTO leitura (valor_leitura, sensor_id) VALUES (?, 1)',
                 [valorGas]
             );
             console.log("valores inseridos no banco: ", valorGas + ", " + percentualGas);
 
+            if (valorGas >= 1.5) {
+                let id = response[0].insertId
+                let nivel = valorGas >= 1.8 ? "Crítico" : "Moderado"
+                let mensagem = valorGas >= 1.8 ? "Nível de etileno está maior ou igual a 1.8ppm" : "Nível de etileno está maior ou igual a 1.5ppm"
+                await poolBancoDados.execute(
+                    'INSERT INTO alerta (leitura_id, nivel, mensagem) VALUES (?, ?, ?)',
+                    [id, nivel, mensagem] 
+                )
+            }
         }
-
     });
 
     // evento para lidar com erros na comunicação serial
