@@ -1,9 +1,9 @@
 var camaraModel = require("../models/camaraModel");
 
 function buscarCamarasPorEmpresa(req, res) {
-  var empresaId = req.params.empresaId;
+  var id_empresa = req.params.id_empresa;
 
-  camaraModel.buscarCamarasPorEmpresa(empresaId).then((resultado) => {
+  camaraModel.buscarCamarasPorEmpresa(id_empresa).then((resultado) => {
     if (resultado.length > 0) {
       res.status(200).json(resultado);
     } else {
@@ -90,7 +90,7 @@ function atualizarCamara(req, res) {
     .then(function (resultado) {
       camaraModel.buscarCamarasPorEmpresa(empresaId)
         .then((camaras) => {
-          res.status(201).json(camaras)
+          res.status(200).json(camaras)
         }).catch((error) => {
           console.log("ERROR")
           res.status(500).json(error.sqlMessage)

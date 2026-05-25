@@ -23,8 +23,7 @@ export function exibirAlerta(){
             let horario_alerta = new Date(data_alerta)
             
             const corAlerta = 
-            valor_leitura > 2.0 ? "serious" : 
-            valor_leitura >= 1.5 ? "caution" : "common"
+            valor_leitura > 2.0 ? "serious" : "caution"
 
             lista.innerHTML += `<div class="alert alert--${corAlerta}">
             <p class="alert-content">A <a href="chambers.html">${local_camara} (${apelido})</a> ${mensagem}.</p>
