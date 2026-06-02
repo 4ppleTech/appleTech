@@ -206,11 +206,104 @@
 </html>
 <script>
 
+    let ctx = document.getElementById('column-chart')
+    let chartbarras = new Chart(ctx, {
+        type: 'bar',
+        options: {
+            plugins: {
+                legend: { display: true },
+                annotation: {
+                    annotations: {
+                        limiteCritico: {
+                            type: 'line',
+                            yMin: 1.5,
+                            yMax: 1.5,
+                            borderColor: '#B83232',
+                            borderWidth: 3,
+                            label: {
+                                display: true,
+                                content: 'Limite Crítico (1.5 ppm)',
+                                position: 'end',
+                                backgroundColor: 'rgba(184, 50, 50, 0.8)',
+                                color: '#fff',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                padding: 6,
+                                borderRadius: 4
+                            }
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    min: 0,
+                    max: 3,
+                },
+                x: {
+                    grid: { display: false }
+                }
+            }
+        }
+    });
+let ctx2 = document.getElementById('line-chart')
+let chartlinhas = new Chart(ctx2, {
+        type: 'line',
+        
+        options: {
+            plugins: {
+                legend: { display: true },
+                annotation: {
+                    annotations: {
+                        limiteCritico: {
+                            type: 'line',
+                            yMin: 1.5,
+                            yMax: 1.5,
+                            borderColor: '#B83232',
+                            borderWidth: 3,
+                            label: {
+                                display: true,
+                                content: 'Limite',
+                                position: 'end',
+                                backgroundColor: 'rgba(184, 50, 50, 0.8)',
+                                color: '#fff',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                padding: 6,
+                                borderRadius: 4
+                            }
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    min: 0,
+                    max: 3,
+                },
+                x: {
+                    grid: { display: false }
+                }
+            }
+        }
+    });
+
+
     window.onload = () => {
         buscarkpi();
         atualizarnotificacoes();
         atualizarPeriodo('1')
     }
+
+    setInterval(() => {
+        buscarkpi();
+        atualizarnotificacoes();
+        atualizarPeriodo('1')
+    }, 5000)
 
     function buscarkpi() {
         let sessaousuario = sessionStorage.getItem("APPLETECH_USER");

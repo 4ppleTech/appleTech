@@ -2,17 +2,17 @@ let sessaousuario = sessionStorage.getItem("APPLETECH_USER");
 let dadousuario = JSON.parse(sessaousuario);
 let idEmpresa = dadousuario.empresaId;
 
- window.onload = () => {
-    
-        atualizarPeriodo('1')
-        
-    }
+window.onload = () => {
 
-function atualizarPeriodo(periodo) {   
-    console.log("oi")                               
+    atualizarPeriodo('1')
+
+}
+
+function atualizarPeriodo(periodo) {
+    console.log("oi")
 
     // confere a classe "active" ao botão ativo no momento e remove-a dos demais
-    let btnGroup = document.querySelectorAll(".btn-group button");      
+    let btnGroup = document.querySelectorAll(".btn-group button");
     for (let i = 0; i < btnGroup.length; i++) {
         btnGroup[i].classList.remove("active");
     }
@@ -20,18 +20,17 @@ function atualizarPeriodo(periodo) {
     activeBtn.classList.add("active");
 
     buscarranking(periodo)
-    
+
 }
 
 function buscarranking(periodo) {
     console.log("foi")
     fetch(`/medidas/buscar-sensores-maior-pico/${idEmpresa}`).then((resposta) => {
-        if(resposta.ok) {
+        if (resposta.ok) {
             resposta.json().then((dados) => {
                 let labelsbarras = dados.map((valor) => `${valor.nome_camara} (${valor.numero_sensor})`);
                 let valoresbarras = dados.map((valor) => valor.nivel_etileno);
                 let coresbarras = dados.map(valor => valor.nivel_etileno > 1.5 ? '#B83232' : '#7A9B55');
-                console.log(labelsbarras)
 
                 plotarbarras(labelsbarras, valoresbarras, coresbarras);
 
@@ -40,173 +39,90 @@ function buscarranking(periodo) {
         }
     })
 }
-let chartbarras
-function plotarbarras (labels, valores, cores){
-    //  let columnChart = new Chart(columnChartDiv, {
-    let ctx = document.getElementById('column-chart')
-   
-    if (chartbarras) {
-        chartbarras.destroy();
-    }
 
-    chartbarras = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: labels,
-datasets: [{
-    label: "Nível de Etileno (ppm)",
-    data: valores,
-    backgroundColor: cores,
-    borderColor: cores,
-    borderWidth: 2
-}]
-    },
-    options: {
-        plugins: {
-            legend: { display: true },
-            annotation: {
-                annotations: {
-                    limiteCritico: {
-                        type: 'line',
-                        yMin: 1.5,
-                        yMax: 1.5,
-                        borderColor: '#B83232',
-                        borderWidth: 3,
-                        label: {
-                            display: true,
-                            content: 'Limite Crítico (1.5 ppm)',
-                            position: 'end',
-                            backgroundColor: 'rgba(184, 50, 50, 0.8)',
-                            color: '#fff',
-                            font: {
-                                size: 14,
-                                weight: 'bold'
-                            },
-                            padding: 6,
-                            borderRadius: 4
-                        }
-                    }
-                }
-            }
-        },
-        scales: {
-            y: {
-                min: 0,
-                max: 3,
-            },
-            x: {
-            grid: { display: false }
-            }
-        }
-    }
-});
 
+function plotarbarras(labels, valores, cores) {
+    chartbarras.data.labels = labels
+
+    chartbarras.data.datasets = [{
+        label: "Nível de Etileno (ppm)",
+        data: valores,
+        backgroundColor: cores,
+        borderColor: cores,
+        borderWidth: 2
+    }]
 }
 
-function buscarhistorico(periodo){
+function buscarhistorico(periodo) {
     fetch(`/medidas/buscar-etileno-registro/${idEmpresa}/${periodo}`).then((resposta) => {
-        if(resposta.ok) {
+        if (resposta.ok) {
             resposta.json().then((dados) => {
                 plotarlinha(dados);
             })
         }
-    }).catch((erro) =>{
+    }).catch((erro) => {
         console.error("erro no grafico 2", erro);
     })
+
+    chartbarras.update()
 }
 
-let chartlinhas;
 
-function plotarlinha(dados){
-    let ctx = document.getElementById('line-chart')
+
+function plotarlinha(dados) {
+
     let labelsx = [];
     let nomecamaras = [];
-    
 
-    if (chartlinhas) {
-        chartlinhas.destroy();
-    }
 
-    for(let i = 0; i < dados.length; i++){
+
+
+    for (let i = 0; i < dados.length; i++) {
         let valor = dados[i]
-    
 
-        if(labelsx.indexOf(valor.data_formatada) == -1){
+
+        if (labelsx.indexOf(valor.data_formatada) == -1) {
             labelsx.push(valor.data_formatada);
         }
 
-        if(nomecamaras.indexOf(valor.apelido) == -1){
+        if (nomecamaras.indexOf(valor.apelido) == -1) {
             nomecamaras.push(valor.apelido);
         }
     }
 
     let cores = ['#B83232', '#7A9B55', '#1A568F', '#1E3012', '#d18b00', '#6A5ACD', '#FF4500'];
 
+    chartlinhas.data.labels = labelsx
+
+    let nomes = nomecamaras.map((nome) => {
 
 
 
-chartlinhas = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: labelsx,
-        datasets: nomecamaras.map((nome) => {
+    })
 
-                let numerocamara = parseInt(nome.split('-')[1]) || 0;
-                let cor = cores[(numerocamara - 1) % cores.length];
-                
-                return {
-                    label: nome,
-                    data: labelsx.map(tempo => {
-                        
-                        let registro = dados.find(d => d.apelido === nome && d.data_formatada === tempo);
-                        return registro ? registro.etileno : null;
-                    }),
-                    borderColor: cor,
-                    backgroundColor: cor,
-                    tension: 0.4,
-                    spanGaps: true,
-                    pointRadius: 4
-                };
-            })
-        },
-    options: {
-        plugins: {
-            legend: { display: true },
-            annotation: {
-                annotations: {
-                    limiteCritico: {
-                        type: 'line',
-                        yMin: 1.5,
-                        yMax: 1.5,
-                        borderColor: '#B83232',
-                        borderWidth: 3,
-                        label: {
-                            display: true,
-                            content: 'Limite',
-                            position: 'end',
-                            backgroundColor: 'rgba(184, 50, 50, 0.8)',
-                            color: '#fff',
-                            font: {
-                                size: 14,
-                                weight: 'bold'
-                            },
-                            padding: 6,
-                            borderRadius: 4
-                        }
-                    }
-                }
-            }
-        },
-        scales: {
-            y: {
-                min: 0,
-                max: 3,
-            },
-            x: {
-            grid: { display: false }
-            }
-        }
-    }
-});
+    chartlinhas.data.datasets = []
 
+
+    nomecamaras.forEach((nome) => {
+        let numerocamara = parseInt(nome.split('-')[1]) || 0;
+
+        let numero_cor = (numerocamara - 1) % cores.length
+        let cor = cores[numero_cor];
+
+        chartlinhas.data.datasets.push({
+            label: nome,
+            data: labelsx.map(tempo => {
+
+                let registro = dados.find(d => d.apelido === nome && d.data_formatada === tempo);
+                return registro ? registro.etileno : null;
+            }),
+            borderColor: cor,
+            backgroundColor: cor,
+            tension: 0.4,
+            spanGaps: true,
+            pointRadius: 4
+        })
+    })
+
+    chartlinhas.update()
 }
