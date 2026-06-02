@@ -9,10 +9,9 @@
 <body>
 
     <div id="container">
-        <h1>BobIA</h1>
+        <h1 class="title">AppleTech - BobIA</h1>
         <textarea id="pergunta" type="text" placeholder="Digite a pergunta..."></textarea>
-        <br><br>
-        <button onclick="gerarResposta()">Gerar Resposta</button>
+        <button onclick="gerarResposta()" class="answer-btn">Gerar Resposta</button>
         <h3>Resposta da IA:</h3>
         <div id="resposta"></div>
     </div>
@@ -21,6 +20,7 @@
         
         async function gerarResposta() {
             const pergunta = document.getElementById('pergunta').value;
+            if(!pergunta) return;
 
             const response = await fetch('/perguntar', {
                 method: 'POST',

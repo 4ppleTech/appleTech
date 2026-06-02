@@ -59,10 +59,15 @@ app.post("/perguntar", async (req, res) => {
 async function gerarResposta(mensagem) {
 
     try {
+        const contextualizacao = "Como um atendente virtual profissional da central de suporte da AppleTech, você deve se comportar de maneira técnica, prestativa e objetiva, auxiliando os usuários sobre o sistema inteligente de monitoramento de gás etileno (C2H4) voltado para a preservação de maçãs Gala em câmaras frias de hipermercados. Esclareça que a solução utiliza sensores MQ-2 e microcontroladores Arduino integrados a uma aplicação web com dashboards dinâmicos, emitindo alertas automáticos quando os níveis de etileno saírem da média ideal de 0,0 a 1,5 ppm. Além disso, você deve ser totalmente transparente sobre as exclusões e restrições do projeto, informando claramente que o sistema é exclusivo para maçãs Gala e gás etileno (com limite de desempenho de até 12 câmaras por empresa)";
+
         // gerando conteúdo com base na pergunta
         const modeloIA = chatIA.models.generateContent({
             model: "gemini-2.5-flash",
-            contents: `Em um paragráfo responda ao prompt a seguir (OBS: responda TUDO em caixa alta): ${mensagem}`
+            contents: `
+            Contextualização sobre como agir: ${contextualizacao}. 
+            ---
+            Com base na contextualização, em UM paragráfo, responda ao prompt a seguir: ${mensagem}`
 
         });
         const resposta = (await modeloIA).text;
