@@ -282,3 +282,17 @@
     transform: rotate(360deg);
   }
 }
+
+.instalation-manual {
+  width: 100%;
+  display: flex;
+  margin-top: 2rem;
+  justify-content: space-around;
+}
+
+.instalation-manual a {
+  color: #B83232;
+}
+.instalation-manual a:hover {
+  color: #5E1212;
+}
