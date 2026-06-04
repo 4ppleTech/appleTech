@@ -30,7 +30,7 @@ create table empresa(
 	razao_social 	varchar(150) not null unique,
 	nome_fantasia 	varchar(150) not null,
 	cnpj varchar(14) not null unique,
-	preco_kg		DECIMAL(10, 2),
+	preco_kg		DECIMAL(10, 2) DEFAULT 13.5,
 	
     
 	data_criacao 	datetime default current_timestamp,
