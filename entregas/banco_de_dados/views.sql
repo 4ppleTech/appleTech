@@ -228,30 +228,27 @@ select * from vw_graficos_individuais_camaras where id_sensor = 1;
    -- todos os alertas
     CREATE OR REPLACE VIEW vw_alertas_geral AS
     SELECT 
-		e.id_empresa,
-        e.nome_fantasia 'nome_fantasia',
-        e.razao_social 'razao_social',
-        c.apelido 'apelido',
-        c.local_instalacao 'local_camara',
-        l.valor_leitura,
-        a.nivel,
-        a.mensagem,
-        a.data_alerta
-    FROM
-        empresa e
-    JOIN camara c ON e.id_empresa = c.empresa_id
-    JOIN sensor s ON c.id_camara = s.camara_id
-    JOIN leitura l ON s.id_sensor = l.sensor_id
-    JOIN alerta a ON l.id_leitura = a.leitura_id
-    WHERE
-        s.situacao = 'Ativo'
-    AND
-        e.razao_social = 'Apple Tech Brasil LTDA'
-    ORDER BY l.data_hora;
-
-
-
-
-SELECT HOUR(data_alerta) AS hora, MIN(data_alerta) AS data_alerta
-FROM vw_alertas_geral
-GROUP BY HOUR(data_alerta);
+    e.id_empresa,
+    e.nome_fantasia,
+    e.razao_social,
+    c.apelido,
+    c.local_instalacao,
+    l.valor_leitura,
+    a.nivel,
+    a.mensagem,
+    a.data_alerta
+FROM
+    empresa e
+JOIN camara c ON e.id_empresa = c.empresa_id
+JOIN sensor s ON c.id_camara = s.camara_id
+JOIN leitura l ON s.id_sensor = l.sensor_id
+JOIN alerta a ON l.id_leitura = a.leitura_id
+WHERE 
+    a.id_alerta IN (
+        SELECT MIN(a2.id_alerta)
+        FROM alerta a2
+        JOIN leitura l2 ON a2.leitura_id = l2.id_leitura
+        JOIN sensor s2 ON l2.sensor_id = s2.id_sensor
+        GROUP BY s2.camara_id, a2.nivel, DATE(a2.data_alerta), HOUR(a2.data_alerta)
+    )
+ORDER BY l.data_hora;
