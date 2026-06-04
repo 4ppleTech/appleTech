@@ -297,8 +297,9 @@
   color: #5E1212;
 }
 
-.content-left a:hover{ 
+.content-left k:hover{ 
   transition: all 0.3 ease;
   color: white;
   background-color: #5E1212;
+  cursor: pointer;
 }
