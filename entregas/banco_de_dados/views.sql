@@ -6,6 +6,7 @@ use appletech;
 CREATE OR REPLACE VIEW vw_kpis_totais AS
 SELECT 
     e.id_empresa,
+    e.preco_kg,
     -- subquery pro primeiro kpi, pegando quantas camaras em alerta e o total geral (deixei especificado as camaras em outra view)
       (SELECT COUNT(DISTINCT c1.id_camara)
      FROM camara c1
