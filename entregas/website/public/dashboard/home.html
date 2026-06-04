@@ -136,7 +136,7 @@
                             <h2 id="kpi_receita_risco">R$ 0</h2>
                         </div>
                         <div class="kpi-footer">
-                            preço da venda (R$ 13,50/kg)
+                            <p id="kpi_preco_kg"></p>
                         </div>
                     </div>
                 </div>
@@ -187,7 +187,7 @@
                         </div>
                         <div class="price-update">
                             <h3>Atualizar Preço (KG)</h3>
-                        <div class="label-price"><input type="text" placeholder="R$ 00.00">
+                        <div class="label-price"><input type="number" min="0" placeholder="R$ 00.00" id="ipt_preco">
                             <button onclick="atualizarPrecoEstoque()">Atualizar</button> 
                          </div>
                     </div>
@@ -228,16 +228,20 @@
     
                         document.getElementById("kpi_pico_etileno").innerHTML = valor.valor_pico ? `${valor.valor_pico} ppm` : "Sem valores"
                         document.getElementById("footer_pico_etileno").innerHTML = `Registrado ás ${valor.momento}`
-    
+                        
                         // kpi 3 (estoque em risco)
     
                         document.getElementById("kpi_estoque_risco").innerHTML = `${valor.estoque_risco} kg`;
                         document.getElementById("footer_estoque_risco").innerHTML = `${valor.estoque_geral} kg`;
     
                         // kpi 4 (receita em risco)
-    
-                        let receitatotal = valor.estoque_risco * 13.5;
+                        
+                        let precoKgConvertido = Number(valor.preco_kg)
+                        let receitatotal = valor.estoque_risco * precoKgConvertido;
+                        
+
                         document.getElementById("kpi_receita_risco").innerHTML = ` R$ ${receitatotal.toFixed(2)} `
+                        document.getElementById("kpi_preco_kg").innerHTML = `Preço da venda (R$ ${precoKgConvertido.toFixed(2)}/kg)`
                         fetch(`/medidas/buscar-camara-risco/${idEmpresa}`).then((resultado) => {
                             if (resultado.ok) {
                                 resultado.json().then((listanomes) => {
@@ -301,6 +305,34 @@
     
             })
     
+        }
+
+        function atualizarPrecoEstoque(){
+            let sessaousuario = sessionStorage.getItem("APPLETECH_USER");
+            let dadousuario = JSON.parse(sessaousuario);
+
+            let preco_kg = Number(ipt_preco.value)
+            let empresaId = dadousuario.empresaId;
+            
+            
+
+            if(!empresaId){
+                console.error("Erro de idEmpresa")
+                return;
+            }
+
+            fetch(`/empresas/atualizar-preco-estoque/${empresaId}`,{
+                method: "PUT",
+                body: JSON.stringify({preco_kg}),
+                headers: {"Content-type":"application/json"}
+            }).then((resposta) =>{
+                if(resposta.ok){
+                    console.log(preco_kg)
+                    buscarkpi(empresaId)
+                }
+            }).catch((erro) => {
+                console.error("Erro ao atualizar os dados");
+            });
         }
     </script>
 </body>
@@ -407,70 +439,76 @@ let chartlinhas = new Chart(ctx2, {
         atualizarPeriodo('1')
     }, 5000)
 
-    function buscarkpi() {
-        let sessaousuario = sessionStorage.getItem("APPLETECH_USER");
-        let dadousuario = JSON.parse(sessaousuario);
-        let idEmpresa = dadousuario.empresaId;
-
-        if (idEmpresa == undefined) {
-            console.error("ID da Empresa não encontrado no sessionStorage");
-            return;
-        }
-        fetch(`/medidas/buscar-kpis/${idEmpresa}`).then((resposta) => {
-            if (resposta.ok) {
-                resposta.json().then((dados) => {
-                    let valor = dados[0]
-                    // KPI 1 (camaras em risco)
-                    document.getElementById("kpi_camaras_alerta").innerHTML = `${valor.qtd_alerta} <span style="font-size: 1rem; color: #7A6A52;"> de ${valor.total_camaras}</span>`;
-
-
-                    // kpi 2 (pico de etileno)
-
-                    document.getElementById("kpi_pico_etileno").innerHTML = valor.valor_pico ? `${valor.valor_pico} ppm` : "Sem valores"
-                    document.getElementById("footer_pico_etileno").innerHTML = `Registrado ás ${valor.momento}`
-
-                    // kpi 3 (estoque em risco)
-
-                    document.getElementById("kpi_estoque_risco").innerHTML = `${valor.estoque_risco} kg`;
-                    document.getElementById("footer_estoque_risco").innerHTML = `${valor.estoque_geral} kg`;
-
-                    // kpi 4 (receita em risco)
-
-                    let receitatotal = valor.estoque_risco * 13.5;
-                    document.getElementById("kpi_receita_risco").innerHTML = ` R$ ${receitatotal.toFixed(2)} `
-                    fetch(`/medidas/buscar-camara-risco/${idEmpresa}`).then((resultado) => {
-                        if (resultado.ok) {
-                            resultado.json().then((listanomes) => {
-
-                                let textonome = "";
-                                let limite = 4;
-
-
-                                if (listanomes.length > 0) {
-                                    for (let i = 0; i < listanomes.length; i++) {
-
-                                        textonome += listanomes[i].nome_camara_risco;
-
-                                        if (i < listanomes.length - 1) {
-                                            textonome += ", ";
-                                        }
-                                    }
-                                    if (listanomes.length > limite) {
-                                        textonome = "...";
-                                    }
-                                } else {
-                                    textonome = "Nenhuma";
-                                }
-                                document.getElementById("footer_camaras_alerta").innerHTML = `Registrado ás ${valor.momento} (${textonome})`;
-                            });
-                        }
-                    });
-                })
+           function buscarkpi() {
+            let sessaousuario = sessionStorage.getItem("APPLETECH_USER");
+            let dadousuario = JSON.parse(sessaousuario);
+            let idEmpresa = dadousuario.empresaId;
+    
+            if (idEmpresa == undefined) {
+                console.error("ID da Empresa não encontrado no sessionStorage");
+                return;
             }
-        }).catch((erro) => {
-            console.error("Erro nas KPIs:", erro);
-        });
-    }
+            fetch(`/medidas/buscar-kpis/${idEmpresa}`).then((resposta) => {
+                if (resposta.ok) {
+                    resposta.json().then((dados) => {
+                        let valor = dados[0]
+                        // KPI 1 (camaras em risco)
+                        document.getElementById("kpi_camaras_alerta").innerHTML = `${valor.qtd_alerta} <span style="font-size: 1rem; color: #7A6A52;"> de ${valor.total_camaras}</span>`;
+    
+    
+                        // kpi 2 (pico de etileno)
+    
+                        document.getElementById("kpi_pico_etileno").innerHTML = valor.valor_pico ? `${valor.valor_pico} ppm` : "Sem valores"
+                        document.getElementById("footer_pico_etileno").innerHTML = `Registrado ás ${valor.momento}`
+                      
+
+    
+                        // kpi 3 (estoque em risco)
+    
+                        document.getElementById("kpi_estoque_risco").innerHTML = `${valor.estoque_risco} kg`;
+                        document.getElementById("footer_estoque_risco").innerHTML = `${valor.estoque_geral} kg`;
+    
+                        // kpi 4 (receita em risco)
+                        
+                        let precoKgConvertido = Number(valor.preco_kg)
+                        let receitatotal = valor.estoque_risco * precoKgConvertido;
+                        
+
+                        document.getElementById("kpi_receita_risco").innerHTML = ` R$ ${receitatotal.toFixed(2)} `
+                        document.getElementById("kpi_preco_kg").innerHTML = `Preço da venda (R$ ${precoKgConvertido.toFixed(2)}/kg)`
+                        fetch(`/medidas/buscar-camara-risco/${idEmpresa}`).then((resultado) => {
+                            if (resultado.ok) {
+                                resultado.json().then((listanomes) => {
+    
+                                    let textonome = "";
+                                    let limite = 4;
+    
+    
+                                    if (listanomes.length > 0) {
+                                        for (let i = 0; i < listanomes.length; i++) {
+    
+                                            textonome += listanomes[i].nome_camara_risco;
+    
+                                            if (i < listanomes.length - 1) {
+                                                textonome += ", ";
+                                            }
+                                        }
+                                        if (listanomes.length > limite) {
+                                            textonome = "...";
+                                        }
+                                    } else {
+                                        textonome = "Nenhuma";
+                                    }
+                                    document.getElementById("footer_camaras_alerta").innerHTML = `Registrado ás ${valor.momento} (${textonome})`;
+                                });
+                            }
+                        });
+                    })
+                }
+            }).catch((erro) => {
+                console.error("Erro nas KPIs:", erro);
+            });
+        }
 
     function atualizarnotificacoes() {
         let sessaousuario = sessionStorage.getItem("APPLETECH_USER");
