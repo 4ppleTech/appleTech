@@ -297,7 +297,7 @@
   color: #5E1212;
 }
 
-.content-left k:hover{ 
+a[href="https://appletech.atlassian.net/jira/software/form/a543ff20-32be-4fb8-9f5b-e587e51f5985"]:hover{ 
   transition: all 0.3 ease;
   color: white;
   background-color: #5E1212;
