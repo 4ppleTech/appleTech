@@ -20,4 +20,8 @@ router.get("/buscar/:id", function (req, res) {
   empresaController.buscarPorId(req, res);
 });
 
+router.put("/atualizar-preco-estoque/:id",function (req, res){
+  empresaController.atualizarPrecoEstoque(req, res)
+});
+
 module.exports = router;

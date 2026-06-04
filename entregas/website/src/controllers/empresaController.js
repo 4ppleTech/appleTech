@@ -39,9 +39,20 @@ function cadastrar(req, res) {
   });
 }
 
+function atualizarPrecoEstoque(req, res){
+    var preco = req.body.preco_kg
+    var id = req.params.id
+
+   empresaModel.atualizarPrecoEstoque(preco, id).then((resultado) => {
+    res.status(200).json(resultado);
+  });
+}
+
+
 module.exports = {
   buscarPorCnpj,
   buscarPorId,
   cadastrar,
   listar,
+  atualizarPrecoEstoque,
 };

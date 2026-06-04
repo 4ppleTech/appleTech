@@ -26,4 +26,10 @@ function cadastrar(nome_fantasia, razao_social, codigo_ativacao, enderecoId, mat
   return database.executar(instrucaoSql);
 }
 
-module.exports = { buscarPorCnpj, buscarPorId, cadastrar, listar };
+function atualizarPrecoEstoque(preco, id){
+  var instrucaoSql = 
+  `UPDATE empresa SET preco_kg = ${preco} WHERE id_empresa = ${id}`;
+  return database.executar(instrucaoSql);
+}
+
+module.exports = { buscarPorCnpj, buscarPorId, cadastrar, listar, atualizarPrecoEstoque};
