@@ -14,6 +14,7 @@ depois de rodar o script, certifique-se de que as tabelas foram criadas e, só e
 rodar os comandos das linhas 16 e 17.
 */
 grant INSERT on appletech.leitura to user_insert;
+grant INSERT on appletech.alerta to user_insert;
 grant INSERT, SELECT, UPDATE, DELETE on appletech.* to user_crud;
 
 show grants for user_insert;		-- deve aparecer algo como: 'GRANT INSERT ON `appletech`.`leitura` TO `user_insert`@`%`'
