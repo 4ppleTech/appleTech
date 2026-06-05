@@ -1,6 +1,15 @@
 
 const instanciasGraficos = {};
 
+const coresMap = 
+{
+ 0: '#B83232',
+ 1: '#7A9B55',
+ 2: '#d18b00',
+ 3: '#6A5ACD',
+ 4: '#1A568F'
+}
+
 export function carregarGraficoCamara(chamberId, interval) {
     const ctx = document.getElementById(`chart-${chamberId}`);
     if(!ctx) return;
@@ -23,13 +32,13 @@ export function carregarGraficoCamara(chamberId, interval) {
             const listaIdSensores = [];
             dados.forEach((d) => !listaIdSensores.includes(d.id_sensor) && listaIdSensores.push(d.id_sensor));
 
-            const chartDatasets = listaIdSensores.map((sensorId) => {
+            const chartDatasets = listaIdSensores.map((sensorId, index) => {
                 const leiturasDoSensor = dados.filter((d) => d.id_sensor === sensorId);
                 return {
                     label: leiturasDoSensor[0].numero_sensor,
                     data: leiturasDoSensor.map((leitura) => ({x: leitura.data_formatada, y: leitura.etileno})),
-                    borderColor: "#7A9B55",
-                    backgroundColor: "rgba(122, 155, 85, 0.2)",
+                    borderColor: coresMap[index],
+                    backgroundColor: coresMap[index] + '30',
                     fill: true,
                     tension: 0.4,
                     pointRadius: 4,
