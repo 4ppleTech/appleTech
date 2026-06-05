@@ -15,7 +15,7 @@ export function exibirAlerta(){
           let lista = document.querySelector(".alert-list")
           lista.innerHTML = ""
           for(let i = 0; i < alertas.length; i++){
-            let local_camara = alertas[i].local_camara
+            let local_camara = alertas[i].local_instalacao
             let apelido = alertas[i].apelido
             let mensagem =  alertas[i].mensagem
             let valor_leitura = alertas[i].valor_leitura
@@ -23,7 +23,7 @@ export function exibirAlerta(){
             let horario_alerta = new Date(data_alerta)
             
             const corAlerta = 
-            valor_leitura > 2.0 ? "serious" : "caution"
+            valor_leitura >= 1.8 ? "serious" : "caution"
 
             lista.innerHTML += `<div class="alert alert--${corAlerta}">
             <p class="alert-content">A <a href="chambers.html">${local_camara} (${apelido})</a> ${mensagem}.</p>
