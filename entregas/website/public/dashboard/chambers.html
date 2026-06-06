@@ -92,17 +92,17 @@
                         </div>
                         <div class="form-body">
                             <div class="field-group">
-                                <div class="field">
+                                <div class="field" style="width: 50%;">
                                     <label for="ipt-local-instalacao" class="field-label">Local de Instalação
                                         <span>*</span></label>
                                     <input id="ipt-local-instalacao" type="text" class="field-input"
                                         placeholder="Ex: Ala Oeste" required>
                                 </div>
-                                <div class="field">
+                                <!-- <div class="field">
                                     <label for="ipt-observacao" class="field-label">Observação</label>
                                     <input id="ipt-observacao" type="text" class="field-input"
                                         placeholder="Ex: recém-instalada">
-                                </div>
+                                </div> -->
                                 <div class="field">
                                     <label for="ipt-apelido" class="field-label">Apelido <span>*</span></label>
                                     <input id="ipt-apelido" type="text" class="field-input" placeholder="Ex: C-04"
@@ -157,7 +157,6 @@
         import { storage } from "../scripts/utils/storage.js";
         import { carregarInfoSidebar } from "../scripts/carregar-sidebar.js";
         import { carregarGraficoCamara, atualizarGraficoCamara } from "../scripts/carregar-grafico-camaras.js";
-        const PRECO_VENDA_MACA = 13.5;
 
         document.addEventListener("DOMContentLoaded", () => {
             const userData = storage.get("APPLETECH_USER");
@@ -223,7 +222,7 @@
             const dados = {
                 id_empresa: userData.empresaId,
                 local_instalacao: document.getElementById("ipt-local-instalacao").value.trim(),
-                observacao: document.getElementById("ipt-observacao").value.trim(),
+                // observacao: document.getElementById("ipt-observacao").value.trim(),
                 apelido: document.getElementById("ipt-apelido").value.trim(),
                 volume: Number(document.getElementById("ipt-volume").value),
                 kg_macas: Number(document.getElementById("ipt-kg-macas").value),
@@ -425,7 +424,7 @@
 
             // Preenche Inputs com dados da Câmara
             document.getElementById("ipt-local-instalacao").value = camara.local_instalacao;
-            document.getElementById("ipt-observacao").value = camara.observacao || "";
+            // document.getElementById("ipt-observacao").value = camara.observacao || "";
             document.getElementById("ipt-apelido").value = camara.apelido;
             document.getElementById("ipt-volume").value = camara.volume;
             document.getElementById("ipt-kg-macas").value = camara.kg_macas;
@@ -460,22 +459,22 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(dados)
             })
-                .then((res) => {
-                    if (!res.ok) {
-                        throw new Error(`Erro ao Cadastrar Sensor na Câmara ${idCamara}!`);
-                    }
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(`Erro ao Cadastrar Sensor na Câmara ${idCamara}!`);
+                }
 
-                    // Fecha Formulário e Reseta Inputs
-                    alternarFormularioSensor(idCamara);
-                    form.reset();
+                // Fecha Formulário e Reseta Inputs
+                alternarFormularioSensor(idCamara);
+                form.reset();
 
-                    // Recarrego lista de Sensores na Câmara em específico
-                    carregarListaSensores(chamberId);
-                })
-                .catch((error) => {
-                    console.error(error);
-                    // mostrar alguma mensagem...
-                });
+                // Recarrego lista de Sensores na Câmara em específico
+                carregarListaSensores(chamberId);
+            })
+            .catch((error) => {
+                console.log(error);
+                alert(`Tentativa de ${editId ? "atualizar" : "cadastrar"} sensor com nome em uso!`);
+            });
         }
 
         // === LISTA SENSORES === //
@@ -532,7 +531,7 @@
             form.querySelector(".ipt-sensor-num-serie").value = sensor.numero_sensor;
             form.querySelector(".ipt-sensor-modelo").value = sensor.modelo;
             form.querySelector(".ipt-sensor-situacao").value = sensor.situacao;
-            form.querySelector(".ipt-sensor-data-instalacao").value = sensor.data_instalacao;
+            form.querySelector(".ipt-sensor-data-instalacao").value = String(sensor.data_instalacao).split("T")[0];
             form.dataset.editId = sensor.id_sensor;
             form.querySelector(".sensor-form-title").innerText = `Editar Sensor: ${sensor.numero_sensor}`;
 
@@ -556,7 +555,7 @@
                     return res.json()
                 })
                 .then((kpis) => {
-                    const {etileno_atual, volume_m3, estoque_total_kg, estoque_em_risco_kg, ultima_leitura} = kpis;
+                    const {etileno_atual, volume_m3, estoque_total_kg, preco_kg, estoque_em_risco_kg, ultima_leitura} = kpis;
 
                     const etilenoTratado = Number(etileno_atual).toFixed(1) || "Sem dados";
                     const volumeTratado = Number(volume_m3).toFixed(1) || "Sem dados";
@@ -564,7 +563,7 @@
 
                     const estoqueEmUnidadesMacas = Math.round(estoque_total_kg / 0.15); // em média, maçãs gala pesam 150g cada
                     const receitaEstimadaCamara = 
-                        Number(((estoque_total_kg - estoqueEmRiscoTratado) * PRECO_VENDA_MACA) || 0).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+                        Number(((estoque_total_kg - estoqueEmRiscoTratado) * preco_kg) || 0).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
 
                     const statusCamara = etilenoTratado >= 2.0 
                         ? "Crítico" 
@@ -588,6 +587,7 @@
                     const camaraStatusDiv = document.querySelector(`#${chamberId} .chamber-status`);
                     if(camaraStatusDiv) {
                         camaraStatusDiv.textContent = statusCamara;
+                        camaraStatusDiv.classList.remove('chamber-status--positive', 'chamber-status--caution', 'chamber-status--negative');
                         camaraStatusDiv.classList.add(`chamber-status--${etilenoAtualKPICor}`);
                     }
 
@@ -595,7 +595,7 @@
                     <li class="chamber-kpi chamber-kpi--${etilenoAtualKPICor}">
                         <p class="chamber-kpi-caption">Etileno Atual (ppm)</p>
                         <h3 class="chamber-kpi-value">${etilenoTratado}</h3>
-                        <span class="chamber-kpi-footer">última leitura: ${ultima_leitura}</span>
+                        <span class="chamber-kpi-footer">última leitura: ${ultima_leitura || 'sem dados'}</span>
                     </li>
                     <li class="chamber-kpi chamber-kpi--positive">
                         <p class="chamber-kpi-caption">Volume Câmara (m³)</p>
