@@ -360,7 +360,8 @@ SELECT
     IFNULL(c.apelido, c.local_instalacao) AS nome_camara,
     c.volume AS volume_m3,
     c.kg_macas AS estoque_total_kg,
-    
+    e.preco_kg AS preco_kg,
+
     -- subquery para etileno atual, usando limit 1 para isso
     (SELECT l.valor_leitura 
      FROM leitura l 
