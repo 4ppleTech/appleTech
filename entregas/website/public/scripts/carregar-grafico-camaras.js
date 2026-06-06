@@ -32,7 +32,9 @@ export function carregarGraficoCamara(chamberId, interval) {
                     leiturasMap[numeroSensor] = [valor.etileno];
                 }
 
-                let dataLeitura = new Date(valor.data_hora).toLocaleTimeString();
+                let dataLeitura = interval == 1 
+                    ? new Date(valor.data_hora).toLocaleTimeString()
+                    : valor.data_formatada;
                 if(!chartLabels.includes(dataLeitura)) chartLabels.push(dataLeitura);
             });
 
@@ -132,7 +134,9 @@ export function atualizarGraficoCamara(chamberId) {
                     leiturasMap[numeroSensor] = [valor.etileno];
                 }
 
-                let dataLeitura = new Date(valor.data_hora).toLocaleTimeString();
+                let dataLeitura = interval == 1 
+                    ? new Date(valor.data_hora).toLocaleTimeString()
+                    : valor.data_formatada;
                 if(!chartLabels.includes(dataLeitura)) chartLabels.push(dataLeitura);
             });
 
