@@ -9,7 +9,6 @@ window.onload = () => {
 }
 
 function atualizarPeriodo(periodo) {
-    console.log("oi")
 
     // confere a classe "active" ao botão ativo no momento e remove-a dos demais
     let btnGroup = document.querySelectorAll(".btn-group button");
@@ -24,7 +23,6 @@ function atualizarPeriodo(periodo) {
 }
 
 function buscarranking(periodo) {
-    console.log("foi")
     fetch(`/medidas/buscar-sensores-maior-pico/${idEmpresa}`).then((resposta) => {
         if (resposta.ok) {
             resposta.json().then((dados) => {
@@ -68,14 +66,9 @@ function buscarhistorico(periodo) {
 }
 
 
-
 function plotarlinha(dados) {
-
     let labelsx = [];
     let nomecamaras = [];
-
-
-
 
     for (let i = 0; i < dados.length; i++) {
         let valor = dados[i]
@@ -94,14 +87,7 @@ function plotarlinha(dados) {
 
     chartlinhas.data.labels = labelsx
 
-    let nomes = nomecamaras.map((nome) => {
-
-
-
-    })
-
     chartlinhas.data.datasets = []
-
 
     nomecamaras.forEach((nome) => {
         let numerocamara = parseInt(nome.split('-')[1]) || 0;
