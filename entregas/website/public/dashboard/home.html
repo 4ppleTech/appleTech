@@ -201,17 +201,114 @@
     <script src="../scripts/dashboard-charts.js"></script>
     <script src="../scripts/utils/formatar-data.js"></script>
     <script>
+        let ctx = document.getElementById('column-chart');
+        let chartbarras = new Chart(ctx, {
+            type: 'bar',
+            options: {
+                plugins: {
+                    legend: { display: true },
+                    annotation: {
+                        annotations: {
+                            limiteCritico: {
+                                type: 'line',
+                                yMin: 1.5,
+                                yMax: 1.5,
+                                borderColor: '#B83232',
+                                borderWidth: 3,
+                                label: {
+                                    display: true,
+                                    content: 'Limite Crítico (1.5 ppm)',
+                                    position: 'end',
+                                    backgroundColor: 'rgba(184, 50, 50, 0.8)',
+                                    color: '#fff',
+                                    font: {
+                                        size: 14,
+                                        weight: 'bold'
+                                    },
+                                    padding: 6,
+                                    borderRadius: 4
+                                }
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {display: false},
+                        beginAtZero: true,
+                    },
+                    y: {
+                        beginAtZero: true,
+                        suggestedMin: 0,
+                        suggestedMax: 2.5
+                    }
+                }
+            }
+        });
+
+        let ctx2 = document.getElementById('line-chart')
+        let chartlinhas = new Chart(ctx2, {
+            type: 'line',
+            options: {
+                plugins: {
+                    legend: { display: true },
+                    annotation: {
+                        annotations: {
+                            limiteCritico: {
+                                type: 'line',
+                                yMin: 1.5,
+                                yMax: 1.5,
+                                borderColor: '#B83232',
+                                borderWidth: 3,
+                                label: {
+                                    display: true,
+                                    content: 'Limite Crítico (1.5 ppm)',
+                                    position: 'end',
+                                    backgroundColor: 'rgba(184, 50, 50, 0.8)',
+                                    color: '#fff',
+                                    font: {
+                                        size: 14,
+                                        weight: 'bold'
+                                    },
+                                    padding: 6,
+                                    borderRadius: 4
+                                }
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        grid: {display: false},
+                    },
+                    y: {
+                        beginAtZero: true,
+                        suggestedMin: 0,
+                        suggestedMax: 2.5
+                    }
+                }
+            }
+        });
+    
+    
         window.onload = () => {
             buscarkpi();
             atualizarnotificacoes();
-            atualizarPeriodo('1')
+            atualizarPeriodo(1)
         }
-
+    
+        setInterval(() => {
+            buscarkpi();
+            atualizarnotificacoes();
+            atualizarPeriodo(1)
+        }, 5000)
+    
         function buscarkpi() {
             let sessaousuario = sessionStorage.getItem("APPLETECH_USER");
             let dadousuario = JSON.parse(sessaousuario);
             let idEmpresa = dadousuario.empresaId;
-
+    
             if (idEmpresa == undefined) {
                 console.error("ID da Empresa não encontrado no sessionStorage");
                 return;
@@ -222,39 +319,41 @@
                         let valor = dados[0]
                         // KPI 1 (camaras em risco)
                         document.getElementById("kpi_camaras_alerta").innerHTML = `${valor.qtd_alerta} <span style="font-size: 1rem; color: #7A6A52;"> de ${valor.total_camaras}</span>`;
-
-
+    
+    
                         // kpi 2 (pico de etileno)
-
+    
                         document.getElementById("kpi_pico_etileno").innerHTML = valor.valor_pico ? `${valor.valor_pico} ppm` : "Sem valores"
-                        document.getElementById("footer_pico_etileno").innerHTML = `Registrado ás ${valor.momento}`
-
+                        document.getElementById("footer_pico_etileno").innerHTML = `Registrado às ${valor.momento}`
+    
+    
+    
                         // kpi 3 (estoque em risco)
-
+    
                         document.getElementById("kpi_estoque_risco").innerHTML = `${valor.estoque_risco} kg`;
                         document.getElementById("footer_estoque_risco").innerHTML = `${valor.estoque_geral} kg`;
-
+    
                         // kpi 4 (receita em risco)
-
+    
                         let precoKgConvertido = Number(valor.preco_kg)
                         let receitatotal = valor.estoque_risco * precoKgConvertido;
-
-
+    
+    
                         document.getElementById("kpi_receita_risco").innerHTML = ` R$ ${receitatotal.toFixed(2)} `
                         document.getElementById("kpi_preco_kg").innerHTML = `Preço da venda (R$ ${precoKgConvertido.toFixed(2)}/kg)`
                         fetch(`/medidas/buscar-camara-risco/${idEmpresa}`).then((resultado) => {
                             if (resultado.ok) {
                                 resultado.json().then((listanomes) => {
-
+    
                                     let textonome = "";
                                     let limite = 4;
-
-
+    
+    
                                     if (listanomes.length > 0) {
                                         for (let i = 0; i < listanomes.length; i++) {
-
+    
                                             textonome += listanomes[i].nome_camara_risco;
-
+    
                                             if (i < listanomes.length - 1) {
                                                 textonome += ", ";
                                             }
@@ -265,7 +364,7 @@
                                     } else {
                                         textonome = "Nenhuma";
                                     }
-                                    document.getElementById("footer_camaras_alerta").innerHTML = `Registrado ás ${valor.momento} (${textonome})`;
+                                    document.getElementById("footer_camaras_alerta").innerHTML = `Registrado às ${valor.momento} (${textonome})`;
                                 });
                             }
                         });
@@ -275,23 +374,23 @@
                 console.error("Erro nas KPIs:", erro);
             });
         }
-
+    
         function atualizarnotificacoes() {
             let sessaousuario = sessionStorage.getItem("APPLETECH_USER");
             let dadousuario = JSON.parse(sessaousuario);
             let idEmpresa = dadousuario.empresaId;
-
+    
             fetch(`/avisos/listar/${idEmpresa}`).then((resposta) => {
                 if (resposta.ok) {
-
+    
                     resposta.json().then((dados) => {
-
+    
                         alert_list.innerHTML = "";
                         let contador = 0
                         for (let i = 0; i < dados.length; i++) {
                             let alerta = dados[i];
                             let estilo = alerta.valor_leitura > 2.0 ? 'alert--serious' : 'alert--caution';
-
+    
                             if (alerta.valor_leitura > 1.3 && contador < 3) {
                                 alert_list.innerHTML += `<div class = "alert ${estilo}"><p class = "alert-content"> Câmara: <b class = "${estilo}">${alerta.apelido}</b> - ${alerta.mensagem}</p>
                                     <span class = "alert-footer"> Nível: ${alerta.nivel}</span></div>`;
@@ -300,13 +399,13 @@
                         }
                         alert_list.innerHTML += ` <a href="./alerts.html" class="view-alerts-btn">Ver Todos</a>`;
                     })
-
+    
                 }
-
+    
             })
-
+    
         }
-
+    
         function atualizarPrecoEstoque() {
             let sessaousuario = sessionStorage.getItem("APPLETECH_USER");
             let dadousuario = JSON.parse(sessaousuario);
@@ -334,211 +433,8 @@
                 console.error("Erro ao atualizar os dados");
             });
         }
+    
     </script>
 </body>
 
 </html>
-<script>
-
-    let ctx = document.getElementById('column-chart')
-    let chartbarras = new Chart(ctx, {
-        type: 'bar',
-        options: {
-            plugins: {
-                legend: { display: true },
-                annotation: {
-                    annotations: {
-                        limiteCritico: {
-                            type: 'line',
-                            yMin: 1.5,
-                            yMax: 1.5,
-                            borderColor: '#B83232',
-                            borderWidth: 3,
-                            label: {
-                                display: true,
-                                content: 'Limite Crítico (1.5 ppm)',
-                                position: 'end',
-                                backgroundColor: 'rgba(184, 50, 50, 0.8)',
-                                color: '#fff',
-                                font: {
-                                    size: 14,
-                                    weight: 'bold'
-                                },
-                                padding: 6,
-                                borderRadius: 4
-                            }
-                        }
-                    }
-                }
-            },
-            scales: {
-                y: {
-                    min: 0,
-                    max: 3,
-                },
-                x: {
-                    grid: { display: false }
-                }
-            }
-        }
-    });
-    let ctx2 = document.getElementById('line-chart')
-    let chartlinhas = new Chart(ctx2, {
-        type: 'line',
-
-        options: {
-            plugins: {
-                legend: { display: true },
-                annotation: {
-                    annotations: {
-                        limiteCritico: {
-                            type: 'line',
-                            yMin: 1.5,
-                            yMax: 1.5,
-                            borderColor: '#B83232',
-                            borderWidth: 3,
-                            label: {
-                                display: true,
-                                content: 'Limite',
-                                position: 'end',
-                                backgroundColor: 'rgba(184, 50, 50, 0.8)',
-                                color: '#fff',
-                                font: {
-                                    size: 14,
-                                    weight: 'bold'
-                                },
-                                padding: 6,
-                                borderRadius: 4
-                            }
-                        }
-                    }
-                }
-            },
-            scales: {
-                y: {
-                    min: 0,
-                    max: 3,
-                },
-                x: {
-                    grid: { display: false }
-                }
-            }
-        }
-    });
-
-
-    window.onload = () => {
-        buscarkpi();
-        atualizarnotificacoes();
-        atualizarPeriodo('1')
-    }
-
-    setInterval(() => {
-        buscarkpi();
-        atualizarnotificacoes();
-        atualizarPeriodo('1')
-    }, 5000)
-
-    function buscarkpi() {
-        let sessaousuario = sessionStorage.getItem("APPLETECH_USER");
-        let dadousuario = JSON.parse(sessaousuario);
-        let idEmpresa = dadousuario.empresaId;
-
-        if (idEmpresa == undefined) {
-            console.error("ID da Empresa não encontrado no sessionStorage");
-            return;
-        }
-        fetch(`/medidas/buscar-kpis/${idEmpresa}`).then((resposta) => {
-            if (resposta.ok) {
-                resposta.json().then((dados) => {
-                    let valor = dados[0]
-                    // KPI 1 (camaras em risco)
-                    document.getElementById("kpi_camaras_alerta").innerHTML = `${valor.qtd_alerta} <span style="font-size: 1rem; color: #7A6A52;"> de ${valor.total_camaras}</span>`;
-
-
-                    // kpi 2 (pico de etileno)
-
-                    document.getElementById("kpi_pico_etileno").innerHTML = valor.valor_pico ? `${valor.valor_pico} ppm` : "Sem valores"
-                    document.getElementById("footer_pico_etileno").innerHTML = `Registrado ás ${valor.momento}`
-
-
-
-                    // kpi 3 (estoque em risco)
-
-                    document.getElementById("kpi_estoque_risco").innerHTML = `${valor.estoque_risco} kg`;
-                    document.getElementById("footer_estoque_risco").innerHTML = `${valor.estoque_geral} kg`;
-
-                    // kpi 4 (receita em risco)
-
-                    let precoKgConvertido = Number(valor.preco_kg)
-                    let receitatotal = valor.estoque_risco * precoKgConvertido;
-
-
-                    document.getElementById("kpi_receita_risco").innerHTML = ` R$ ${receitatotal.toFixed(2)} `
-                    document.getElementById("kpi_preco_kg").innerHTML = `Preço da venda (R$ ${precoKgConvertido.toFixed(2)}/kg)`
-                    fetch(`/medidas/buscar-camara-risco/${idEmpresa}`).then((resultado) => {
-                        if (resultado.ok) {
-                            resultado.json().then((listanomes) => {
-
-                                let textonome = "";
-                                let limite = 4;
-
-
-                                if (listanomes.length > 0) {
-                                    for (let i = 0; i < listanomes.length; i++) {
-
-                                        textonome += listanomes[i].nome_camara_risco;
-
-                                        if (i < listanomes.length - 1) {
-                                            textonome += ", ";
-                                        }
-                                    }
-                                    if (listanomes.length > limite) {
-                                        textonome = "...";
-                                    }
-                                } else {
-                                    textonome = "Nenhuma";
-                                }
-                                document.getElementById("footer_camaras_alerta").innerHTML = `Registrado ás ${valor.momento} (${textonome})`;
-                            });
-                        }
-                    });
-                })
-            }
-        }).catch((erro) => {
-            console.error("Erro nas KPIs:", erro);
-        });
-    }
-
-    function atualizarnotificacoes() {
-        let sessaousuario = sessionStorage.getItem("APPLETECH_USER");
-        let dadousuario = JSON.parse(sessaousuario);
-        let idEmpresa = dadousuario.empresaId;
-
-        fetch(`/avisos/listar/${idEmpresa}`).then((resposta) => {
-            if (resposta.ok) {
-
-                resposta.json().then((dados) => {
-
-                    alert_list.innerHTML = "";
-                    let contador = 0
-                    for (let i = 0; i < dados.length; i++) {
-                        let alerta = dados[i];
-                        let estilo = alerta.valor_leitura > 2.0 ? 'alert--serious' : 'alert--caution';
-
-                        if (alerta.valor_leitura > 1.3 && contador < 3) {
-                            alert_list.innerHTML += `<div class = "alert ${estilo}"><p class = "alert-content"> Câmara: <b class = "${estilo}">${alerta.apelido}</b> - ${alerta.mensagem}</p>
-                                <span class = "alert-footer"> Nível: ${alerta.nivel}</span></div>`;
-                            contador++
-                        }
-                    }
-                    alert_list.innerHTML += ` <a href="./alerts.html" class="view-alerts-btn">Ver Todos</a>`;
-                })
-
-            }
-
-        })
-
-    }
-
-</script>

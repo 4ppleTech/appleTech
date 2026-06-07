@@ -15,7 +15,7 @@ function buscarMaiorPicoEtileno(id_empresa) {
 
 function buscarGraficoEtilenoRegistro(interval, idEmpresa) {
     var instrucaoSql = `
-    SELECT etileno, data_formatada, apelido
+    SELECT etileno, data_hora, apelido
     FROM vw_graficos_individuais_camaras 
     WHERE id_empresa = ${idEmpresa} 
     AND data_hora >= NOW() - INTERVAL ${interval} DAY

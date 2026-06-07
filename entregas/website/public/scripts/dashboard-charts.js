@@ -3,9 +3,7 @@ let dadousuario = JSON.parse(sessaousuario);
 let idEmpresa = dadousuario.empresaId;
 
 window.onload = () => {
-
-    atualizarPeriodo('1')
-
+    atualizarPeriodo(1);
 }
 
 function atualizarPeriodo(periodo) {
@@ -19,7 +17,6 @@ function atualizarPeriodo(periodo) {
     activeBtn.classList.add("active");
 
     buscarranking(periodo)
-
 }
 
 function buscarranking(periodo) {
@@ -40,11 +37,11 @@ function buscarranking(periodo) {
 
 
 function plotarbarras(labels, valores, cores) {
-    chartbarras.data.labels = labels
+    chartbarras.data.labels = labels.slice(-10)
 
     chartbarras.data.datasets = [{
         label: "Nível de Etileno (ppm)",
-        data: valores,
+        data: valores.slice(-10),
         backgroundColor: cores,
         borderColor: cores,
         borderWidth: 2
@@ -55,7 +52,7 @@ function buscarhistorico(periodo) {
     fetch(`/medidas/buscar-etileno-registro/${idEmpresa}/${periodo}`).then((resposta) => {
         if (resposta.ok) {
             resposta.json().then((dados) => {
-                plotarlinha(dados);
+                plotarlinha(dados, periodo);
             })
         }
     }).catch((erro) => {
@@ -66,16 +63,19 @@ function buscarhistorico(periodo) {
 }
 
 
-function plotarlinha(dados) {
+function plotarlinha(dados, periodo) {
     let labelsx = [];
     let nomecamaras = [];
 
+
     for (let i = 0; i < dados.length; i++) {
         let valor = dados[i]
+        let dataDaLabel = periodo == 1
+            ? new Date(valor.data_hora).toLocaleTimeString()
+            : new Date(valor.data_hora).toLocaleDateString();
 
-
-        if (labelsx.indexOf(valor.data_formatada) == -1) {
-            labelsx.push(valor.data_formatada);
+        if (labelsx.indexOf(dataDaLabel) == -1) {
+            labelsx.push(dataDaLabel);
         }
 
         if (nomecamaras.indexOf(valor.apelido) == -1) {
@@ -85,7 +85,7 @@ function plotarlinha(dados) {
 
     let cores = ['#B83232', '#7A9B55', '#1A568F', '#1E3012', '#d18b00', '#6A5ACD', '#FF4500'];
 
-    chartlinhas.data.labels = labelsx
+    chartlinhas.data.labels = labelsx.slice(-10)
 
     chartlinhas.data.datasets = []
 
@@ -98,16 +98,21 @@ function plotarlinha(dados) {
         chartlinhas.data.datasets.push({
             label: nome,
             data: labelsx.map(tempo => {
+                let registro = dados.find(d => {
+                    let data_formatada = periodo == 1
+                        ? new Date(d.data_hora).toLocaleTimeString()
+                        : new Date(d.data_hora).toLocaleDateString();
+                    return d.apelido === nome && data_formatada === tempo;
+                });
 
-                let registro = dados.find(d => d.apelido === nome && d.data_formatada === tempo);
                 return registro ? registro.etileno : null;
-            }),
+            }).slice(-10),
             borderColor: cor,
             backgroundColor: cor,
             tension: 0.4,
             spanGaps: true,
             pointRadius: 4
-        })
+        });
     })
 
     chartlinhas.update()
