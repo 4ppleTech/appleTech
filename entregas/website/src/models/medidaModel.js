@@ -6,7 +6,7 @@ function buscarMaiorPicoEtileno(id_empresa) {
         * 
     FROM 
         vw_maior_pico_geral 
-    WHERE id_empresa = ${id_empresa};
+    WHERE id_empresa = ${id_empresa}
     ORDER BY nivel_etileno DESC
     `;
 
@@ -29,7 +29,7 @@ function buscarGraficoEtilenoRegistro(interval, idEmpresa) {
 
 function buscarSensoresComMaiorPico(idEmpresa) {
     var instrucaoSql = `
-    SELECT * FROM vw_maior_pico_geral WHERE id_empresa = ${idEmpresa};
+    SELECT * FROM vw_maior_pico_geral WHERE id_empresa = ${idEmpresa} ORDER BY nivel_etileno DESC;
     `
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
