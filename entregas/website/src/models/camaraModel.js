@@ -8,23 +8,22 @@ function buscarCamarasPorEmpresa(empresaId) {
   return database.executar(instrucaoSql);
 }
 
-function cadastrar(empresaId, observacao, local_instalacao, apelido, volume, kg_macas) {
-  var instrucaoSql = `INSERT INTO camara (empresa_id, local_instalacao, observacao, volume, kg_macas, apelido)  
-  VALUES ('${empresaId}', '${local_instalacao}', '${observacao}', ${volume}, ${kg_macas}, '${apelido}')`;
+function cadastrar(empresaId, local_instalacao, apelido, volume, kg_macas) {
+  var instrucaoSql = `INSERT INTO camara (empresa_id, local_instalacao, volume, kg_macas, apelido)  
+  VALUES ('${empresaId}', '${local_instalacao}', ${volume}, ${kg_macas}, '${apelido}')`;
 
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
   return database.executar(instrucaoSql);
 }
 
-function atualizarCamara(apelido, volume, kg_macas, situacao, idCamara, local_instalacao, observacao) {
+function atualizarCamara(apelido, volume, kg_macas, situacao, idCamara, local_instalacao) {
   var instrucaoSql = `
     UPDATE camara
     SET apelido = '${apelido}',
 	  volume = ${volume},
     kg_macas = ${kg_macas},
     situacao = '${situacao}',
-    local_instalacao = '${local_instalacao}',
-    observacao = '${observacao}'
+    local_instalacao = '${local_instalacao}'
     WHERE id_camara = ${idCamara} `
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
   return database.executar(instrucaoSql)

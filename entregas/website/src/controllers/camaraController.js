@@ -19,7 +19,7 @@ function buscarCamarasPorEmpresa(req, res) {
 
 function cadastrar(req, res) {
   var empresaId = req.body.id_empresa;
-  var observacao = req.body.observacao;
+  // var observacao = req.body.observacao;
   var local_instalacao = req.body.local_instalacao;
   var apelido = req.body.apelido;
   var volume = req.body.volume;
@@ -27,8 +27,8 @@ function cadastrar(req, res) {
 
   if (empresaId == undefined) {
     res.status(400).send("empresaId está undefined!");
-  } else if (observacao == undefined) {
-    res.status(400).send("observacao está undefined!");
+  // } else if (observacao == undefined) {
+  //   res.status(400).send("observacao está undefined!");
   } else if (local_instalacao == undefined) {
     res.status(400).send("local_instalacao está undefined!");
   } else if (apelido == undefined) {
@@ -39,7 +39,8 @@ function cadastrar(req, res) {
     res.status(400).send("kg_macas está undefined!");
   } else {
 
-    camaraModel.cadastrar(empresaId, observacao, local_instalacao, apelido, volume, kg_macas)
+    // camaraModel.cadastrar(empresaId, observacao, local_instalacao, apelido, volume, kg_macas)
+    camaraModel.cadastrar(empresaId, local_instalacao, apelido, volume, kg_macas)
       .then((resultado) => {
         camaraModel.buscarCamarasPorEmpresa(empresaId)
           .then((camaras) => {
@@ -67,7 +68,7 @@ function atualizarCamara(req, res) {
   var kg_macas = req.body.kg_macas
   var situacao = req.body.situacao
   var idCamara = req.params.id_camara
-  var observacao = req.body.observacao
+  // var observacao = req.body.observacao
   var local_instalacao = req.body.local_instalacao
 
   if (apelido == undefined) {
@@ -78,15 +79,16 @@ function atualizarCamara(req, res) {
     res.status(400).send("kg_macas está undefined!")
   } else if (situacao == undefined) {
     res.status(400).send("situacao está undefined!")
-  } else if (observacao == undefined) {
-    res.status(400).send("observação está undefined!")
+  // } else if (observacao == undefined) {
+  //   res.status(400).send("observação está undefined!")
   } else if (local_instalacao == undefined) {
     res.status(400).send("local instalação está undefined!")
   } else if (idCamara == undefined) {
     res.status(400).send("id camara está undefined!")
   }
 
-  camaraModel.atualizarCamara(apelido, volume, kg_macas, situacao, idCamara, local_instalacao, observacao)
+  // camaraModel.atualizarCamara(apelido, volume, kg_macas, situacao, idCamara, local_instalacao, observacao)
+  camaraModel.atualizarCamara(apelido, volume, kg_macas, situacao, idCamara, local_instalacao)
     .then(function (resultado) {
       camaraModel.buscarCamarasPorEmpresa(empresaId)
         .then((camaras) => {
