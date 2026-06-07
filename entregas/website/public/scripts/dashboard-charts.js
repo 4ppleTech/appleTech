@@ -8,6 +8,8 @@ window.onload = () => {
 
 function atualizarPeriodo(periodo) {
 
+    periodo_atual = periodo
+
     // confere a classe "active" ao botão ativo no momento e remove-a dos demais
     let btnGroup = document.querySelectorAll(".btn-group button");
     for (let i = 0; i < btnGroup.length; i++) {
