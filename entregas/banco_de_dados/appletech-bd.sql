@@ -467,3 +467,29 @@ WHERE
 	DATE(l.data_hora) = DATE(NOW())
 GROUP BY 
 	c.apelido, s.numero_sensor, id_empresa;
+    
+    
+SELECT
+	l.valor_leitura,
+    c.apelido,
+    c.kg_macas,
+    CASE
+		WHEN l.valor_leitura >= 1.5 THEN c.kg_macas * (l.valor_leitura / 10)
+	ELSE
+		0
+	END AS estoque_total_risco
+FROM
+	leitura l
+JOIN sensor s ON s.id_sensor = l.sensor_id
+JOIN camara c ON c.id_camara = s.camara_id
+WHERE
+	c.empresa_id = 1
+AND
+	l.id_leitura IN (
+    SELECT
+		MAX(l1.id_leitura)
+	FROM
+	leitura l1
+	JOIN sensor s1 ON s.id_sensor = l1.sensor_id
+	JOIN camara c1 ON c.id_camara = s1.camara_id
+    GROUP BY s1.id_sensor);
