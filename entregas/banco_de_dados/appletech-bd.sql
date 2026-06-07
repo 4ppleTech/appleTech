@@ -262,18 +262,28 @@ SELECT
     ) AS camara_pico,
 
     -- subquery para kpi de estoque e receita em risco
-    (SELECT IFNULL(SUM(c5.kg_macas), 0)
-     FROM camara c5
-     WHERE c5.id_camara IN (
-         SELECT DISTINCT c6.id_camara
-         FROM camara c6
-         JOIN sensor s6 ON s6.camara_id = c6.id_camara
-         JOIN leitura l6 ON l6.sensor_id = s6.id_sensor
-         JOIN alerta a6 ON a6.leitura_id = l6.id_leitura
-         WHERE c6.empresa_id = e.id_empresa
-         AND (select l7.valor_leitura from leitura l7 where l7.sensor_id = s6.id_sensor order by l7.data_hora desc limit 1) > 1.5
-     )
+   (SELECT IFNULL(SUM(estoque_total.estoque_total_risco), 0)
+     FROM (
+         SELECT
+             c50.id_camara,
+             CASE
+                 WHEN MAX(l50.valor_leitura) >= 1.5 THEN c50.kg_macas * (MAX(l50.valor_leitura) / 10)
+                 ELSE 0
+             END AS estoque_total_risco
+        FROM
+        leitura l50
+        JOIN sensor s50 ON s50.id_sensor = l50.sensor_id
+        JOIN camara c50 ON c50.id_camara = s50.camara_id
+         WHERE l50.id_leitura IN (
+             SELECT MAX(l51.id_leitura)
+             FROM leitura l51
+             WHERE l51.sensor_id = s50.id_sensor
+         )
+         GROUP BY c50.id_camara, c50.kg_macas, c50.empresa_id
+     ) AS estoque_total
+     WHERE estoque_total.id_camara IN (SELECT id_camara FROM camara WHERE empresa_id = e.id_empresa)
     ) AS total_estoque_risco_kg,
+    
 -- receita em risco 
     (SELECT IFNULL(SUM(c7.kg_macas), 0) * 13.50
      FROM camara c7
