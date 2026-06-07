@@ -7,6 +7,7 @@ function buscarMaiorPicoEtileno(id_empresa) {
     FROM 
         vw_maior_pico_geral 
     WHERE id_empresa = ${id_empresa};
+    ORDER BY nivel_etileno DESC
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
