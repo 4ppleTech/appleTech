@@ -382,15 +382,19 @@ SELECT
     ) AS etileno_atual,
 
     -- subquery para estoque em risco, se nao tiver um alerta nao tem nada em risco
-    (SELECT CASE 
-        WHEN a.nivel IN ('Crítico', 'Moderado') THEN TRUNCATE(c.kg_macas * (etileno_atual/10), 0) 
-        ELSE 0 
-     END
-     FROM alerta a
-     JOIN leitura l ON a.leitura_id = l.id_leitura
-     JOIN sensor s ON l.sensor_id = s.id_sensor
-     WHERE s.camara_id = c.id_camara
-     ORDER BY l.data_hora DESC LIMIT 1
+     (SELECT
+        CASE
+            WHEN MAX(l.valor_leitura) >= 1.5 THEN TRUNCATE(c.kg_macas * (MAX(l.valor_leitura) / 10), 0)
+            ELSE 0
+        END
+        FROM leitura l
+        JOIN sensor s ON l.sensor_id = s.id_sensor
+        WHERE s.camara_id = c.id_camara
+       AND l.id_leitura = (
+           SELECT MAX(id_leitura)
+           FROM leitura
+           WHERE sensor_id = s.id_sensor
+       )
     ) AS estoque_em_risco_kg,
     
     -- subquery para ultima leitura, mudei o formato da data para melhorar o entendimento
