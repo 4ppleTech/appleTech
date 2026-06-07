@@ -270,8 +270,8 @@ SELECT
          JOIN sensor s6 ON s6.camara_id = c6.id_camara
          JOIN leitura l6 ON l6.sensor_id = s6.id_sensor
          JOIN alerta a6 ON a6.leitura_id = l6.id_leitura
-         WHERE l6.valor_leitura > 1.5
-         AND l6.data_hora = (select max(l7.data_hora) from leitura l7 where l7.sensor_id = s6.id_sensor)
+         WHERE c6.empresa_id = e.id_empresa
+         AND (select l7.valor_leitura from leitura l7 where l7.sensor_id = s6.id_sensor order by l7.data_hora desc limit 1) > 1.5
      )
     ) AS total_estoque_risco_kg,
 -- receita em risco 
