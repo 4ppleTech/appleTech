@@ -449,3 +449,19 @@ WHERE
     )
 ORDER BY l.data_hora;
 
+
+CREATE OR REPLACE VIEW vw_maior_pico_geral AS
+SELECT 
+	s.numero_sensor AS 'numero_sensor',
+	c.apelido AS 'nome_camara',
+	MAX(l.valor_leitura) AS 'nivel_etileno',
+	e.id_empresa
+FROM
+	empresa e
+JOIN camara c ON e.id_empresa = c.empresa_id
+JOIN sensor s ON c.id_camara = s.camara_id
+JOIN leitura l ON l.sensor_id = s.id_sensor
+WHERE
+	DATE(l.data_hora) = DATE(NOW())
+GROUP BY 
+	c.apelido, s.numero_sensor, id_empresa;
