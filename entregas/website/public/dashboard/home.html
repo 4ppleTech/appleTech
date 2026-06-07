@@ -87,7 +87,7 @@
             <main class="main">
                 <!-- CONTENT KPIs -->
                 <div class="kpi-list">
-                    <div class="kpi-card kpi-card--caution">
+                    <div class="kpi-card">
                         <div class="kpi-header">
                             <p>Câmaras em Alerta</p>
                             <i class="fa-solid fa-triangle-exclamation"></i>
@@ -101,7 +101,7 @@
                         </div>
                     </div>
 
-                    <div class="kpi-card kpi-card--negative">
+                    <div class="kpi-card">
                         <div class="kpi-header">
                             <p>Pico de Etileno (24h)</p>
                             <i class="fa-solid fa-temperature-arrow-up"></i>
@@ -114,7 +114,7 @@
                         </div>
                     </div>
 
-                    <div class="kpi-card kpi-card--caution">
+                    <div class="kpi-card">
                         <div class="kpi-header">
                             <p>Estoque em Risco</p>
                             <i class="fa-solid fa-box-open"></i>
@@ -127,7 +127,7 @@
                         </div>
                     </div>
 
-                    <div class="kpi-card kpi-card--caution">
+                    <div class="kpi-card">
                         <div class="kpi-header">
                             <p>Receita em Risco</p>
                             <i class="fa-solid fa-sack-dollar"></i>
@@ -329,27 +329,49 @@
                         // KPI 1 (camaras em risco)
                         document.getElementById("kpi_camaras_alerta").innerHTML = `${valor.qtd_alerta} <span style="font-size: 1rem; color: #7A6A52;"> de ${valor.total_camaras}</span>`;
 
+                        let corKpi1 = valor.qtd_alerta == 0 
+                            ? "positive"
+                            : valor.qtd_alerta >= Math.round(valor.total_camaras / 2)
+                                ? "negative" 
+                                : "caution";
+                        document.getElementById("kpi_camaras_alerta").closest(".kpi-card").className = `kpi-card kpi-card--${corKpi1}`;
+
 
                         // kpi 2 (pico de etileno)
 
                         document.getElementById("kpi_pico_etileno").innerHTML = valor.valor_pico ? `${valor.valor_pico} ppm` : "Sem valores"
                         document.getElementById("footer_pico_etileno").innerHTML = `Registrado às ${valor.momento_pico}`
 
-
+                        let corKpi2 = valor.valor_pico >= 1.8 
+                            ? "negative"
+                            : valor.valor_pico >= 1.5
+                                ? "caution" 
+                                : "positive";
+                        document.getElementById("kpi_pico_etileno").closest(".kpi-card").className = `kpi-card kpi-card--${corKpi2}`;
 
                         // kpi 3 (estoque em risco)
 
                         document.getElementById("kpi_estoque_risco").innerHTML = `${valor.estoque_risco} kg`;
                         document.getElementById("footer_estoque_risco").innerHTML = `${valor.estoque_geral} kg`;
 
-                        // kpi 4 (receita em risco)
+                        let corKpi3 = valor.estoque_risco >= valor.estoque_geral * 0.1          // equivale à 10% do estoque total 
+                            ? "negative"
+                            : valor.estoque_risco == 0
+                                ? "positive" 
+                                : "caution";
+                        document.getElementById("kpi_estoque_risco").closest(".kpi-card").className = `kpi-card kpi-card--${corKpi3}`;
 
+                        // kpi 4 (receita em risco)
                         let precoKgConvertido = Number(valor.preco_kg)
                         let receitatotal = valor.estoque_risco * precoKgConvertido;
 
-
                         document.getElementById("kpi_receita_risco").innerHTML = ` R$ ${receitatotal.toFixed(2)} `
-                        document.getElementById("kpi_preco_kg").innerHTML = `Preço da venda (R$ ${precoKgConvertido.toFixed(2)}/kg)`
+                        document.getElementById("kpi_preco_kg").innerHTML = `Preço da venda (R$ ${precoKgConvertido.toFixed(2)}/kg)`;
+
+                        let corKpi4 = corKpi3
+                        document.getElementById("kpi_receita_risco").closest(".kpi-card").className = `kpi-card kpi-card--${corKpi4}`;
+
+
                         fetch(`/medidas/buscar-camara-risco/${idEmpresa}`).then((resultado) => {
                             if (resultado.ok) {
                                 resultado.json().then((listanomes) => {
