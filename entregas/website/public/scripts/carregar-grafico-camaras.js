@@ -34,7 +34,7 @@ export function carregarGraficoCamara(chamberId, interval) {
 
                 let dataLeitura = interval == 1 
                     ? new Date(valor.data_hora).toLocaleTimeString()
-                    : valor.data_formatada;
+                    : new Date(valor.data_hora).toLocaleDateString();
                 if(!chartLabels.includes(dataLeitura)) chartLabels.push(dataLeitura);
             });
 
@@ -136,7 +136,7 @@ export function atualizarGraficoCamara(chamberId) {
 
                 let dataLeitura = interval == 1 
                     ? new Date(valor.data_hora).toLocaleTimeString()
-                    : valor.data_formatada;
+                    : new Date(valor.data_hora).toLocaleDateString();
                 if(!chartLabels.includes(dataLeitura)) chartLabels.push(dataLeitura);
             });
 
