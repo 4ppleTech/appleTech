@@ -1,4 +1,4 @@
-
+drop database if exists appletech;
 create database if not exists appletech;
 
 use appletech;
@@ -270,7 +270,8 @@ SELECT
          JOIN sensor s6 ON s6.camara_id = c6.id_camara
          JOIN leitura l6 ON l6.sensor_id = s6.id_sensor
          JOIN alerta a6 ON a6.leitura_id = l6.id_leitura
-         WHERE c6.empresa_id = e.id_empresa AND a6.nivel IN ('Crítico', 'Moderado')
+         WHERE l6.valor_leitura > 1.5
+         AND l6.data_hora = (select max(l7.data_hora) from leitura l7 where l7.sensor_id = s6.id_sensor)
      )
     ) AS total_estoque_risco_kg,
 -- receita em risco 
