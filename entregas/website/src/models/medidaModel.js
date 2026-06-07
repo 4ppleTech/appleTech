@@ -44,6 +44,7 @@ function buscarKpisPrincipal(idEmpresa) {
     camara_pico, 
     total_estoque_risco_kg AS estoque_risco, 
     horario_ultima_leitura AS momento,
+    horario_pico_24h as momento_pico,
     total_estoque_geral as estoque_geral,
     preco_kg
     FROM vw_kpis_totais 
