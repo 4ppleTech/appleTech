@@ -61,23 +61,26 @@ const serial = async (
             await Promise.all([
                 // 1° Câmara Sensores
                 inserirValor(gerarVariacao(valorGas, 0.2), 1),
-                inserirValor(gerarVariacao(valorGas, -0.2), 6),
-                inserirValor(gerarVariacao(valorGas, 0.4), 7),
-                inserirValor(gerarVariacao(valorGas, 0.5), 8),
-                inserirValor(gerarVariacao(valorGas, -0.2), 9),
+                inserirValor(gerarVariacao(valorGas, -0.2), 2),
+                inserirValor(gerarVariacao(valorGas, 0.4), 3),
+                inserirValor(gerarVariacao(valorGas, 0.5), 4),
+                inserirValor(gerarVariacao(valorGas, -0.2), 5),
                 
                 // 2° Câmara Sensores
-                inserirValor(gerarVariacao(valorGas, 0.2), 2),
-                inserirValor(gerarVariacao(valorGas, 0.6), 10),
+                inserirValor(gerarVariacao(valorGas, 0.2), 6),
+                inserirValor(gerarVariacao(valorGas, 0.6), 7),
 
                 // 3° Câmara Sensores
-                // inserirValor(gerarVariacao(valorGas, 0.2), 3),
+                // inserirValor(gerarVariacao(valorGas, 0.2), 8),
 
                 // 4° Câmara Sensores
-                // inserirValor(gerarVariacao(valorGas, 0.2), 4),
+                // inserirValor(gerarVariacao(valorGas, 0.2), 9),
 
                 // 5° Câmara Sensores
-                // inserirValor(gerarVariacao(valorGas, 0.2), 5)
+                // inserirValor(gerarVariacao(valorGas, 0.2), 10)
+
+                // 6° Câmara Sensores
+                // inserirValor(gerarVariacao(valorGas, 0.2), 11)
             ]);
         }
     });
