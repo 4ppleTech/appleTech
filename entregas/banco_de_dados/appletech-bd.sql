@@ -374,12 +374,13 @@ SELECT
     e.preco_kg AS preco_kg,
 
     -- subquery para etileno atual, usando limit 1 para isso
-    (SELECT l.valor_leitura 
-     FROM leitura l 
-     JOIN sensor s ON l.sensor_id = s.id_sensor 
-     WHERE s.camara_id = c.id_camara 
-     ORDER BY l.data_hora DESC LIMIT 1
-    ) AS etileno_atual,
+     (SELECT AVG(l.valor_leitura)
+        FROM leitura l
+        JOIN sensor s ON l.sensor_id = s.id_sensor
+        WHERE s.camara_id = c.id_camara
+        AND l.id_leitura = ( SELECT MAX(id_leitura)
+        FROM leitura WHERE sensor_id = s.id_sensor )
+    ) AS etileno_atual,  
 
     -- subquery para estoque em risco, se nao tiver um alerta nao tem nada em risco
      (SELECT
