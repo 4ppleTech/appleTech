@@ -163,35 +163,84 @@ INSERT INTO camara (id_camara, empresa_id, local_instalacao, situacao, volume, k
 (5, 1, 'Câmara ala Oeste', 'Ativo', 48, 100, 'C-05');
 
 INSERT INTO sensor (id_sensor, camara_id, numero_sensor, modelo, situacao, data_instalacao) VALUES
-(1, 1, 'SN-001', 'MQ-2', 'Ativo', '2024-01-01'),
-(2, 2, 'SN-002', 'MQ-2', 'Ativo', '2024-01-01'),
-(3, 3, 'SN-003', 'MQ-2', 'Ativo', '2024-01-01'),
-(4, 4, 'SN-004', 'MQ-2', 'Ativo', '2024-01-01'),
-(5, 5, 'SN-005', 'MQ-2', 'Ativo', '2024-01-01');
+(1, 1, 'SN-101', 'MQ-2', 'Ativo', '2024-01-01'),
+(2, 1, 'SN-102', 'MQ-2', 'Ativo', '2024-01-01'),
+(3, 1, 'SN-103', 'MQ-2', 'Ativo', '2024-01-01'),
+(4, 1, 'SN-104', 'MQ-2', 'Ativo', '2024-01-01'),
+(5, 1, 'SN-105', 'MQ-2', 'Ativo', '2024-01-01'),
+(6, 2, 'SN-201', 'MQ-2', 'Ativo', '2024-01-01'),
+(7, 2, 'SN-202', 'MQ-2', 'Ativo', '2024-01-01'),
+(8, 3, 'SN-301', 'MQ-2', 'Ativo', '2024-01-01'),
+(9, 4, 'SN-401', 'MQ-2', 'Ativo', '2024-01-01'),
+(10, 5, 'SN-501', 'MQ-2', 'Ativo', '2024-01-01');
 
-INSERT INTO leitura (id_leitura, sensor_id, valor_leitura, data_hora) VALUES
-(1, 5, 1.5, NOW() - INTERVAL 30 DAY),
-(2, 5, 1.7, NOW() - INTERVAL 7 DAY),
-(3, 5, 1.8, NOW() - INTERVAL 5 HOUR),
-(4, 5, 2.0, NOW() - INTERVAL 1 HOUR); 
+-- INSERT INTO leitura (id_leitura, sensor_id, valor_leitura, data_hora) VALUES
+-- (1, 5, 1.5, NOW() - INTERVAL 30 DAY),
+-- (2, 5, 1.7, NOW() - INTERVAL 7 DAY),
+-- (3, 5, 1.8, NOW() - INTERVAL 5 HOUR),
+-- (4, 5, 2.0, NOW() - INTERVAL 1 HOUR); 
 
-INSERT INTO leitura (id_leitura, sensor_id, valor_leitura, data_hora) VALUES
-(5, 3, 1.2, NOW() - INTERVAL 7 DAY),
-(6, 3, 1.5, NOW() - INTERVAL 2 HOUR),
-(7, 3, 1.7, NOW() - INTERVAL 30 MINUTE);
+-- INSERT INTO leitura (id_leitura, sensor_id, valor_leitura, data_hora) VALUES
+-- (5, 3, 1.2, NOW() - INTERVAL 7 DAY),
+-- (6, 3, 1.5, NOW() - INTERVAL 2 HOUR),
+-- (7, 3, 1.7, NOW() - INTERVAL 30 MINUTE);
 
 
-INSERT INTO leitura (id_leitura, sensor_id, valor_leitura, data_hora) VALUES
-(8, 1, 1.0, NOW() - INTERVAL 10 MINUTE),
-(9, 2, 0.9, NOW() - INTERVAL 15 MINUTE),
-(10, 4, 1.1, NOW() - INTERVAL 20 MINUTE);
+-- Leituras de 1 dia atrás
+INSERT INTO leitura (sensor_id, valor_leitura, data_hora, data_criacao, data_atualizacao)
+VALUES
+(1, 0.95, NOW() - INTERVAL 1 DAY, NOW() - INTERVAL 1 DAY, NOW() - INTERVAL 1 DAY),
+(2, 1.00, NOW() - INTERVAL 1 DAY, NOW() - INTERVAL 1 DAY, NOW() - INTERVAL 1 DAY),
+(3, 1.10, NOW() - INTERVAL 1 DAY, NOW() - INTERVAL 1 DAY, NOW() - INTERVAL 1 DAY),
+(4, 0.94, NOW() - INTERVAL 1 DAY, NOW() - INTERVAL 1 DAY, NOW() - INTERVAL 1 DAY),
+(5, 0.94, NOW() - INTERVAL 1 DAY, NOW() - INTERVAL 1 DAY, NOW() - INTERVAL 1 DAY),
+(6, 0.94, NOW() - INTERVAL 1 DAY, NOW() - INTERVAL 1 DAY, NOW() - INTERVAL 1 DAY),
+(7, 0.94, NOW() - INTERVAL 1 DAY, NOW() - INTERVAL 1 DAY, NOW() - INTERVAL 1 DAY),
+(8, 0.94, NOW() - INTERVAL 1 DAY, NOW() - INTERVAL 1 DAY, NOW() - INTERVAL 1 DAY),
+(9, 0.94, NOW() - INTERVAL 1 DAY, NOW() - INTERVAL 1 DAY, NOW() - INTERVAL 1 DAY),
+(10, 0.94, NOW() - INTERVAL 1 DAY, NOW() - INTERVAL 1 DAY, NOW() - INTERVAL 1 DAY);
 
-INSERT INTO alerta (leitura_id, nivel, mensagem) VALUES
-(4, 'Crítico', 'Nível de etileno atingiu 2.0ppm na ala Oeste'),
-(7, 'Moderado', 'Nível de etileno em 1.7ppm na ala Leste'),
-(8, 'Controlado', 'Nível normal'),
-(9, 'Controlado', 'Nível normal'),
-(10, 'Controlado', 'Nível normal');
+-- Leituras de 5 dias atrás
+INSERT INTO leitura (sensor_id, valor_leitura, data_hora, data_criacao, data_atualizacao)
+VALUES
+(1, 0.82, NOW() - INTERVAL 5 DAY, NOW() - INTERVAL 5 DAY, NOW() - INTERVAL 5 DAY),
+(2, 1.12, NOW() - INTERVAL 5 DAY, NOW() - INTERVAL 5 DAY, NOW() - INTERVAL 5 DAY),
+(3, 1.35, NOW() - INTERVAL 5 DAY, NOW() - INTERVAL 5 DAY, NOW() - INTERVAL 5 DAY),
+(4, 1.42, NOW() - INTERVAL 5 DAY, NOW() - INTERVAL 5 DAY, NOW() - INTERVAL 5 DAY),
+(5, 1.42, NOW() - INTERVAL 5 DAY, NOW() - INTERVAL 5 DAY, NOW() - INTERVAL 5 DAY),
+(6, 1.42, NOW() - INTERVAL 5 DAY, NOW() - INTERVAL 5 DAY, NOW() - INTERVAL 5 DAY),
+(7, 1.42, NOW() - INTERVAL 5 DAY, NOW() - INTERVAL 5 DAY, NOW() - INTERVAL 5 DAY),
+(8, 1.42, NOW() - INTERVAL 5 DAY, NOW() - INTERVAL 5 DAY, NOW() - INTERVAL 5 DAY),
+(9, 1.42, NOW() - INTERVAL 5 DAY, NOW() - INTERVAL 5 DAY, NOW() - INTERVAL 5 DAY),
+(10, 1.42, NOW() - INTERVAL 5 DAY, NOW() - INTERVAL 5 DAY, NOW() - INTERVAL 5 DAY);
+
+-- Leituras de 15 dias atrás
+INSERT INTO leitura (sensor_id, valor_leitura, data_hora, data_criacao, data_atualizacao)
+VALUES
+(1, 0.65, NOW() - INTERVAL 15 DAY, NOW() - INTERVAL 15 DAY, NOW() - INTERVAL 15 DAY),
+(2, 0.71, NOW() - INTERVAL 15 DAY, NOW() - INTERVAL 15 DAY, NOW() - INTERVAL 15 DAY),
+(3, 0.90, NOW() - INTERVAL 15 DAY, NOW() - INTERVAL 15 DAY, NOW() - INTERVAL 15 DAY),
+(4, 1.18, NOW() - INTERVAL 15 DAY, NOW() - INTERVAL 15 DAY, NOW() - INTERVAL 15 DAY),
+(5, 1.18, NOW() - INTERVAL 15 DAY, NOW() - INTERVAL 15 DAY, NOW() - INTERVAL 15 DAY),
+(6, 1.18, NOW() - INTERVAL 15 DAY, NOW() - INTERVAL 15 DAY, NOW() - INTERVAL 15 DAY),
+(7, 1.18, NOW() - INTERVAL 15 DAY, NOW() - INTERVAL 15 DAY, NOW() - INTERVAL 15 DAY),
+(8, 1.18, NOW() - INTERVAL 15 DAY, NOW() - INTERVAL 15 DAY, NOW() - INTERVAL 15 DAY),
+(9, 1.18, NOW() - INTERVAL 15 DAY, NOW() - INTERVAL 15 DAY, NOW() - INTERVAL 15 DAY),
+(10, 1.18, NOW() - INTERVAL 15 DAY, NOW() - INTERVAL 15 DAY, NOW() - INTERVAL 15 DAY);
+
+-- Leituras de 30 dias atrás
+INSERT INTO leitura (sensor_id, valor_leitura, data_hora, data_criacao, data_atualizacao)
+VALUES
+(1, 0.48, NOW() - INTERVAL 30 DAY, NOW() - INTERVAL 30 DAY, NOW() - INTERVAL 30 DAY),
+(2, 0.52, NOW() - INTERVAL 30 DAY, NOW() - INTERVAL 30 DAY, NOW() - INTERVAL 30 DAY),
+(3, 0.77, NOW() - INTERVAL 30 DAY, NOW() - INTERVAL 30 DAY, NOW() - INTERVAL 30 DAY),
+(4, 1.01, NOW() - INTERVAL 30 DAY, NOW() - INTERVAL 30 DAY, NOW() - INTERVAL 30 DAY),
+(5, 1.01, NOW() - INTERVAL 30 DAY, NOW() - INTERVAL 30 DAY, NOW() - INTERVAL 30 DAY),
+(6, 1.01, NOW() - INTERVAL 30 DAY, NOW() - INTERVAL 30 DAY, NOW() - INTERVAL 30 DAY),
+(7, 1.01, NOW() - INTERVAL 30 DAY, NOW() - INTERVAL 30 DAY, NOW() - INTERVAL 30 DAY),
+(8, 1.01, NOW() - INTERVAL 30 DAY, NOW() - INTERVAL 30 DAY, NOW() - INTERVAL 30 DAY),
+(9, 1.01, NOW() - INTERVAL 30 DAY, NOW() - INTERVAL 30 DAY, NOW() - INTERVAL 30 DAY),
+(10, 1.01, NOW() - INTERVAL 30 DAY, NOW() - INTERVAL 30 DAY, NOW() - INTERVAL 30 DAY);
 
 use appletech;
 -- TELA DASHBOARD INICIAL --
@@ -374,11 +423,12 @@ SELECT
     e.preco_kg AS preco_kg,
 
     -- subquery para etileno atual, usando limit 1 para isso
-    (SELECT l.valor_leitura 
-     FROM leitura l 
-     JOIN sensor s ON l.sensor_id = s.id_sensor 
-     WHERE s.camara_id = c.id_camara 
-     ORDER BY l.data_hora DESC LIMIT 1
+     (SELECT AVG(l.valor_leitura)
+        FROM leitura l
+        JOIN sensor s ON l.sensor_id = s.id_sensor
+        WHERE s.camara_id = c.id_camara
+        AND l.id_leitura = ( SELECT MAX(id_leitura)
+        FROM leitura WHERE sensor_id = s.id_sensor )
     ) AS etileno_atual,
 
     -- subquery para estoque em risco, se nao tiver um alerta nao tem nada em risco
@@ -396,7 +446,7 @@ SELECT
            WHERE sensor_id = s.id_sensor
        )
     ) AS estoque_em_risco_kg,
-    
+
     -- subquery para ultima leitura, mudei o formato da data para melhorar o entendimento
     (SELECT DATE_FORMAT(MAX(data_hora), '%d/%m %H:%i') 
      FROM leitura l2 
@@ -406,9 +456,6 @@ SELECT
 
 FROM camara c
 JOIN empresa e ON c.empresa_id = e.id_empresa;
-
-select * from vw_detalhes_individuais_camaras;
-
 
 -- grafico camara individual --
  
@@ -428,12 +475,6 @@ JOIN camara c ON s.camara_id = c.id_camara
 JOIN empresa e ON c.empresa_id = e.id_empresa;
 
 select * from vw_graficos_individuais_camaras;
-
--- SELECT etileno, data_formatada 
--- FROM vw_grafico_etileno 
--- WHERE id_sensor = ? 
--- AND data_hora >= NOW() - INTERVAL 1 ou 7 ou 30 DAY
--- ORDER BY data_hora ASC;
 
 select * from vw_graficos_individuais_camaras where id_sensor = 1;
 
