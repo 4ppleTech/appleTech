@@ -20,7 +20,7 @@ const serial = async (
     // conexão com o banco de dados MySQL
     let poolBancoDados = mysql.createPool(
         {
-            host: '10.18.32.13',
+            host: '10.18.32.35',
             user: 'user_insert',
             password: 'Sptech#2026',
             database: 'appletech',
@@ -51,34 +51,37 @@ const serial = async (
     // processa os dados recebidos do Arduino
     arduino.pipe(new serialport.ReadlineParser({ delimiter: '\r\n' })).on('data', async (data) => {
         console.log(data);
-        // const valores = data.split(';');
         const valorGas = parseFloat(data);
-        // const percentualGas = parseFloat(valores[1]);
 
         // armazena os valores dos sensores nos arrays correspondentes
-        // valoresPercentualGas.push(percentualGas);
         valoresValorGas.push(valorGas);
 
         // insere os dados no banco de dados (se habilitado)
         if (HABILITAR_OPERACAO_INSERIR) {
+            await Promise.all([
+                // 1° Câmara Sensores
+                inserirValor(gerarVariacao(valorGas, 0.8), 1),
+                inserirValor(gerarVariacao(valorGas, -0.8), 2),
+                inserirValor(gerarVariacao(valorGas, 0.6), 3),
+                inserirValor(gerarVariacao(valorGas, 0.6), 4),
+                inserirValor(gerarVariacao(valorGas, -0.4), 5),
+                
+                // 2° Câmara Sensores
+                inserirValor(gerarVariacao(valorGas, 0.8), 6),
+                inserirValor(gerarVariacao(valorGas, 0.4), 7),
 
-            // este insert irá inserir os dados na tabela "medida"
-            let response = await poolBancoDados.execute(
-                'INSERT INTO leitura (valor_leitura, sensor_id) VALUES (?, 1)',
-                [valorGas]
-            );
-            // console.log("valores inseridos no banco: ", valorGas + ", " + percentualGas);
-            console.log("valores inseridos no banco: ", valorGas);
+                // 3° Câmara Sensores
+                inserirValor(gerarVariacao(valorGas, 0.6), 8),
 
-            if (valorGas >= 1.5) {
-                let id = response[0].insertId
-                let nivel = valorGas >= 1.8 ? "Crítico" : "Moderado"
-                let mensagem = valorGas >= 1.8 ? "Nível de etileno está maior ou igual a 1.8ppm" : "Nível de etileno está maior ou igual a 1.5ppm"
-                await poolBancoDados.execute(
-                    'INSERT INTO alerta (leitura_id, nivel, mensagem) VALUES (?, ?, ?)',
-                    [id, nivel, mensagem] 
-                )
-            }
+                // 4° Câmara Sensores
+                inserirValor(gerarVariacao(valorGas, 0.8), 9),
+
+                // 5° Câmara Sensores
+                inserirValor(gerarVariacao(valorGas, -0.6), 10),
+
+                // 6° Câmara Sensores
+                // inserirValor(gerarVariacao(valorGas, 0.8), 11)
+            ]);
         }
     });
 
@@ -86,11 +89,28 @@ const serial = async (
     arduino.on('error', (mensagem) => {
         console.error(`Erro no arduino (Mensagem: ${mensagem}`)
     });
+
+    let MULTIPLICADOR = 5;
+    const inserirValor = async (valor, sensorId) => {
+        const [rows] = await poolBancoDados.execute('INSERT INTO leitura(valor_leitura, sensor_id) VALUES (?, ?)', [(valor * MULTIPLICADOR), sensorId]);
+
+        if(valor >= 1.5) {
+            const id = rows.insertId;
+            const alertLevel = valor >= 1.8 
+                ? "Crítico" 
+                : "Moderado";
+
+            const message = valor >= 1.8 
+                ? "Nível de etileno está maior ou igual a 1.8ppm" 
+                : "Nível de etileno está maior ou igual a 1.5ppm";
+
+            await poolBancoDados.execute('INSERT INTO alerta(leitura_id, nivel, mensagem) VALUES (?, ?, ?)', [id, alertLevel, message]);
+        }
+    }
 }
 
 // função para criar e configurar o servidor web
 const servidor = (
-    // valoresPercentualGas,
     valoresValorGas
 ) => {
     const app = express();
@@ -109,9 +129,6 @@ const servidor = (
     });
 
     // define os endpoints da API para cada tipo de sensor
-    // app.get('/sensores/percentual', (_, response) => {
-        // return response.json(valoresPercentualGas);
-    // });
     app.get('/sensores/valor', (_, response) => {
         return response.json(valoresValorGas);
     });
@@ -120,18 +137,28 @@ const servidor = (
 // função principal assíncrona para iniciar a comunicação serial e o servidor web
 (async () => {
     // arrays para armazenar os valores dos sensores
-    // const valoresPercentualGas = [];
     const valoresValorGas = [];
 
     // inicia a comunicação serial
     await serial(
-        // valoresPercentualGas,
         valoresValorGas
     );
 
     // inicia o servidor web
     servidor(
-        // valoresPercentualGas,
         valoresValorGas
     );
 })();
+
+function gerarVariacao(valorGas, intensidade) {
+    let valorGasFinal = valorGas;
+
+    // Permite gerar oscilações negativas (50% de chance)
+    let negativar = Math.random() >= 0.5;
+
+    valorGasFinal += Math.random() * intensidade * (negativar ? -1 : 1);
+
+    // Garante valor no intervalo 0.0 - 2.0
+    valorGasFinal = Math.max(0, Math.min(2, valorGasFinal));
+    return Number(valorGasFinal.toFixed(2));
+}
