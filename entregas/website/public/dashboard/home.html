@@ -339,7 +339,7 @@
 
                         // kpi 2 (pico de etileno)
 
-                        document.getElementById("kpi_pico_etileno").innerHTML = valor.valor_pico ? `${valor.valor_pico} ppm` : "Sem valores"
+                        document.getElementById("kpi_pico_etileno").innerHTML = valor.valor_pico ? `${Number(valor.valor_pico).toFixed(1)} ppm` : "Sem valores"
                         document.getElementById("footer_pico_etileno").innerHTML = `Registrado às ${valor.momento_pico}`
 
                         let corKpi2 = valor.valor_pico >= 1.8 
@@ -351,8 +351,8 @@
 
                         // kpi 3 (estoque em risco)
 
-                        document.getElementById("kpi_estoque_risco").innerHTML = `${valor.estoque_risco} kg`;
-                        document.getElementById("footer_estoque_risco").innerHTML = `${valor.estoque_geral} kg`;
+                        document.getElementById("kpi_estoque_risco").innerHTML = `${Number(valor.estoque_risco).toFixed(1)} kg`;
+                        document.getElementById("footer_estoque_risco").innerHTML = `${Number(valor.estoque_geral).toFixed(1)} kg`;
 
                         let corKpi3 = valor.estoque_risco >= valor.estoque_geral * 0.1          // equivale à 10% do estoque total 
                             ? "negative"
